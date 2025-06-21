@@ -5,7 +5,7 @@
     <p>Your cart is empty.</p>
     <button routerLink="/">Browse Dishes</button>
   </div>
-  <div *ngIf="cartState().itemCount > 0">
+  <div *ngIf="cartState().itemCount > 0" class="cart-details-flex">
     <div class="cart-items-list">
       <div class="cart-item" *ngFor="let item of cartState().items">
         <img [src]="item.dish?.image_url" [alt]="item.dish?.name" class="cart-item-img" />

@@ -1,1 +1,229 @@
-/* You can add global styles to this file, and also import other style files */
+
+// Custom Theming for Angular Material - FoodieExpress Theme
+@use '@angular/material' as mat;
+
+// Define custom color palette for food app
+$primary-palette: (
+  50: #fff3e0,
+  100: #ffe0b2,
+  200: #ffcc80,
+  300: #ffb74d,
+  400: #ffa726,
+  500: #ff9800,
+  600: #fb8c00,
+  700: #f57c00,
+  800: #ef6c00,
+  900: #e65100,
+  A100: #ffd180,
+  A200: #ffab40,
+  A400: #ff9100,
+  A700: #ff6d00,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: white,
+  )
+);
+
+$accent-palette: (
+  50: #f3e5f5,
+  100: #e1bee7,
+  200: #ce93d8,
+  300: #ba68c8,
+  400: #ab47bc,
+  500: #9c27b0,
+  600: #8e24aa,
+  700: #7b1fa2,
+  800: #6a1b9a,
+  900: #4a148c,
+  A100: #ea80fc,
+  A200: #e040fb,
+  A400: #d500f9,
+  A700: #aa00ff,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+// Create Material color objects
+$foodie-primary: mat.m2-define-palette($primary-palette, 500);
+$foodie-accent: mat.m2-define-palette($accent-palette, 500);
+$foodie-warn: mat.m2-define-palette(mat.$m2-red-palette);
+
+// Define light theme
+$foodie-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $foodie-primary,
+    accent: $foodie-accent,
+    warn: $foodie-warn,
+  ),
+  typography: mat.m2-define-typography-config(),
+  density: 0,
+));
+
+// Apply the theme
+@include mat.all-component-themes($foodie-theme);
+
+// Global styles
+html, body { 
+  height: 100%; 
+  margin: 0; 
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body { 
+  font-family: 'Inter', Roboto, "Helvetica Neue", sans-serif; 
+  background-color: #fafafa;
+  color: #333;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+// Custom notification styles
+.notification {
+  .mat-mdc-snack-bar-container {
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.notification-success {
+  .mat-mdc-snack-bar-container {
+    background-color: #4caf50;
+    color: white;
+  }
+}
+
+.notification-error {
+  .mat-mdc-snack-bar-container {
+    background-color: #f44336;
+    color: white;
+  }
+}
+
+.notification-warning {
+  .mat-mdc-snack-bar-container {
+    background-color: #ff9800;
+    color: white;
+  }
+}
+
+.notification-info {
+  .mat-mdc-snack-bar-container {
+    background-color: #2196f3;
+    color: white;
+  }
+}
+
+.notification-loading {
+  .mat-mdc-snack-bar-container {
+    background-color: #666;
+    color: white;
+  }
+}
+
+// Custom scrollbar
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
+
+// Utility classes
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.mt-1 { margin-top: 0.25rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-3 { margin-top: 1rem; }
+.mt-4 { margin-top: 1.5rem; }
+.mt-5 { margin-top: 3rem; }
+
+.mb-1 { margin-bottom: 0.25rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-3 { margin-bottom: 1rem; }
+.mb-4 { margin-bottom: 1.5rem; }
+.mb-5 { margin-bottom: 3rem; }
+
+.p-1 { padding: 0.25rem; }
+.p-2 { padding: 0.5rem; }
+.p-3 { padding: 1rem; }
+.p-4 { padding: 1.5rem; }
+.p-5 { padding: 3rem; }
+
+.d-flex { display: flex; }
+.d-block { display: block; }
+.d-none { display: none; }
+
+.flex-column { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.align-center { align-items: center; }
+
+.w-100 { width: 100%; }
+.h-100 { height: 100%; }
+
+// Food-specific styles
+.food-card {
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.price-text {
+  color: #ff9800;
+  font-weight: 600;
+}
+
+.discount-text {
+  color: #4caf50;
+  font-weight: 500;
+}
+
+.out-of-stock {
+  opacity: 0.6;
+  filter: grayscale(100%);
+}

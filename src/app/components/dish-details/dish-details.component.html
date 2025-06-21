@@ -35,6 +35,14 @@
   </div>
 </div>
 
+<!-- Image Popup -->
+<div class="image-popup-backdrop" *ngIf="showImagePopup" (click)="closeImagePopup()">
+  <div class="image-popup" (click)="$event.stopPropagation()">
+    <img [src]="popupImageUrl" alt="Zoomed Dish Image" />
+    <button class="close-btn" (click)="closeImagePopup()">&times;</button>
+  </div>
+</div>
+
 <!-- Related Dishes -->
 <div class="related-section" *ngIf="relatedDishes().length > 0">
   <h3>Related Dishes</h3>

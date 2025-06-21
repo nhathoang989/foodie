@@ -19,6 +19,8 @@ export class DishDetailsComponent implements OnInit {
   galleryIndex = signal(0);
   relatedCarouselIndex = signal(0);
   relatedCarouselSize = 3;
+  showImagePopup = false;
+  popupImageUrl = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -49,8 +51,13 @@ export class DishDetailsComponent implements OnInit {
   }
 
   zoomImage(url: string) {
-    // Simple zoom: open in new tab
-    window.open(url, '_blank');
+    this.popupImageUrl = url;
+    this.showImagePopup = true;
+  }
+
+  closeImagePopup() {
+    this.showImagePopup = false;
+    this.popupImageUrl = '';
   }
 
   addToCart() {

@@ -1,1 +1,31 @@
 .checkout-page { max-width: 800px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); font-family: 'Segoe UI', Arial, sans-serif; }
+
+.checkout-page-flex {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-start;
+}
+
+app-cart-details {
+  flex: 2 1 0;
+  min-width: 320px;
+}
+
+.order-summary-box {
+  flex: 1 1 300px;
+  background: #fafafa;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 2rem 1.5rem;
+  min-width: 260px;
+}
+
+@media (max-width: 900px) {
+  .checkout-page-flex {
+    flex-direction: column;
+  }
+  .order-summary-box, app-cart-details {
+    min-width: 0;
+    width: 100%;
+  }
+}

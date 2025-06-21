@@ -14,20 +14,22 @@
     flex: 1 1 320px;
     min-width: 320px;
     .main-image {
-      width: 320px;
-      height: 320px;
-      background: #f8f8f8;
-      border-radius: 12px;
+      width: 100%;
+      max-width: 420px;
+      height: 420px;
+      margin: 0 auto 1rem auto;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 1rem;
+      background: #f8f8f8;
+      border-radius: 12px;
       img {
-        max-width: 100%;
-        max-height: 100%;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
         border-radius: 12px;
-        cursor: pointer;
         box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+        background: #fff;
       }
     }
     .gallery-thumbnails {
@@ -264,4 +266,43 @@
     font-size: 1rem;
     padding: 1rem 0;
   }
+}
+
+.image-popup-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.7);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.image-popup {
+  position: relative;
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.18);
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.image-popup img {
+  max-width: 80vw;
+  max-height: 70vh;
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 16px;
+  background: transparent;
+  border: none;
+  font-size: 2rem;
+  color: #ff7043;
+  cursor: pointer;
+  z-index: 1;
 }

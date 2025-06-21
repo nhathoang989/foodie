@@ -126,6 +126,8 @@
         *ngFor="let dish of filteredDishes(); trackBy: trackByDishId"
         class="dish-card"
         [class.out-of-stock]="!dish.availability || (dish.inventory && dish.inventory <= 0)"
+        (click)="viewDishDetails(dish)"
+        style="cursor:pointer"
       >
         <div class="dish-image-container">
           <img 

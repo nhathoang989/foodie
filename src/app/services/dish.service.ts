@@ -28,7 +28,7 @@ export class DishService extends BaseMixDbDataService<Dish> {
       queries.push({
         fieldName: 'name',
         value: filter.search,
-        compareOperator: 'Contains'
+        compareOperator: 'Like'
       });
     }
 

@@ -1,0 +1,127 @@
+.navbar {
+  width: 100%;
+  background: #fff;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  padding: 0.5rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+
+  .navbar-left, .navbar-center, .navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+  .navbar-left {
+    flex: 2 1 0; // Increased from 1 1 0 to 2 1 0 for more width
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #ff7043;
+      text-decoration: none;
+      margin-right: 1.5rem;
+    }
+    a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+      &:hover { color: #ff7043; }
+    }
+  }
+  .navbar-center {
+    flex: 2 1 0;
+    justify-content: center;
+    position: relative;
+    input[type="text"] {
+      width: 320px;
+      max-width: 100%;
+      padding: 0.5rem 1rem;
+      border: 1px solid #ddd;
+      border-radius: 20px;
+      font-size: 1rem;
+      background: #fafafa;
+      transition: border 0.2s;
+      &:focus { border-color: #ff7043; outline: none; }
+    }
+    .search-results {
+      position: absolute;
+      top: 2.5rem;
+      left: 0;
+      width: 100%;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      z-index: 10;
+      padding: 0.5rem 0;
+      display: none; // Show when results available
+    }
+  }
+  .navbar-right {
+    flex: 1 1 0;
+    justify-content: flex-end;
+    gap: 1.2rem;
+    .cart-link {
+      position: relative;
+      display: flex;
+      align-items: center;
+      color: #333;
+      text-decoration: none;
+      font-size: 1.3rem;
+      .cart-icon {
+        font-size: 1.5rem;
+      }
+      .cart-badge {
+        position: absolute;
+        top: -6px;
+        right: -10px;
+        background: #ff7043;
+        color: #fff;
+        border-radius: 50%;
+        font-size: 0.85rem;
+        padding: 2px 7px;
+        font-weight: 700;
+        min-width: 22px;
+        text-align: center;
+      }
+    }
+    .user-menu {
+      background: #eee;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: #888;
+      cursor: pointer;
+      transition: background 0.2s;
+      &:hover { background: #ff7043; color: #fff; }
+    }
+  }
+
+  @media (max-width: 900px) {
+    flex-direction: column;
+    padding: 0.5rem 1rem;
+    .navbar-left, .navbar-center, .navbar-right {
+      flex: none;
+      width: 100%;
+      justify-content: flex-start;
+      gap: 0.7rem;
+    }
+    .navbar-center {
+      margin: 0.5rem 0;
+      input[type="text"] {
+        width: 100%;
+      }
+    }
+    .navbar-right {
+      justify-content: flex-start;
+    }
+  }
+}

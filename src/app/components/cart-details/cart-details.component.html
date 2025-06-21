@@ -1,4 +1,43 @@
 <!-- Cart Details Page -->
 <div class="cart-details-container">
-  <!-- TODO: Cart items, quantity controls, remove, summary, shipping, promo code, etc. -->
+  <h2>Your Cart</h2>
+  <div *ngIf="cartState().itemCount === 0" class="empty-cart">
+    <p>Your cart is empty.</p>
+    <button routerLink="/">Browse Dishes</button>
+  </div>
+  <div *ngIf="cartState().itemCount > 0">
+    <div class="cart-items-list">
+      <div class="cart-item" *ngFor="let item of cartState().items">
+        <img [src]="item.dish?.image_url" [alt]="item.dish?.name" class="cart-item-img" />
+        <div class="cart-item-info">
+          <div class="cart-item-name">{{ item.dish?.name }}</div>
+          <div class="cart-item-price">${{ (item.dish?.price || 0) | number:'1.2-2' }}</div>
+          <div class="cart-item-qty">
+            <button (click)="updateQuantity(item, item.quantity - 1)">-</button>
+            <input type="number" [value]="item.quantity" min="1" readonly />
+            <button (click)="updateQuantity(item, item.quantity + 1)">+</button>
+          </div>
+          <button class="remove-btn" (click)="removeItem(item)">Remove</button>
+        </div>
+      </div>
+    </div>
+    <div class="cart-summary">
+      <h3>Order Summary</h3>
+      <div class="summary-row"><span>Subtotal:</span><span>${{ subtotal() | number:'1.2-2' }}</span></div>
+      <div class="summary-row"><span>Tax (8%):</span><span>${{ tax() | number:'1.2-2' }}</span></div>
+      <div class="summary-row">
+        <span>Shipping:</span>
+        <select [(ngModel)]="selectedShipping">
+          <option *ngFor="let s of shippingOptions()" [ngValue]="s">{{ s?.name }} ({{ s?.fee === 0 ? 'Free' : ('$' + (s?.fee?.toFixed(2) ?? '0.00')) }})</option>
+        </select>
+      </div>
+      <div class="summary-row"><span>Total:</span><span class="total">${{ total() | number:'1.2-2' }}</span></div>
+      <div class="promo-row">
+        <input type="text" placeholder="Promo code (UI only)" [(ngModel)]="promoCode" />
+        <button disabled>Apply</button>
+      </div>
+      <button class="checkout-btn" [disabled]="cartState().itemCount === 0">Proceed to Checkout</button>
+      <button class="clear-btn" (click)="clearCart()">Clear Cart</button>
+    </div>
+  </div>
 </div>

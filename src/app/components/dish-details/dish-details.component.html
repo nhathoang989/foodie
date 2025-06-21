@@ -1,4 +1,61 @@
 <!-- Dish Details Page -->
-<div class="dish-details-container">
-  <!-- TODO: Gallery, info, add to cart, related dishes, reviews placeholder -->
+<div class="dish-details-container" *ngIf="dish() as d">
+  <div class="gallery-section">
+    <div class="main-image">
+      <img [src]="d.image_url || 'assets/default-dish.png'" [alt]="d.name" (click)="zoomImage(d.image_url || 'assets/default-dish.png')" />
+    </div>
+    <!-- Gallery thumbnails (if more images in future) -->
+    <div class="gallery-thumbnails">
+      <img [src]="d.image_url || 'assets/default-dish.png'" [alt]="d.name" [class.selected]="galleryIndex() === 0" (click)="selectGalleryImage(0)" />
+      <!-- Add more thumbnails if available -->
+    </div>
+  </div>
+  <div class="info-section">
+    <h2>{{ d.name }}</h2>
+    <p class="description">{{ d.description }}</p>
+    <div class="price-time">
+      <span class="price">${{ d.price.toFixed(2) }}</span>
+      <span class="prep-time" *ngIf="d.preparation_time">Prep: {{ d.preparation_time }} min</span>
+    </div>
+    <div class="nutrition" *ngIf="d.nutritional_info">
+      <strong>Nutrition:</strong> {{ d.nutritional_info }}
+    </div>
+    <div class="allergens" *ngIf="d.allergens">
+      <strong>Allergens:</strong> <span class="allergen-warning">{{ d.allergens }}</span>
+    </div>
+    <div class="ingredients" *ngIf="d.ingredients">
+      <strong>Ingredients:</strong> {{ d.ingredients }}
+    </div>
+    <div class="quantity-add">
+      <button (click)="decreaseQty()">-</button>
+      <input type="number" min="1" [value]="quantity()" readonly />
+      <button (click)="increaseQty()">+</button>
+      <button class="add-to-cart" (click)="addToCart()">Add to Cart</button>
+    </div>
+  </div>
+</div>
+
+<!-- Related Dishes -->
+<div class="related-section" *ngIf="relatedDishes().length > 0">
+  <h3>Related Dishes</h3>
+  <div class="carousel-controls">
+    <button (click)="prevRelated()" [disabled]="relatedCarouselIndex() === 0">‹</button>
+    <button (click)="nextRelated()" [disabled]="relatedCarouselIndex() + relatedCarouselSize >= relatedDishes().length">›</button>
+  </div>
+  <div class="related-carousel">
+    <div class="related-card" *ngFor="let r of visibleRelatedDishes">
+      <img [src]="r.image_url" [alt]="r.name" />
+      <div class="related-info">
+        <div class="related-name">{{ r.name }}</div>
+        <div class="related-price">${{ r.price.toFixed(2) }}</div>
+        <button (click)="router.navigate(['/dish', r.id])">View</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Customer Reviews Placeholder -->
+<div class="reviews-section">
+  <h3>Customer Reviews</h3>
+  <div class="reviews-placeholder">Reviews coming soon!</div>
 </div>

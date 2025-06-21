@@ -1,0 +1,23 @@
+<nav class="navbar">
+  <div class="navbar-left">
+    <a routerLink="/" class="logo">FoodieExpress</a>
+    <a routerLink="/about">About</a>
+    <a routerLink="/contact">Contact</a>
+    <a routerLink="/orders">My Orders</a>
+  </div>
+  <div class="navbar-center">
+    <!-- Search bar placeholder -->
+    <input type="text" placeholder="Search dishes..." />
+    <!-- Example search result (replace with real search logic) -->
+    <div class="search-results">
+      <!-- Example: <div *ngFor="let dish of searchResults"><span>{{dish.name}}</span><button (click)="viewDish(dish.id)">View</button></div> -->
+    </div>
+  </div>
+  <div class="navbar-right">
+    <a routerLink="/cart" class="cart-link">
+      <span class="cart-icon">🛒</span>
+      <span class="cart-badge">0</span>
+    </a>
+    <div class="user-menu">User</div>
+  </div>
+</nav>

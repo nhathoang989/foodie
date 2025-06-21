@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, computed } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, computed, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -18,7 +18,7 @@ import { Dish, Category, PaginatedResponse, DishFilter, CartState } from '../../
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.scss']
 })
-export class HomepageComponent implements OnInit, OnDestroy {
+export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$ = new Subject<void>();
   private searchSubject = new Subject<string>();
 
@@ -60,6 +60,9 @@ export class HomepageComponent implements OnInit, OnDestroy {
   // Cart state - will be initialized in constructor
   cartState$: Observable<CartState>;
 
+  @ViewChild('dishGridSection') dishGridSection!: ElementRef<HTMLElement>;
+  private pendingScrollToResults = false;
+
   constructor(
     private dishService: DishService,
     private categoryService: CategoryService,
@@ -86,6 +89,14 @@ export class HomepageComponent implements OnInit, OnDestroy {
       clearInterval(this.bannerInterval);
     }
   }
+
+  ngAfterViewInit(): void {
+    if (this.pendingScrollToResults) {
+      this.scrollToResults();
+      this.pendingScrollToResults = false;
+    }
+  }
+
   private loadInitialData(): void {
     this.isLoading.set(true);
     
@@ -124,12 +135,25 @@ export class HomepageComponent implements OnInit, OnDestroy {
           this.totalPages.set(Math.ceil(response.total / response.pageSize));
           this.hasNext.set(response.hasNext || false);
           this.hasPrevious.set(response.hasPrevious || false);
+          if (this.searchTerm()) {
+            this.scrollToResults();
+          }
         },
         error: (error) => {
           console.error('Error loading dishes:', error);
           this.notificationService.showError('Failed to load dishes. Please try again.');
         }
       });
+  }
+
+  private scrollToResults(): void {
+    if (this.dishGridSection && this.dishGridSection.nativeElement) {
+      setTimeout(() => {
+        this.dishGridSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 0);
+    } else {
+      this.pendingScrollToResults = true;
+    }
   }
 
   private setupSearchDebounce(): void {
@@ -222,8 +246,7 @@ export class HomepageComponent implements OnInit, OnDestroy {
   }
 
   viewDishDetails(dish: Dish): void {
-    // TODO: Navigate to dish details page
-    console.log('View details for:', dish.name);
+    this.router.navigate(['/dish', dish.id]);
   }
 
   orderFromBanner(dish: Dish): void {

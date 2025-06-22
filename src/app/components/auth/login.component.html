@@ -1,0 +1,132 @@
+<div class="login-container">
+  <div class="login-card">
+    <!-- Header -->
+    <div class="login-header">
+      <div class="logo">
+        <span class="logo-icon">🍽️</span>
+        <span class="logo-text">FoodieExpress</span>
+      </div>
+      <h1>Welcome Back</h1>
+      <p>Sign in to your account to continue</p>
+    </div>
+
+    <!-- Quick Login Buttons (Demo) -->
+    <div class="quick-login">
+      <p class="quick-login-text">Quick demo login:</p>
+      <div class="quick-login-buttons">
+        <button type="button" class="btn btn-outline" (click)="quickLogin('customer')">
+          Customer Demo
+        </button>
+        <button type="button" class="btn btn-outline" (click)="quickLogin('admin')">
+          Admin Demo
+        </button>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider">
+      <span>or sign in with your account</span>
+    </div>
+
+    <!-- Login Form -->
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <!-- Username Field -->
+      <div class="form-group">
+        <label for="username" class="form-label">
+          Username
+          <span class="required">*</span>
+        </label>
+        <div class="input-container">
+          <span class="input-icon">👤</span>
+          <input
+            type="text"
+            id="username"
+            formControlName="username"
+            class="form-input"
+            placeholder="Enter your username"
+            [class.error]="f['username'].invalid && f['username'].touched"
+          />
+        </div>
+        <div class="form-error" *ngIf="f['username'].invalid && f['username'].touched">
+          <span *ngIf="f['username'].errors?.['required']">Username is required</span>
+          <span *ngIf="f['username'].errors?.['minlength']">Username must be at least 3 characters</span>
+        </div>
+      </div>
+
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password" class="form-label">
+          Password
+          <span class="required">*</span>
+        </label>
+        <div class="input-container">
+          <span class="input-icon">🔒</span>
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            id="password"
+            formControlName="password"
+            class="form-input"
+            placeholder="Enter your password"
+            [class.error]="f['password'].invalid && f['password'].touched"
+          />
+          <button
+            type="button"
+            class="password-toggle"
+            (click)="togglePasswordVisibility()"
+            [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+          >
+            <span>{{ showPassword ? '🙈' : '👁️' }}</span>
+          </button>
+        </div>
+        <div class="form-error" *ngIf="f['password'].invalid && f['password'].touched">
+          <span *ngIf="f['password'].errors?.['required']">Password is required</span>
+          <span *ngIf="f['password'].errors?.['minlength']">Password must be at least 6 characters</span>
+        </div>
+      </div>
+
+      <!-- Remember Me -->
+      <div class="form-group checkbox-group">
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            formControlName="rememberMe"
+            class="checkbox-input"
+          />
+          <span class="checkbox-custom"></span>
+          <span class="checkbox-text">Remember me for 30 days</span>
+        </label>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        type="submit"
+        class="btn btn-primary btn-full"
+        [disabled]="isLoading || loginForm.invalid"
+        [class.loading]="isLoading"
+      >
+        <span *ngIf="!isLoading">Sign In</span>
+        <span *ngIf="isLoading" class="loading-spinner">
+          <span class="spinner"></span>
+          Signing in...
+        </span>
+      </button>
+
+      <!-- Forgot Password Link -->
+      <div class="form-links">
+        <a routerLink="/forgot-password" class="link">Forgot your password?</a>
+      </div>
+    </form>
+
+    <!-- Register Link -->
+    <div class="login-footer">
+      <p>Don't have an account? 
+        <a routerLink="/register" class="link link-primary">Create one now</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Background -->
+  <div class="login-background">
+    <div class="background-pattern"></div>
+  </div>
+</div>

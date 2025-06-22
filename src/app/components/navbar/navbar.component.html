@@ -1,21 +1,170 @@
-<nav class="navbar">
-  <div class="navbar-left">
-    <a routerLink="/" class="logo">FoodieExpress</a>
-    <a routerLink="/about">About</a>
-    <a routerLink="/contact">Contact</a>
-    <a routerLink="/orders">My Orders</a>
-  </div>
-  <div class="navbar-center">
-    <input type="text" placeholder="Search dishes..." [(ngModel)]="searchValue" (keydown)="onSearchEnter($event)" />
-    <div class="search-results">
-      <!-- Example: <div *ngFor="let dish of searchResults"><span>{{dish.name}}</span><button (click)="viewDish(dish.id)">View</button></div> -->
+<nav class="navbar" role="navigation" aria-label="Main navigation" [class.scrolled]="isScrolled">
+  <div class="container-fluid navbar-flex">
+    <!-- Brand/Logo -->
+    <a routerLink="/" class="navbar-brand" tabindex="0">
+      <span class="brand-icon">🍽️</span>
+      <span class="brand-text" *ngIf="!isScrolled">Foodie Express</span>
+    </a>
+    <!-- Mobile Menu Toggle (Hamburger) on the right -->
+    <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" [attr.aria-expanded]="isMobileMenuOpen" aria-controls="mobile-sidebar" aria-label="Open navigation menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Desktop Navigation Links -->
+    <ul class="navbar-nav desktop-nav" *ngIf="isDesktop" id="main-menu" role="menubar">
+      <li role="none"><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">🏠</span><span *ngIf="!isScrolled">Home</span></a></li>
+      <li role="none"><a routerLink="/about" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">ℹ️</span><span *ngIf="!isScrolled">About</span></a></li>
+      <li role="none"><a routerLink="/contact" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">✉️</span><span *ngIf="!isScrolled">Contact</span></a></li>
+      <li role="none"><a routerLink="/orders" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">📦</span><span *ngIf="!isScrolled">My Orders</span></a></li>
+    </ul>
+    <!-- Desktop Actions: Search, Cart, User -->
+    <div class="navbar-actions" *ngIf="isDesktop">
+      <div class="navbar-search desktop-search">
+        <div class="search-container">
+          <input 
+            class="search-input"
+            type="text" 
+            placeholder="Search dishes..." 
+            [(ngModel)]="searchValue" 
+            (keydown)="onSearchEnter($event)"
+            (input)="onSearchInput()"
+            (focus)="isSearchFocused = true"
+            (blur)="onSearchBlur()"
+            #searchInput
+          />
+          <span class="search-icon">🔍</span>
+          <button class="search-clear" *ngIf="searchValue" (click)="searchValue = ''" aria-label="Clear search">×</button>
+          <div class="search-results" *ngIf="isSearchFocused && searchResults.length > 0">
+            <div 
+              *ngFor="let dish of searchResults" 
+              class="search-result-item"
+              (click)="selectDish(dish)"
+            >
+              <img [src]="dish.image_url" [alt]="dish.name" class="result-image">
+              <div class="result-content">
+                <span class="result-name">{{dish.name}}</span>
+                <span class="result-price">${{dish.price}}</span>
+              </div>
+            </div>
+            <div class="search-actions" *ngIf="searchResults.length >= 5">
+              <button class="view-all-btn" (click)="viewAllResults()">View all results</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="cart-button" routerLink="/cart" aria-label="View cart">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-badge" *ngIf="(cartItemCount$ | async) as count">{{ count }}</span>
+      </button>
+      <div class="user-menu desktop-user-menu" (click)="toggleUserMenu()" [class.open]="isUserMenuOpen">
+        <button class="user-button" aria-haspopup="true" [attr.aria-expanded]="isUserMenuOpen">
+          <span class="user-avatar">{{ currentUser?.name ? (currentUser.name | slice:0:1) : '👤' }}</span>
+          <span class="user-text" *ngIf="!isScrolled && currentUser">{{ currentUser.name }}</span>
+          <span class="user-text" *ngIf="!isScrolled && !currentUser">Account</span>
+          <span class="chevron">▼</span>
+        </button>
+        <div class="user-dropdown" *ngIf="isUserMenuOpen">
+          <div *ngIf="currentUser; else guestMenu">
+            <a routerLink="/profile" class="dropdown-item">Profile</a>
+            <a routerLink="/orders" class="dropdown-item">My Orders</a>
+            <button (click)="logout()" class="dropdown-item logout">Logout</button>
+          </div>
+          <ng-template #guestMenu>
+            <a routerLink="/login" class="dropdown-item">Login</a>
+            <a routerLink="/register" class="dropdown-item">Register</a>
+          </ng-template>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="navbar-right">
-    <a routerLink="/cart" class="cart-link">
-      <span class="cart-icon">🛒</span>
-      <span class="cart-badge" *ngIf="(cartItemCount$ | async) as count">{{ count }}</span>
-    </a>
-    <div class="user-menu">User</div>
+
+  <!-- Mobile Sidebar Navigation -->
+  <aside class="mobile-sidebar" *ngIf="!isDesktop && isMobileMenuOpen" id="mobile-sidebar" tabindex="0">
+    <div class="sidebar-header">
+      <a routerLink="/" class="sidebar-brand">
+        <span class="brand-icon">🍽️</span>
+        <span class="brand-text">Foodie Express</span>
+      </a>
+      <button class="close-sidebar" (click)="closeMobileMenu()" aria-label="Close menu">×</button>
+    </div>
+    <ul class="sidebar-nav">
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileMenu()">Home</a></li>
+      <li><a routerLink="/about" routerLinkActive="active" (click)="closeMobileMenu()">About</a></li>
+      <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">Contact</a></li>
+      <li><a routerLink="/orders" routerLinkActive="active" (click)="closeMobileMenu()">My Orders</a></li>
+    </ul>
+    <div class="sidebar-actions">
+      <button class="cart-button" routerLink="/cart" aria-label="View cart">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-badge" *ngIf="(cartItemCount$ | async) as count">{{ count }}</span>
+      </button>
+      <button class="mobile-search-toggle" (click)="toggleMobileSearch()" aria-label="Show search">
+        <span class="search-icon">🔍</span>
+      </button>
+    </div>
+    <div class="sidebar-user-menu">
+      <div *ngIf="currentUser; else guestSidebarMenu">
+        <div class="sidebar-user-info">
+          <span class="user-avatar">{{ currentUser.name | slice:0:1 }}</span>
+          <span class="user-name">{{ currentUser.name }}</span>
+        </div>
+        <a routerLink="/profile" (click)="closeMobileMenu()">Profile</a>
+        <a routerLink="/orders" (click)="closeMobileMenu()">My Orders</a>
+        <button (click)="logout(); closeMobileMenu()" class="logout">Logout</button>
+      </div>
+      <ng-template #guestSidebarMenu>
+        <a routerLink="/login" (click)="closeMobileMenu()">Login</a>
+        <a routerLink="/register" (click)="closeMobileMenu()">Register</a>
+      </ng-template>
+    </div>
+  </aside>
+  <!-- Mobile Overlay -->
+  <div class="mobile-overlay" *ngIf="isMobileMenuOpen && !isDesktop" (click)="closeMobileMenu()" tabindex="0" aria-label="Close menu"></div>
+
+  <!-- Search Bar: only show on mobile when isSearchOpen -->
+  <div class="navbar-search-row" *ngIf="isSearchOpen && !isDesktop">
+    <div class="navbar-search" [class.show]="isSearchOpen">
+      <div class="search-container">
+        <input 
+          class="search-input"
+          type="text" 
+          placeholder="Search dishes..." 
+          [(ngModel)]="searchValue" 
+          (keydown)="onSearchEnter($event)"
+          (input)="onSearchInput()"
+          (focus)="isSearchFocused = true"
+          (blur)="onSearchBlur()"
+          #searchInput
+        />
+        <span class="search-icon">🔍</span>
+        <button class="search-clear" *ngIf="searchValue" (click)="searchValue = ''" aria-label="Clear search">×</button>
+        <div class="search-results" *ngIf="isSearchFocused && searchResults.length > 0">
+          <div 
+            *ngFor="let dish of searchResults" 
+            class="search-result-item"
+            (click)="selectDish(dish)"
+          >
+            <img [src]="dish.image_url" [alt]="dish.name" class="result-image">
+            <div class="result-content">
+              <span class="result-name">{{dish.name}}</span>
+              <span class="result-price">${{dish.price}}</span>
+            </div>
+          </div>
+          <div class="search-actions" *ngIf="searchResults.length >= 5">
+            <button class="view-all-btn" (click)="viewAllResults()">View all results</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+</nav>
+<!-- Breadcrumb Navigation -->
+<nav class="breadcrumbs" *ngIf="breadcrumbs.length > 1">
+  <ul class="breadcrumb">
+    <li class="breadcrumb-item" *ngFor="let crumb of breadcrumbs; let last = last">
+      <a [routerLink]="crumb.url" [class.active]="last">{{ crumb.label }}</a>
+    </li>
+  </ul>
 </nav>

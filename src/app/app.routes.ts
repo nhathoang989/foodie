@@ -10,15 +10,18 @@ import { ContactComponent } from './components/static-pages/contact.component';
 import { TermsComponent } from './components/static-pages/terms.component';
 import { PrivacyComponent } from './components/static-pages/privacy.component';
 import { NotFoundComponent } from './components/static-pages/not-found.component';
+import { LoginComponent } from './components/auth/login.component';
+import { AuthGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
   { path: 'home', redirectTo: '', pathMatch: 'full' },
   { path: 'dish/:id', component: DishDetailsComponent },
   { path: 'cart', component: CartDetailsComponent },
-  { path: 'checkout', component: CheckoutComponent },
-  { path: 'orders', component: OrdersComponent },
-  { path: 'order-confirmation/:id', component: OrderConfirmationComponent },
+  { path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard] },
+  { path: 'orders', component: OrdersComponent, canActivate: [AuthGuard] },
+  { path: 'order-confirmation/:id', component: OrderConfirmationComponent, canActivate: [AuthGuard] },
+  { path: 'login', component: LoginComponent },
   { path: 'about', component: AboutComponent },
   { path: 'contact', component: ContactComponent },
   { path: 'terms', component: TermsComponent },

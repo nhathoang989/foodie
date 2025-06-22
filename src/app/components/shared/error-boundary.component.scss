@@ -1,0 +1,169 @@
+// Error boundary styles
+$error-bg: #fff6f6;
+$error-border: #ffcccc;
+$error-color: #c0392b;
+$error-icon-bg: #ffe5e5;
+$error-shadow: 0 4px 24px rgba(231, 76, 60, 0.08);
+
+.error-boundary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  background: $error-bg;
+  border: 1px solid $error-border;
+  border-radius: 12px;
+  box-shadow: $error-shadow;
+  margin: 2rem 0;
+  padding: 2rem;
+
+  .error-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .error-icon {
+    background: $error-icon-bg;
+    color: $error-color;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.08);
+    margin-right: 1rem;
+  }
+
+  .error-content {
+    flex: 1;
+    
+    .error-title {
+      color: $error-color;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .error-message {
+      color: $error-color;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+    }
+    .error-details {
+      margin-bottom: 1rem;
+      .details-toggle {
+        background: none;
+        border: none;
+        color: $error-color;
+        font-weight: 600;
+        cursor: pointer;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        transition: color 0.2s;
+        &:hover {
+          color: darken($error-color, 10%);
+        }
+      }
+      .details-content {
+        background: #fff0f0;
+        border-radius: 6px;
+        padding: 1rem;
+        font-size: 0.95rem;
+        color: $error-color;
+        overflow-x: auto;
+      }
+    }
+    .error-actions {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      
+      .primary-btn {
+        background: $error-color;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s;
+        &:hover {
+          background: darken($error-color, 10%);
+        }
+      }
+      .secondary-btn {
+        background: #fff;
+        color: $error-color;
+        border: 1px solid $error-color;
+        border-radius: 6px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+        &:hover {
+          background: $error-color;
+          color: #fff;
+        }
+      }
+      .outline-btn {
+        background: none;
+        color: $error-color;
+        border: 1px dashed $error-color;
+        border-radius: 6px;
+        padding: 0.5rem 1.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+        &:hover {
+          background: #fff0f0;
+        }
+      }
+    }
+    .error-suggestions {
+      margin-top: 1rem;
+      h3 {
+        font-size: 1.1rem;
+        color: $error-color;
+        margin-bottom: 0.5rem;
+      }
+      ul {
+        padding-left: 1.2rem;
+        color: $error-color;
+        font-size: 0.98rem;
+        li {
+          margin-bottom: 0.25rem;
+        }
+      }
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 600px) {
+  .error-boundary {
+    padding: 1rem;
+    .error-container {
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .error-icon {
+      margin-right: 0;
+      margin-bottom: 1rem;
+    }
+  }
+}
+
+// Accessibility
+.error-boundary:focus {
+  outline: 2px solid $error-color;
+  outline-offset: 2px;
+}

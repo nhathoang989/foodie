@@ -1,1 +1,107 @@
-<div class="static-page"><h1>404 - Page Not Found</h1><p>The page you are looking for does not exist.</p></div>
+<div class="not-found-page">
+  <div class="not-found-container">
+    <div class="not-found-content">
+      <!-- Error Illustration -->
+      <div class="error-illustration">
+        <div class="error-number">4</div>
+        <div class="error-icon">🍕</div>
+        <div class="error-number">4</div>
+      </div>
+      
+      <!-- Error Message -->
+      <div class="error-message">
+        <h1>Oops! Page Not Found</h1>
+        <p class="error-description">
+          Looks like this page wandered off like a hungry customer! 
+          The page you're looking for doesn't exist or may have been moved.
+        </p>
+      </div>
+
+      <!-- Suggestions -->
+      <div class="error-suggestions">
+        <p class="suggestions-title">Here's what you can do:</p>
+        <div class="suggestions-grid">
+          <a routerLink="/" class="suggestion-card">
+            <div class="suggestion-icon">🏠</div>
+            <h3>Go Home</h3>
+            <p>Return to our homepage and browse delicious dishes</p>
+          </a>
+          
+          <a routerLink="/cart" class="suggestion-card">
+            <div class="suggestion-icon">🛒</div>
+            <h3>Check Cart</h3>
+            <p>View items in your cart and proceed to checkout</p>
+          </a>
+          
+          <a routerLink="/orders" class="suggestion-card">
+            <div class="suggestion-icon">📋</div>
+            <h3>My Orders</h3>
+            <p>Track your current orders and view order history</p>
+          </a>
+          
+          <a routerLink="/contact" class="suggestion-card">
+            <div class="suggestion-icon">💬</div>
+            <h3>Contact Us</h3>
+            <p>Get help from our customer support team</p>
+          </a>
+        </div>
+      </div>
+
+      <!-- Search Section -->
+      <div class="error-search">
+        <p>Or search for what you're craving:</p>
+        <div class="search-container">
+          <input 
+            type="text" 
+            placeholder="Search for dishes..." 
+            class="search-input"
+            #searchInput
+            (keydown.enter)="search(searchInput.value)"
+          />
+          <button 
+            class="search-btn"
+            (click)="search(searchInput.value)"
+          >
+            🔍 Search
+          </button>
+        </div>
+      </div>
+
+      <!-- Popular Categories -->
+      <div class="popular-categories">
+        <p>Popular Categories:</p>
+        <div class="category-tags">
+          <button class="category-tag" (click)="searchCategory('appetizers')">
+            🥗 Appetizers
+          </button>
+          <button class="category-tag" (click)="searchCategory('main-course')">
+            🍝 Main Course
+          </button>
+          <button class="category-tag" (click)="searchCategory('desserts')">
+            🍰 Desserts
+          </button>
+          <button class="category-tag" (click)="searchCategory('beverages')">
+            🥤 Beverages
+          </button>
+        </div>
+      </div>
+
+      <!-- Back Button -->
+      <div class="back-button">
+        <button (click)="goBack()" class="btn btn-outline">
+          ← Go Back
+        </button>
+      </div>
+    </div>
+
+    <!-- Animated Background -->
+    <div class="animated-bg">
+      <div class="floating-food">🍕</div>
+      <div class="floating-food">🍔</div>
+      <div class="floating-food">🍟</div>
+      <div class="floating-food">🌮</div>
+      <div class="floating-food">🍰</div>
+      <div class="floating-food">🥤</div>
+    </div>
+  </div>
+</div>

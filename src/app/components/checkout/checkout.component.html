@@ -1,12 +1,61 @@
 <div class="checkout-page">
   <h1>Checkout</h1>
-  <p>The checkout form will appear here.</p>
-</div>
-<div class="checkout-page-flex">
-  <app-cart-details></app-cart-details>
-  <div class="order-summary-box">
-    <h2>Order Summary</h2>
-    <!-- Add order summary details here, or move summary from cart-details if needed -->
-    <p>Order summary content goes here.</p>
-  </div>
+  <form [formGroup]="checkoutForm" (ngSubmit)="placeOrder()" autocomplete="off">
+    <div class="form-section">
+      <h2>Customer Information</h2>
+      <div formGroupName="customer">
+        <div class="form-row">
+          <label>Name</label>
+          <input formControlName="name" type="text" required />
+        </div>
+        <div class="form-row">
+          <label>Email</label>
+          <input formControlName="email" type="email" required />
+        </div>
+        <div class="form-row">
+          <label>Phone</label>
+          <input formControlName="phone" type="tel" required />
+        </div>
+      </div>
+      <h2>Delivery Address</h2>
+      <div formGroupName="address">
+        <div class="form-row">
+          <label>Street</label>
+          <input formControlName="street" type="text" required />
+        </div>
+        <div class="form-row">
+          <label>City</label>
+          <input formControlName="city" type="text" required />
+        </div>
+        <div class="form-row">
+          <label>ZIP</label>
+          <input formControlName="zip" type="text" required />
+        </div>
+      </div>
+      <h2>Payment Method</h2>
+      <div formGroupName="payment">
+        <div class="form-row">
+          <label>Payment</label>
+          <select formControlName="method">
+            <option value="card">Credit/Debit Card</option>
+            <option value="cod">Cash on Delivery</option>
+          </select>
+        </div>
+      </div>
+      <h2>Shipping Option</h2>
+      <div class="form-row">
+        <label>Shipping</label>
+        <select [ngModel]="selectedShipping" (ngModelChange)="selectedShipping = $event" name="shippingOption">
+          <option *ngFor="let s of shippingOptions" [ngValue]="s">{{ s.name }} ({{ s.fee === 0 ? 'Free' : ('$' + (s.fee?.toFixed(2) ?? '0.00')) }})</option>
+        </select>
+      </div>
+      <h2>Order Review</h2>
+      <div class="order-summary-box">
+        <app-cart-details [showSummaryOnly]="true"></app-cart-details>
+      </div>
+      <button type="submit" [disabled]="isPlacingOrder || checkoutForm.invalid">Place Order</button>
+      <div *ngIf="isPlacingOrder" class="loading">Placing order...</div>
+      <div *ngIf="orderError" class="error">{{ orderError }}</div>
+    </div>
+  </form>
 </div>

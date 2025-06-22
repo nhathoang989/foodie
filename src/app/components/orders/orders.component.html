@@ -1,4 +1,37 @@
 <div class="orders-page">
   <h1>My Orders</h1>
-  <p>Your order history will appear here.</p>
+  <div class="filters">
+    <label>Status:
+      <select [(ngModel)]="filterStatus">
+        <option value="">All</option>
+        <option value="pending">Pending</option>
+        <option value="confirmed">Confirmed</option>
+        <option value="delivered">Delivered</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </label>
+    <label>Date:
+      <input type="date" [(ngModel)]="filterDate" />
+    </label>
+    <button (click)="loadOrders()">Refresh</button>
+  </div>
+  <div *ngIf="isLoading">Loading orders...</div>
+  <div *ngIf="!isLoading && filterOrders().length === 0">No orders found.</div>
+  <div *ngFor="let order of filterOrders()" class="order-card">
+    <div class="order-header" (click)="toggleExpand(order.id!)">
+      <span>Order #{{ order.id }}</span>
+      <span>Status: <span class="status {{ order.status }}">{{ order.status | titlecase }}</span></span>
+      <span>Date: {{ order.order_date | date:'short' }}</span>
+      <button (click)="reorder(order); $event.stopPropagation()">Reorder</button>
+    </div>
+    <div class="order-details" *ngIf="expandedOrderId === order.id">
+      <div *ngFor="let item of order.items">
+        <span>{{ item.dish?.name }}</span> x{{ item.quantity }} - ${{ (item.price || 0) | number:'1.2-2' }}
+      </div>
+      <div><strong>Total:</strong> ${{ order.total_amount | number:'1.2-2' }}</div>
+      <div><strong>Shipping:</strong> ${{ order.shipping_fee | number:'1.2-2' }}</div>
+      <div><strong>Delivery Address:</strong> {{ order.delivery_address }}</div>
+      <div><strong>Phone:</strong> {{ order.phone_number }}</div>
+    </div>
+  </div>
 </div>

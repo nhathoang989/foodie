@@ -1,4 +1,30 @@
 <div class="order-confirmation-page">
   <h1>Order Confirmation</h1>
-  <p>Your order was placed successfully!</p>
+  <div *ngIf="isLoading">Loading order details...</div>
+  <div *ngIf="!isLoading && order">
+    <div class="success-message">
+      <span class="icon">✔️</span>
+      <h2>Thank you for your order!</h2>
+      <p>Your order #{{ order.id }} has been placed successfully.</p>
+    </div>
+    <div class="order-summary">
+      <h3>Order Details</h3>
+      <div><strong>Date:</strong> {{ order.order_date | date:'short' }}</div>
+      <div><strong>Status:</strong> <span class="status {{ order.status }}">{{ order.status | titlecase }}</span></div>
+      <div><strong>Delivery Address:</strong> {{ order.delivery_address }}</div>
+      <div><strong>Phone:</strong> {{ order.phone_number }}</div>
+      <div><strong>Estimated Delivery:</strong> {{ order.estimated_delivery_time | date:'shortTime' }}</div>
+      <div class="order-items">
+        <div *ngFor="let item of order.items">
+          <span>{{ item.dish?.name }}</span> x{{ item.quantity }} - ${{ (item.price || 0) | number:'1.2-2' }}
+        </div>
+      </div>
+      <div><strong>Total:</strong> ${{ order.total_amount | number:'1.2-2' }}</div>
+      <div><strong>Shipping:</strong> ${{ order.shipping_fee | number:'1.2-2' }}</div>
+    </div>
+    <button (click)="trackOrder()">Track Order</button>
+  </div>
+  <div *ngIf="!isLoading && !order">
+    <div class="error">Order not found.</div>
+  </div>
 </div>

@@ -186,6 +186,22 @@
     }
   }
 
+  .shipping-select {
+    padding: 0.5rem 0.8rem;
+    border: 1px solid #007bff;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #f0f8ff;
+    color: #222;
+    margin-left: 0.5rem;
+    min-width: 160px;
+    transition: border 0.2s;
+  }
+  .shipping-select:focus {
+    border: 1.5px solid #0056b3;
+    outline: none;
+  }
+
   @media (max-width: 900px) {
     .cart-details-flex {
       flex-direction: column;

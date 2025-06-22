@@ -23,10 +23,11 @@
       justify-content: center;
       background: #f8f8f8;
       border-radius: 12px;
+      overflow: hidden;
       img {
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover;
         border-radius: 12px;
         box-shadow: 0 1px 8px rgba(0,0,0,0.04);
         background: #fff;

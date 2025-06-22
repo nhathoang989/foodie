@@ -1,33 +1,3 @@
-<!-- Header Section -->
-<header class="header">
-  <div class="container">
-    <div class="header-content">
-      <h1 class="logo">Foodie Express</h1>
-      <div class="search-cart-section">
-        <div class="search-container">
-          <input
-            type="text"
-            placeholder="Search for dishes..."
-            class="search-input"
-            [value]="searchTerm()"
-            (input)="onSearchInput($event)"
-          />
-          <i class="search-icon">🔍</i>
-        </div>
-        <div class="cart-icon-container" [class.has-items]="((cartState$ | async)?.itemCount || 0) > 0">
-          <div class="cart-icon">
-            🛒
-            <span class="cart-badge" *ngIf="((cartState$ | async)?.itemCount || 0) > 0">
-              {{ (cartState$ | async)?.itemCount || 0 }}
-            </span>
-          </div>
-          <span class="cart-total">${{ ((cartState$ | async)?.total || 0).toFixed(2) }}</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</header>
-
 <!-- Banner Section -->
 <section class="banner-section" *ngIf="recommendedDishes().length > 0">
   <div class="container">
@@ -35,16 +5,22 @@
       <div class="carousel-header">
         <h2>Recommended Dishes</h2>
         <div class="carousel-controls">
-          <button class="carousel-btn prev" (click)="previousBannerSlide()">‹</button>
-          <button class="carousel-btn next" (click)="nextBannerSlide()">›</button>
+          <button class="carousel-btn prev" (click)="previousBannerSlide()">
+            ‹
+          </button>
+          <button class="carousel-btn next" (click)="nextBannerSlide()">
+            ›
+          </button>
         </div>
       </div>
-      
+
       <div class="carousel-slides">
-        <div 
-          class="slide" 
+        <div
+          class="slide"
           *ngFor="let dish of getBannerSlides(); trackBy: trackByDishId"
-          [style.background-image]="'url(' + (dish.image_url || getDefaultImage()) + ')'"
+          [style.background-image]="
+            'url(' + (dish.image_url || getDefaultImage()) + ')'
+          "
         >
           <div class="slide-overlay">
             <div class="slide-content">
@@ -52,7 +28,9 @@
               <p class="slide-description">{{ dish.description }}</p>
               <div class="slide-details">
                 <span class="slide-price">{{ formatPrice(dish.price) }}</span>
-                <span class="slide-time" *ngIf="dish.preparation_time">{{ dish.preparation_time }} min</span>
+                <span class="slide-time" *ngIf="dish.preparation_time"
+                  >{{ dish.preparation_time }} min</span
+                >
               </div>
               <button class="order-btn" (click)="orderFromBanner(dish)">
                 Order Now
@@ -61,9 +39,9 @@
           </div>
         </div>
       </div>
-      
+
       <div class="carousel-indicators">
-        <span 
+        <span
           *ngFor="let dish of recommendedDishes(); let i = index"
           class="indicator"
           [class.active]="i === currentBannerIndex()"
@@ -95,9 +73,9 @@
           {{ category.name }}
         </button>
       </div>
-      
+
       <div class="sort-controls">
-        <select 
+        <select
           class="sort-select"
           [value]="sortBy() + '_' + sortDirection()"
           (change)="onSortChange($event)"
@@ -122,16 +100,17 @@
 <section class="dishes-section" *ngIf="!isLoading()" #dishGridSection>
   <div class="container">
     <div class="dishes-grid">
-      <div 
+      <div
         *ngFor="let dish of filteredDishes(); trackBy: trackByDishId"
         class="dish-card"
-        [class.out-of-stock]="!dish.availability || (dish.inventory && dish.inventory <= 0)"
-        (click)="viewDishDetails(dish)"
-        style="cursor:pointer"
+        [class.out-of-stock]="
+          !dish.availability || (dish.inventory && dish.inventory <= 0)
+        "
+        style="cursor: pointer"
       >
-        <div class="dish-image-container">
-          <img 
-            [src]="dish.image_url || getDefaultImage()" 
+        <div class="dish-image-container" (click)="viewDishDetails(dish)">
+          <img
+            [src]="dish.image_url || getDefaultImage()"
             [alt]="dish.name"
             class="dish-image"
             loading="lazy"
@@ -140,43 +119,72 @@
             <span class="recommended-badge">⭐ Recommended</span>
           </div>
         </div>
-        
+
         <div class="dish-info">
           <div class="dish-header">
             <h3 class="dish-name">{{ dish.name }}</h3>
             <span class="dish-price">{{ formatPrice(dish.price) }}</span>
           </div>
-          
+
           <p class="dish-description">{{ dish.description }}</p>
-          
+
           <div class="dish-meta">
-            <span class="dish-category" *ngIf="dish.category">{{ dish.category.name }}</span>
-            <span class="dish-time" *ngIf="dish.preparation_time">{{ dish.preparation_time }} min</span>
+            <span class="dish-category" *ngIf="dish.category">{{
+              dish.category.name
+            }}</span>
+            <span class="dish-time" *ngIf="dish.preparation_time"
+              >{{ dish.preparation_time }} min</span
+            >
           </div>
-          
+
           <div class="dish-actions">
-            <div class="quantity-selector" *ngIf="getItemQuantityInCart(dish.id!) > 0">
-              <button 
+            <div
+              class="quantity-selector"
+              *ngIf="getItemQuantityInCart(dish.id!) > 0"
+            >
+              <button
                 class="quantity-btn minus"
-                (click)="updateCartQuantity(dish, getItemQuantityInCart(dish.id!) - 1)"
-              >-</button>
-              <span class="quantity">{{ getItemQuantityInCart(dish.id!) }}</span>
-              <button 
+                (click)="
+                  updateCartQuantity(dish, getItemQuantityInCart(dish.id!) - 1)
+                "
+              >
+                -
+              </button>
+              <span class="quantity">{{
+                getItemQuantityInCart(dish.id!)
+              }}</span>
+              <button
                 class="quantity-btn plus"
-                (click)="updateCartQuantity(dish, getItemQuantityInCart(dish.id!) + 1)"
-              >+</button>
+                (click)="
+                  updateCartQuantity(dish, getItemQuantityInCart(dish.id!) + 1)
+                "
+              >
+                +
+              </button>
             </div>
-            
-            <button 
+
+            <button
               *ngIf="getItemQuantityInCart(dish.id!) === 0"
               class="add-to-cart-btn"
-              [disabled]="!dish.availability || (dish.inventory && dish.inventory <= 0)"
+              [disabled]="
+                !dish.availability || (dish.inventory && dish.inventory <= 0)
+              "
               (click)="addToCart(dish)"
             >
-              <span *ngIf="dish.availability && (!dish.inventory || dish.inventory > 0)">Add to Cart</span>
-              <span *ngIf="!dish.availability || (dish.inventory && dish.inventory <= 0)">Out of Stock</span>
+              <span
+                *ngIf="
+                  dish.availability && (!dish.inventory || dish.inventory > 0)
+                "
+                >Add to Cart</span
+              >
+              <span
+                *ngIf="
+                  !dish.availability || (dish.inventory && dish.inventory <= 0)
+                "
+                >Out of Stock</span
+              >
             </button>
-            
+
             <button class="view-details-btn" (click)="viewDishDetails(dish)">
               View Details
             </button>
@@ -184,31 +192,38 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Empty State -->
-    <div class="empty-state" *ngIf="filteredDishes().length === 0 && !isLoading()">
+    <div
+      class="empty-state"
+      *ngIf="filteredDishes().length === 0 && !isLoading()"
+    >
       <div class="empty-icon">🍽️</div>
       <h3>No dishes found</h3>
       <p *ngIf="searchTerm()">Try adjusting your search or filters</p>
-      <p *ngIf="!searchTerm() && selectedCategory()">No dishes available in this category</p>
-      <p *ngIf="!searchTerm() && !selectedCategory()">No dishes available at the moment</p>
+      <p *ngIf="!searchTerm() && selectedCategory()">
+        No dishes available in this category
+      </p>
+      <p *ngIf="!searchTerm() && !selectedCategory()">
+        No dishes available at the moment
+      </p>
     </div>
-    
+
     <!-- Pagination -->
     <div class="pagination" *ngIf="totalPages() > 1">
-      <button 
+      <button
         class="pagination-btn"
         [disabled]="!hasPrevious()"
         (click)="onPageChange(currentPage() - 1)"
       >
         Previous
       </button>
-      
+
       <span class="pagination-info">
         Page {{ currentPage() + 1 }} of {{ totalPages() }}
       </span>
-      
-      <button 
+
+      <button
         class="pagination-btn"
         [disabled]="!hasNext()"
         (click)="onPageChange(currentPage() + 1)"
@@ -222,8 +237,12 @@
 <!-- Floating Cart Preview (Optional) -->
 <div class="floating-cart" *ngIf="((cartState$ | async)?.itemCount || 0) > 0">
   <div class="floating-cart-content">
-    <span class="cart-count">{{ (cartState$ | async)?.itemCount || 0 }} items</span>
-    <span class="cart-total">${{ ((cartState$ | async)?.total || 0).toFixed(2) }}</span>
+    <span class="cart-count"
+      >{{ (cartState$ | async)?.itemCount || 0 }} items</span
+    >
+    <span class="cart-total"
+      >${{ ((cartState$ | async)?.total || 0).toFixed(2) }}</span
+    >
     <button class="view-cart-btn" (click)="goToCart()">View Cart</button>
   </div>
 </div>

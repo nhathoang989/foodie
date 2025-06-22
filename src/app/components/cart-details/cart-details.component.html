@@ -6,7 +6,7 @@
     <button routerLink="/">Browse Dishes</button>
   </div>
   <div *ngIf="cartState().itemCount > 0" class="cart-details-flex">
-    <div class="cart-items-list">
+    <div class="cart-items-list" *ngIf="!showSummaryOnly">
       <div class="cart-item" *ngFor="let item of cartState().items">
         <img [src]="item.dish?.image_url" [alt]="item.dish?.name" class="cart-item-img" />
         <div class="cart-item-info">
@@ -24,20 +24,19 @@
     <div class="cart-summary">
       <h3>Order Summary</h3>
       <div class="summary-row"><span>Subtotal:</span><span>${{ subtotal() | number:'1.2-2' }}</span></div>
-      <div class="summary-row"><span>Tax (8%):</span><span>${{ tax() | number:'1.2-2' }}</span></div>
-      <div class="summary-row">
+      <div class="summary-row"><span>Tax (8%):</span><span>${{ tax() | number:'1.2-2' }}</span></div>      <div class="summary-row">
         <span>Shipping:</span>
-        <select [(ngModel)]="selectedShipping">
+        <select [ngModel]="selectedShipping()" (ngModelChange)="onShippingChange($event)" class="shipping-select">
           <option *ngFor="let s of shippingOptions()" [ngValue]="s">{{ s?.name }} ({{ s?.fee === 0 ? 'Free' : ('$' + (s?.fee?.toFixed(2) ?? '0.00')) }})</option>
         </select>
       </div>
       <div class="summary-row"><span>Total:</span><span class="total">${{ total() | number:'1.2-2' }}</span></div>
-      <div class="promo-row">
+      <div class="promo-row" *ngIf="!showSummaryOnly">
         <input type="text" placeholder="Promo code (UI only)" [(ngModel)]="promoCode" />
         <button disabled>Apply</button>
       </div>
-      <button class="checkout-btn" [disabled]="cartState().itemCount === 0">Proceed to Checkout</button>
-      <button class="clear-btn" (click)="clearCart()">Clear Cart</button>
+      <button class="checkout-btn" *ngIf="!showSummaryOnly" [disabled]="cartState().itemCount === 0" (click)="proceedToCheckout()">Proceed to Checkout</button>
+      <button class="clear-btn" *ngIf="!showSummaryOnly" (click)="clearCart()">Clear Cart</button>
     </div>
   </div>
 </div>

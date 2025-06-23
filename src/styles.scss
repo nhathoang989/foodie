@@ -1,4 +1,3 @@
-
 // Custom Theming for Angular Material - FoodieExpress Theme
 @use '@angular/material' as mat;
 
@@ -87,6 +86,83 @@ $foodie-theme: mat.m2-define-light-theme((
 
 // Apply the theme
 @include mat.all-component-themes($foodie-theme);
+
+// FoodieExpress Vintage Menu Color Palette
+$parchment-bg: #e6d3b3;
+$parchment-bg-dark: #cbb893;
+$parchment-bg-light: #f5ecd7;
+$deep-brown: #5a3a1b;
+$mid-brown: #7c5a36;
+$muted-red: #a13d2d;
+$muted-red-dark: #8c2e1b;
+$gold-accent: #e6c97a;
+$gold-dark: #d1b05a;
+$cream: #f8f4e8;
+
+// Global application colors
+$primary-color: $muted-red;
+$primary-dark: $muted-red-dark;
+$secondary-color: $deep-brown;
+$background-color: $parchment-bg;
+$background-light: $parchment-bg-light;
+$background-dark: $parchment-bg-dark;
+$accent-color: $gold-accent;
+$text-color: $deep-brown;
+$border-color: $mid-brown;
+$white: #fff;
+$black: #000;
+$background-medium: #ede2c6;
+$button-text-color: $cream;
+$medium-gray: #888888;
+$light-gray: #cccccc;
+$dark-gray: #555555;
+$danger-color: #dc3545;
+$confirm-color: #28a745;
+$shadow-medium: rgba(0, 0, 0, 0.1);
+$status-pending-bg: #fff3cd;
+$status-pending-text: #856404;
+$status-confirmed-bg: #d4edda;
+$status-confirmed-text: #155724;
+$status-delivered-bg: #d1ecf1;
+$status-delivered-text: #0c5460;
+$status-cancelled-bg: #f8d7da;
+$status-cancelled-text: #721c24;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-medium: 500;
+$breakpoint-md: 768px;
+$breakpoint-sm: 576px;
+
+body {
+  background: $background-color;
+  color: $text-color;
+  font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+}
+
+// Example: apply to headings and buttons
+a, h1, h2, h3, h4, h5, h6 {
+  color: $deep-brown;
+}
+
+button, .btn, .mat-raised-button, .mat-flat-button {
+  background: $primary-color;
+  color: $cream;
+  border-radius: 6px;
+  border: none;
+  box-shadow: 0 2px 8px rgba($deep-brown, 0.08);
+  transition: background 0.2s;
+  &:hover, &:focus {
+    background: $primary-dark;
+    color: $gold-accent;
+  }
+}
+
+.card, .mat-card, .login-card, .static-page, .navbar, .sidebar {
+  background: $background-light;
+  color: $deep-brown;
+  border: 1px solid $border-color;
+  box-shadow: 0 2px 12px rgba($deep-brown, 0.06);
+}
 
 // Global styles
 html, body { 

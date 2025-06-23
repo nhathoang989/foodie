@@ -1,9 +1,8 @@
 <nav class="navbar" role="navigation" aria-label="Main navigation" [class.scrolled]="isScrolled">
-  <div class="container-fluid navbar-flex">
-    <!-- Brand/Logo -->
+  <div class="container-fluid navbar-flex">    <!-- Brand/Logo -->
     <a routerLink="/" class="navbar-brand" tabindex="0">
       <span class="brand-icon">🍽️</span>
-      <span class="brand-text" *ngIf="!isScrolled">Foodie Express</span>
+      <span class="brand-text">Foodie Express</span>
     </a>
     <!-- Mobile Menu Toggle (Hamburger) on the right -->
     <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" [attr.aria-expanded]="isMobileMenuOpen" aria-controls="mobile-sidebar" aria-label="Open navigation menu">

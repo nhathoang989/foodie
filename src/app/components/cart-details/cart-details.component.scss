@@ -1,11 +1,14 @@
+@use '../../../styles.scss' as *;
+
 .cart-details-container {
   max-width: 900px;
   margin: 2rem auto;
   padding: 2rem;
-  background: #fff;
+  background: $background-light;
   border-radius: 16px;
   box-shadow: 0 2px 16px rgba(0,0,0,0.08);
   font-family: 'Segoe UI', Arial, sans-serif;
+  color: $text-color;
 
   h2 {
     margin-bottom: 1.5rem;

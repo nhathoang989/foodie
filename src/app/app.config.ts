@@ -6,12 +6,16 @@ import { APP_BASE_HREF } from '@angular/common';
 
 import { routes } from './app.routes';
 
+function getBaseHref() {
+  return document.querySelector('base')?.getAttribute('href') || '/';
+}
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
     provideRouter(routes),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi()),
-    { provide: APP_BASE_HREF, useValue: '/' }
+    { provide: APP_BASE_HREF, useFactory: getBaseHref }
   ]
 };

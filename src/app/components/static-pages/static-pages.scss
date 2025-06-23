@@ -1,7 +1,11 @@
+@use '../../../styles.scss' as *;
+
 /* Static Pages Base Styles */
 .static-page {
   min-height: calc(100vh - 140px);
-  background: #f8f9fa;
+  background: $background-light;
+  color: $text-color;
+  border: 1px solid $border-color;
 
   .page-header {
     background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
@@ -177,7 +181,7 @@
     }
 
     p {
-      color: #7f8c8d;
+      color: #7f8c8c;
       font-size: 1.1rem;
       margin: 0;
     }

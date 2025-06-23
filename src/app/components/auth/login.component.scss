@@ -1,3 +1,5 @@
+@use '../../../styles.scss' as *;
+
 /* Login Container */
 .login-container {
   min-height: 100vh;
@@ -5,7 +7,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, $background-dark 0%, $background-color 100%);
   padding: 4.5rem 1rem 2rem 1rem; // Add top padding for navbar (desktop)
   box-sizing: border-box;
   overflow: hidden;
@@ -18,7 +20,7 @@
 }
 
 .login-card {
-  background: white;
+  background: $background-light;
   border-radius: 20px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
   padding: 3rem;
@@ -27,6 +29,8 @@
   position: relative;
   z-index: 2;
   backdrop-filter: blur(10px);
+  color: $text-color;
+  border: 1px solid $border-color;
 }
 
 /* Header */
@@ -47,7 +51,7 @@
     .logo-text {
       font-size: 1.8rem;
       font-weight: bold;
-      background: linear-gradient(45deg, #e74c3c, #f39c12);
+      background: linear-gradient(45deg, $primary-color, $accent-color);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;

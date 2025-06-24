@@ -6,7 +6,7 @@
   padding: 2rem;
   background: $background-light;
   border-radius: 16px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 16px $shadow-medium;
   font-family: 'Segoe UI', Arial, sans-serif;
   color: $text-color;
 
@@ -14,7 +14,7 @@
     margin-bottom: 1.5rem;
     font-size: 2rem;
     font-weight: 600;
-    color: #222;
+    color: $primary-color;
   }
 
   .empty-cart {
@@ -24,15 +24,15 @@
       margin-bottom: 1rem;
     }
     button {
-      background: #ff7043;
-      color: #fff;
+      background: $primary-color;
+      color: $cream;
       border: none;
       padding: 0.7rem 1.5rem;
       border-radius: 6px;
       font-size: 1rem;
       cursor: pointer;
       transition: background 0.2s;
-      &:hover { background: #ff5722; }
+      &:hover { background: $primary-dark; }
     }
   }
 
@@ -50,7 +50,7 @@
       display: flex;
       align-items: center;
       padding: 1rem 0;
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid $border-color;
       &:last-child { border-bottom: none; }
       .cart-item-img {
         width: 80px;
@@ -58,7 +58,7 @@
         object-fit: cover;
         border-radius: 8px;
         margin-right: 1.5rem;
-        background: #f8f8f8;
+        background: $background-medium;
       }
       .cart-item-info {
         flex: 1;
@@ -68,9 +68,10 @@
         .cart-item-name {
           font-size: 1.1rem;
           font-weight: 500;
+          color: $secondary-color;
         }
         .cart-item-price {
-          color: #888;
+          color: $accent-color;
           font-size: 1rem;
         }
         .cart-item-qty {
@@ -81,17 +82,17 @@
             width: 28px;
             height: 28px;
             border: none;
-            background: #eee;
+            background: $background-medium;
             border-radius: 50%;
             font-size: 1.1rem;
             cursor: pointer;
             transition: background 0.2s;
-            &:hover { background: #ff7043; color: #fff; }
+            &:hover { background: $primary-color; color: $cream; }
           }
           input[type="number"] {
             width: 48px;
             text-align: center;
-            border: 1px solid #ddd;
+            border: 1px solid $border-color;
             border-radius: 4px;
             padding: 0.2rem 0.5rem;
             font-size: 1rem;
@@ -101,7 +102,7 @@
         .remove-btn {
           align-self: flex-start;
           background: none;
-          color: #ff7043;
+          color: $primary-color;
           border: none;
           font-size: 0.95rem;
           cursor: pointer;
@@ -114,16 +115,16 @@
 
   .cart-summary {
     flex: 1 1 300px;
-    background: #fafafa;
+    background: $background-medium;
     border-radius: 12px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    box-shadow: 0 2px 12px $shadow-medium;
     padding: 2rem 1.5rem;
     min-width: 260px;
     h3 {
       margin-bottom: 1rem;
       font-size: 1.3rem;
       font-weight: 600;
-      color: #333;
+      color: $secondary-color;
     }
     .summary-row {
       display: flex;
@@ -133,7 +134,7 @@
       font-size: 1.05rem;
       span.total {
         font-weight: 700;
-        color: #ff7043;
+        color: $primary-color;
         font-size: 1.2rem;
       }
     }
@@ -143,15 +144,15 @@
       margin-bottom: 1rem;
       input[type="text"] {
         flex: 1;
-        border: 1px solid #ddd;
+        border: 1px solid $border-color;
         border-radius: 4px;
         padding: 0.4rem 0.7rem;
         font-size: 1rem;
-        background: #fff;
+        background: $white;
       }
       button {
-        background: #eee;
-        color: #888;
+        background: $background-medium;
+        color: $medium-gray;
         border: none;
         border-radius: 4px;
         padding: 0.4rem 1rem;
@@ -161,8 +162,8 @@
     }
     .checkout-btn {
       width: 100%;
-      background: #43a047;
-      color: #fff;
+      background: $confirm-color;
+      color: $cream;
       border: none;
       border-radius: 6px;
       padding: 0.8rem 0;
@@ -171,37 +172,37 @@
       margin-bottom: 0.7rem;
       cursor: pointer;
       transition: background 0.2s;
-      &:hover:enabled { background: #388e3c; }
-      &:disabled { background: #bdbdbd; cursor: not-allowed; }
+      &:hover:enabled { background: darken($confirm-color, 10%); }
+      &:disabled { background: $border-color; cursor: not-allowed; }
     }
     .clear-btn {
       width: 100%;
-      background: #fff;
-      color: #ff7043;
-      border: 1px solid #ff7043;
+      background: $white;
+      color: $primary-color;
+      border: 1px solid $primary-color;
       border-radius: 6px;
       padding: 0.7rem 0;
       font-size: 1rem;
       font-weight: 500;
       cursor: pointer;
       transition: background 0.2s, color 0.2s;
-      &:hover { background: #ff7043; color: #fff; }
+      &:hover { background: $primary-color; color: $cream; }
     }
   }
 
   .shipping-select {
     padding: 0.5rem 0.8rem;
-    border: 1px solid #007bff;
+    border: 1px solid $accent-color;
     border-radius: 6px;
     font-size: 1rem;
-    background: #f0f8ff;
-    color: #222;
+    background: $background-light;
+    color: $secondary-color;
     margin-left: 0.5rem;
     min-width: 160px;
     transition: border 0.2s;
   }
   .shipping-select:focus {
-    border: 1.5px solid #0056b3;
+    border: 1.5px solid darken($accent-color, 10%);
     outline: none;
   }
 

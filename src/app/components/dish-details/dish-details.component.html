@@ -56,7 +56,7 @@
       <div class="related-info">
         <div class="related-name">{{ r.name }}</div>
         <div class="related-price">${{ r.price.toFixed(2) }}</div>
-        <button (click)="router.navigate(['/dish', r.id])">View</button>
+        <button (click)="scrollToTop(); router.navigate(['/dish', r.id])">View</button>
       </div>
     </div>
   </div>

@@ -95,4 +95,16 @@ export class DishDetailsComponent implements OnInit {
       this.relatedCarouselIndex.set(this.relatedCarouselIndex() - 1);
     }
   }
+
+  scrollToDetailsSection() {
+    const section = document.getElementById('dish-details-section');
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // Scroll to top when viewing a related dish
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 }

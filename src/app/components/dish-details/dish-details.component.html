@@ -5,7 +5,7 @@
       <img [src]="d.image_url || 'assets/default-dish.png'" [alt]="d.name" (click)="zoomImage(d.image_url || 'assets/default-dish.png')" />
     </div>
     <!-- Gallery thumbnails (if more images in future) -->
-    <div class="gallery-thumbnails">
+    <div class="gallery-thumbnails" *ngIf="d.thumbnail_urls && d.thumbnail_urls.length > 0">
       <img [src]="d.image_url || 'assets/default-dish.png'" [alt]="d.name" [class.selected]="galleryIndex() === 0" (click)="selectGalleryImage(0)" />
       <!-- Add more thumbnails if available -->
     </div>

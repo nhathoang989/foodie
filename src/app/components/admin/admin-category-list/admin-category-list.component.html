@@ -1,0 +1,25 @@
+<div class="admin-category-list">
+  <h2>Categories</h2>
+  <button mat-flat-button color="primary" (click)="openForm()">Add Category</button>
+  <mat-table [dataSource]="categories" *ngIf="!loading">
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+      <mat-cell *matCellDef="let cat">{{ cat.name }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="description">
+      <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+      <mat-cell *matCellDef="let cat">{{ cat.description }}</mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="actions">
+      <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
+      <mat-cell *matCellDef="let cat">
+        <button mat-icon-button (click)="openForm(cat)"><mat-icon>edit</mat-icon></button>
+        <button mat-icon-button color="warn" (click)="deleteCategory(cat)"><mat-icon>delete</mat-icon></button>
+      </mat-cell>
+    </ng-container>
+    <mat-header-row *matHeaderRowDef="['name', 'description', 'actions']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['name', 'description', 'actions'];"></mat-row>
+  </mat-table>
+  <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+  <mat-error *ngIf="error">{{ error }}</mat-error>
+</div>

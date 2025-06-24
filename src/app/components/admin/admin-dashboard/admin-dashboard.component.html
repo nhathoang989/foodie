@@ -1,0 +1,212 @@
+<div class="dashboard-container">
+  <!-- Admin Navigation -->
+  <nav class="admin-nav">
+    <div class="nav-header">
+      <h2>Admin Panel</h2>
+    </div>
+    <div class="nav-links">
+      <a mat-button routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link">
+        <mat-icon>dashboard</mat-icon>
+        Dashboard
+      </a>
+      <a mat-button routerLink="/admin/orders" routerLinkActive="active" class="nav-link">
+        <mat-icon>shopping_cart</mat-icon>
+        Orders
+      </a>
+      <a mat-button routerLink="/admin/dishes" routerLinkActive="active" class="nav-link">
+        <mat-icon>restaurant</mat-icon>
+        Dishes
+      </a>
+      <a mat-button routerLink="/admin/categories" routerLinkActive="active" class="nav-link">
+        <mat-icon>category</mat-icon>
+        Categories
+      </a>
+      <a mat-button routerLink="/admin/customers" routerLinkActive="active" class="nav-link">
+        <mat-icon>people</mat-icon>
+        Customers
+      </a>
+      <a mat-button routerLink="/admin/shipping" routerLinkActive="active" class="nav-link">
+        <mat-icon>local_shipping</mat-icon>
+        Shipping
+      </a>
+      <a mat-button routerLink="/" class="nav-link logout">
+        <mat-icon>exit_to_app</mat-icon>
+        Back to Store
+      </a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="dashboard-main">
+    <div class="dashboard-header">
+      <h1>Admin Dashboard</h1>
+      <button mat-raised-button color="primary" (click)="refreshData()" [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+    </div>
+
+    <!-- Loading indicator -->
+    <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
+
+    <!-- Metrics Cards -->
+    <div class="metrics-grid">
+      <mat-card class="metric-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon color="primary">shopping_cart</mat-icon>
+            Orders
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="metric-value">{{ metrics.totalOrders }}</div>
+          <div class="metric-subtitle">Total Orders</div>
+          <div class="metric-today">{{ metrics.todayOrders }} today</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="metric-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon color="primary">attach_money</mat-icon>
+            Revenue
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="metric-value">${{ metrics.totalRevenue | number:'1.2-2' }}</div>
+          <div class="metric-subtitle">Total Revenue</div>
+          <div class="metric-today">${{ metrics.todayRevenue | number:'1.2-2' }} today</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="metric-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon color="primary">people</mat-icon>
+            Customers
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="metric-value">{{ metrics.totalCustomers }}</div>
+          <div class="metric-subtitle">Total Customers</div>
+          <div class="metric-today">{{ metrics.activeUsers }} active</div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="metric-card">
+        <mat-card-header>
+          <mat-card-title>
+            <mat-icon color="primary">restaurant</mat-icon>
+            Dishes
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="metric-value">{{ metrics.totalDishes }}</div>
+          <div class="metric-subtitle">Total Dishes</div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- Quick Actions and Recent Activity -->
+    <div class="content-grid">
+      <!-- Quick Actions -->
+      <mat-card class="quick-actions-card">
+        <mat-card-header>
+          <mat-card-title>Quick Actions</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="action-buttons">
+            <button mat-raised-button color="primary" routerLink="/admin/dishes">
+              <mat-icon>restaurant</mat-icon>
+              Manage Dishes
+            </button>
+            <button mat-raised-button color="primary" routerLink="/admin/orders">
+              <mat-icon>shopping_cart</mat-icon>
+              View Orders
+            </button>
+            <button mat-raised-button color="primary" routerLink="/admin/customers">
+              <mat-icon>people</mat-icon>
+              Manage Customers
+            </button>
+            <button mat-raised-button color="primary" routerLink="/admin/categories">
+              <mat-icon>category</mat-icon>
+              Categories
+            </button>
+            <button mat-raised-button color="primary" routerLink="/admin/shipping">
+              <mat-icon>local_shipping</mat-icon>
+              Shipping Options
+            </button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+
+      <!-- Recent Activity -->
+      <mat-card class="recent-activity-card">
+        <mat-card-header>
+          <mat-card-title>Recent Activity</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list *ngIf="recentActivities.length > 0; else noActivity">
+            <mat-list-item *ngFor="let activity of recentActivities">
+              <mat-icon matListItemIcon [color]="getHealthColor(activity.status || 'healthy')">
+                {{ getActivityIcon(activity.type) }}
+              </mat-icon>
+              <div matListItemTitle>{{ activity.message }}</div>
+              <div matListItemLine>
+                {{ activity.timestamp | date:'short' }}
+                <mat-chip *ngIf="activity.status" [color]="getHealthColor(activity.status)">
+                  {{ activity.status }}
+                </mat-chip>
+              </div>
+            </mat-list-item>
+          </mat-list>
+          <ng-template #noActivity>
+            <div class="no-activity">
+              <mat-icon>info</mat-icon>
+              <p>No recent activity</p>
+            </div>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <!-- System Health Monitoring -->
+    <mat-card class="system-health-card">
+      <mat-card-header>
+        <mat-card-title>System Health</mat-card-title>
+        <mat-card-subtitle>Last updated: {{ systemHealth.lastUpdate | date:'short' }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="health-indicators">
+          <div class="health-item">
+            <mat-icon [color]="getHealthColor(systemHealth.database)">
+              {{ getHealthIcon(systemHealth.database) }}
+            </mat-icon>
+            <span>Database</span>
+            <mat-chip [color]="getHealthColor(systemHealth.database)">
+              {{ systemHealth.database }}
+            </mat-chip>
+          </div>
+          <div class="health-item">
+            <mat-icon [color]="getHealthColor(systemHealth.api)">
+              {{ getHealthIcon(systemHealth.api) }}
+            </mat-icon>
+            <span>API</span>
+            <mat-chip [color]="getHealthColor(systemHealth.api)">
+              {{ systemHealth.api }}
+            </mat-chip>
+          </div>
+          <div class="health-item">
+            <mat-icon [color]="getHealthColor(systemHealth.storage)">
+              {{ getHealthIcon(systemHealth.storage) }}
+            </mat-icon>
+            <span>Storage</span>
+            <mat-chip [color]="getHealthColor(systemHealth.storage)">
+              {{ systemHealth.storage }}
+            </mat-chip>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </main>
+</div>

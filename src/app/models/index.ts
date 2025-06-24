@@ -4,6 +4,7 @@ export interface Dish {
   description?: string;
   price: number;
   image_url?: string;
+  thumbnail_urls?: string[];
   category_id: number;
   ingredients?: string;
   allergens?: string;

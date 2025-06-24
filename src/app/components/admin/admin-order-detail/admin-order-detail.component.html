@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Order Details</h2>
+<div mat-dialog-content>
+  <div><strong>ID:</strong> {{ data.order.id }}</div>
+  <div><strong>Customer:</strong> {{ data.order.customer_id }}</div>
+  <div><strong>Status:</strong> {{ data.order.status }}</div>
+  <div><strong>Total:</strong> {{ data.order.total_amount | currency }}</div>
+  <div><strong>Shipping Fee:</strong> {{ data.order.shipping_fee | currency }}</div>
+  <div><strong>Order Date:</strong> {{ data.order.order_date | date }}</div>
+  <div><strong>Delivery Address:</strong> {{ data.order.delivery_address }}</div>
+  <div><strong>Phone:</strong> {{ data.order.phone_number }}</div>
+  <div><strong>Special Instructions:</strong> {{ data.order.special_instructions }}</div>
+  <!-- Add more fields as needed -->
+</div>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions>

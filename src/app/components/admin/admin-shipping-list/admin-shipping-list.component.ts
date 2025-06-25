@@ -5,10 +5,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CommonModule, NgIf, NgFor, CurrencyPipe } from '@angular/common';
+import { CommonModule, NgIf, CurrencyPipe } from '@angular/common';
 import { ShippingService } from '../../../services/shipping.service';
 import { ShippingOption } from '../../../models';
 import { AdminShippingFormComponent } from '../admin-shipping-form/admin-shipping-form.component';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-admin-shipping-list',
@@ -24,13 +25,16 @@ import { AdminShippingFormComponent } from '../admin-shipping-form/admin-shippin
     MatFormFieldModule,
     CurrencyPipe,
     NgIf,
-    NgFor
+    MatPaginatorModule
   ]
 })
 export class AdminShippingListComponent implements OnInit {
   shippingOptions: ShippingOption[] = [];
   loading = false;
   error: string | null = null;
+  pageIndex = 0;
+  pageSize = 15;
+  totalCount = 0;
 
   constructor(
     private shippingService: ShippingService,
@@ -41,18 +45,28 @@ export class AdminShippingListComponent implements OnInit {
     this.loadShippingOptions();
   }
 
-  loadShippingOptions() {
+  loadShippingOptions(event?: PageEvent) {
+    if (event) {
+      this.pageIndex = event.pageIndex;
+      this.pageSize = event.pageSize;
+    }
     this.loading = true;
     const query = {
-      pageIndex: 0,
-      pageSize: 50,
+      pageIndex: this.pageIndex,
+      pageSize: this.pageSize,
       orderBy: 'name',
       direction: 'asc',
       loadNestedData: false
     };
     this.shippingService.getAll(query as any).subscribe({
-      next: (options: ShippingOption[]) => {
-        this.shippingOptions = options;
+      next: (result: any) => {
+        if (Array.isArray(result)) {
+          this.shippingOptions = result;
+          this.totalCount = result.length < this.pageSize && this.pageIndex === 0 ? result.length : 1000;
+        } else {
+          this.shippingOptions = result.items || [];
+          this.totalCount = result.totalCount || this.shippingOptions.length;
+        }
         this.loading = false;
       },
       error: (err: any) => {

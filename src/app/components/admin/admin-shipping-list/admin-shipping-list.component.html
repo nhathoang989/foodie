@@ -1,4 +1,4 @@
-<div class="admin-shipping-list">
+<div class="list-container admin-shipping-list">
   <h2>Shipping Options</h2>
   <button mat-flat-button color="primary" (click)="openForm()">Add Shipping Option</button>
   <mat-table [dataSource]="shippingOptions" *ngIf="!loading">
@@ -20,6 +20,15 @@
     <mat-header-row *matHeaderRowDef="['name', 'fee', 'actions']"></mat-header-row>
     <mat-row *matRowDef="let row; columns: ['name', 'fee', 'actions'];"></mat-row>
   </mat-table>
+  <mat-paginator
+    [length]="totalCount"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[15, 30, 50]"
+    (page)="loadShippingOptions($event)"
+    *ngIf="!loading && totalCount > pageSize"
+    showFirstLastButtons>
+  </mat-paginator>
   <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
   <mat-error *ngIf="error">{{ error }}</mat-error>
 </div>

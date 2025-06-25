@@ -1,4 +1,4 @@
-<div class="admin-dish-list">
+<div class="list-container admin-dish-list">
   <h2>Dishes</h2>
   <button mat-flat-button color="primary" (click)="openForm()">Add Dish</button>
   <mat-table [dataSource]="dishes" *ngIf="!loading">
@@ -24,6 +24,15 @@
     <mat-header-row *matHeaderRowDef="['name', 'price', 'category', 'actions']"></mat-header-row>
     <mat-row *matRowDef="let row; columns: ['name', 'price', 'category', 'actions'];"></mat-row>
   </mat-table>
+  <mat-paginator
+    [length]="totalCount"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[15, 30, 50]"
+    (page)="loadDishes($event)"
+    *ngIf="!loading && totalCount > pageSize"
+    showFirstLastButtons>
+  </mat-paginator>
   <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
   <mat-error *ngIf="error">{{ error }}</mat-error>
 </div>

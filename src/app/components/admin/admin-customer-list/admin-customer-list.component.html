@@ -1,4 +1,4 @@
-<div class="admin-customer-list">
+<div class="list-container admin-customer-list">
   <h2>Customers</h2>
   <button mat-flat-button color="primary" (click)="openForm()">Add Customer</button>
   <mat-table [dataSource]="customers" *ngIf="!loading">
@@ -20,6 +20,15 @@
     <mat-header-row *matHeaderRowDef="['name', 'email', 'actions']"></mat-header-row>
     <mat-row *matRowDef="let row; columns: ['name', 'email', 'actions'];"></mat-row>
   </mat-table>
+  <mat-paginator
+    [length]="totalCount"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[15, 30, 50]"
+    (page)="loadCustomers($event)"
+    *ngIf="!loading && totalCount > pageSize"
+    showFirstLastButtons>
+  </mat-paginator>
   <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
   <mat-error *ngIf="error">{{ error }}</mat-error>
 </div>

@@ -1,3 +1,27 @@
 .w-100 { width: 100%; }
 mat-form-field { margin-bottom: 1rem; }
 mat-dialog-actions { margin-top: 1rem; }
+
+// Responsive admin form container
+.form-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 32px 24px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+.w-100 { width: 100%; }
+mat-form-field { margin-bottom: 1rem; width: 100%; }
+mat-dialog-actions { margin-top: 1rem; display: flex; gap: 12px; }
+
+@media (max-width: 768px) {
+  .form-container {
+    padding: 16px 8px;
+  }
+  mat-dialog-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

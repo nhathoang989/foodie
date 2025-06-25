@@ -8,6 +8,7 @@ import { Observable, Subject, of } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { map, filter, debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs/operators';
 import { Dish } from '../../models';
+import { MatIconModule } from '@angular/material/icon';
 
 interface Breadcrumb {
   label: string;
@@ -17,7 +18,7 @@ interface Breadcrumb {
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule],
+  imports: [CommonModule, RouterModule, FormsModule, MatIconModule],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
@@ -33,6 +34,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   isSearchOpen = false;
   isSearchFocused = false;
   isUserMenuOpen = false;
+  isAdminNavOpen = false;
   isDesktop = window.innerWidth > 768;
   isScrolled = false;
   
@@ -66,6 +68,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.updateIsDesktop();
     window.addEventListener('resize', this.updateIsDesktop.bind(this));
     window.addEventListener('scroll', this.onScroll.bind(this));
+    this.isAdminNavOpen = false;
   }
 
   ngOnDestroy() {
@@ -219,6 +222,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   logout() {
     this.authService.logout();
     this.isUserMenuOpen = false;
+  }
+
+  toggleAdminNav() {
+    this.isAdminNavOpen = !this.isAdminNavOpen;
   }
 
   private closeAllMenus() {

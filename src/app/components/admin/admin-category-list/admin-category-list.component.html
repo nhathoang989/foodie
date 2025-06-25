@@ -1,4 +1,4 @@
-<div class="admin-category-list">
+<div class="list-container admin-category-list">
   <h2>Categories</h2>
   <button mat-flat-button color="primary" (click)="openForm()">Add Category</button>
   <mat-table [dataSource]="categories" *ngIf="!loading">
@@ -20,6 +20,15 @@
     <mat-header-row *matHeaderRowDef="['name', 'description', 'actions']"></mat-header-row>
     <mat-row *matRowDef="let row; columns: ['name', 'description', 'actions'];"></mat-row>
   </mat-table>
+  <mat-paginator
+    [length]="totalCount"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[15, 30, 50]"
+    (page)="loadCategories($event)"
+    *ngIf="!loading && totalCount > pageSize"
+    showFirstLastButtons>
+  </mat-paginator>
   <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
   <mat-error *ngIf="error">{{ error }}</mat-error>
 </div>

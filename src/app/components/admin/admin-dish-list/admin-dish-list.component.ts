@@ -5,10 +5,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CommonModule, NgIf, NgFor, CurrencyPipe } from '@angular/common';
+import { CommonModule, NgIf, CurrencyPipe } from '@angular/common';
 import { DishService } from '../../../services/dish.service';
 import { Dish } from '../../../models';
 import { AdminDishFormComponent } from '../admin-dish-form/admin-dish-form.component';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-admin-dish-list',
@@ -24,13 +25,16 @@ import { AdminDishFormComponent } from '../admin-dish-form/admin-dish-form.compo
     MatFormFieldModule,
     CurrencyPipe,
     NgIf,
-    NgFor
+    MatPaginatorModule
   ]
 })
 export class AdminDishListComponent implements OnInit {
   dishes: Dish[] = [];
   loading = false;
   error: string | null = null;
+  pageIndex = 0;
+  pageSize = 15;
+  totalCount = 0;
 
   constructor(
     private dishService: DishService,
@@ -41,18 +45,29 @@ export class AdminDishListComponent implements OnInit {
     this.loadDishes();
   }
 
-  loadDishes() {
+  loadDishes(event?: PageEvent) {
+    if (event) {
+      this.pageIndex = event.pageIndex;
+      this.pageSize = event.pageSize;
+    }
     this.loading = true;
     const query = {
-      pageIndex: 0,
-      pageSize: 100,
+      pageIndex: this.pageIndex,
+      pageSize: this.pageSize,
       orderBy: 'id',
       direction: 'asc',
       loadNestedData: false
     };
     this.dishService.getAll(query as any).subscribe({
-      next: (dishes: Dish[]) => {
-        this.dishes = dishes;
+      next: (result: any) => {
+        // Support both array and paged result
+        if (Array.isArray(result)) {
+          this.dishes = result;
+          this.totalCount = result.length < this.pageSize && this.pageIndex === 0 ? result.length : 1000; // fallback
+        } else {
+          this.dishes = result.items || [];
+          this.totalCount = result.totalCount || this.dishes.length;
+        }
         this.loading = false;
       },
       error: (err: any) => {

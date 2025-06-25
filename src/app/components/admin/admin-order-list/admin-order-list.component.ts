@@ -5,10 +5,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CommonModule, NgIf, NgFor, CurrencyPipe } from '@angular/common';
+import { CommonModule, NgIf, CurrencyPipe } from '@angular/common';
 import { OrderService } from '../../../services/order.service';
 import { Order } from '../../../models';
 import { AdminOrderDetailComponent } from '../admin-order-detail/admin-order-detail.component';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-admin-order-list',
@@ -24,13 +25,16 @@ import { AdminOrderDetailComponent } from '../admin-order-detail/admin-order-det
     MatFormFieldModule,
     CurrencyPipe,
     NgIf,
-    NgFor
+    MatPaginatorModule
   ]
 })
 export class AdminOrderListComponent implements OnInit {
   orders: Order[] = [];
   loading = false;
   error: string | null = null;
+  pageIndex = 0;
+  pageSize = 15;
+  totalCount = 0;
 
   constructor(
     private orderService: OrderService,
@@ -41,18 +45,28 @@ export class AdminOrderListComponent implements OnInit {
     this.loadOrders();
   }
 
-  loadOrders() {
+  loadOrders(event?: PageEvent) {
+    if (event) {
+      this.pageIndex = event.pageIndex;
+      this.pageSize = event.pageSize;
+    }
     this.loading = true;
     const query = {
-      pageIndex: 0,
-      pageSize: 100,
+      pageIndex: this.pageIndex,
+      pageSize: this.pageSize,
       orderBy: 'id',
       direction: 'desc',
       loadNestedData: false
     };
     this.orderService.getAll(query as any).subscribe({
-      next: (orders: Order[]) => {
-        this.orders = orders;
+      next: (result: any) => {
+        if (Array.isArray(result)) {
+          this.orders = result;
+          this.totalCount = result.length < this.pageSize && this.pageIndex === 0 ? result.length : 1000;
+        } else {
+          this.orders = result.items || [];
+          this.totalCount = result.totalCount || this.orders.length;
+        }
         this.loading = false;
       },
       error: (err: any) => {

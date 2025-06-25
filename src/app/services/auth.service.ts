@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { NotificationService } from './notification.service';
+import { MixcoreClient } from '@mixcore/sdk-client';
+import { environment } from '../../environments/environment';
 
 export interface User {
   id: number;
   username: string;
   name: string;
   email: string;
-  role?: string;
+  roles?: string[];
 }
 
 export interface LoginRequest {
@@ -35,10 +37,17 @@ export class AuthService {
   private isLoadingSubject = new BehaviorSubject<boolean>(false);
   public isLoading$ = this.isLoadingSubject.asObservable();
 
+  private mixClient: MixcoreClient;
+
   constructor(
     private router: Router,
     private notificationService: NotificationService
   ) {
+    this.mixClient = new MixcoreClient({
+      endpoint: environment.apiBaseUrl,
+      tokenKey: 'foodie_express_token',
+      refreshTokenKey: 'foodie_express_refresh_token'
+    });
     this.loadUserFromStorage();
   }
 
@@ -55,26 +64,25 @@ export class AuthService {
    */
   async login(credentials: LoginRequest): Promise<boolean> {
     this.isLoadingSubject.next(true);
-    
     try {
-      // TODO: Replace with actual MixCore authentication
-      // For now, simulate authentication
-      await this.simulateApiCall();
-      
-      // Mock user data - replace with actual API response
-      const user: User = {
-        id: 1,
+      await this.mixClient.auth.login({
         username: credentials.username,
-        name: credentials.username.charAt(0).toUpperCase() + credentials.username.slice(1),
-        email: `${credentials.username}@example.com`,
-        role: 'customer'
+        password: credentials.password
+      });
+      // Fetch user profile after login
+      const profile = await this.mixClient.auth.initUserData();
+      const user: User = {
+        id: Number(profile.id) || 0,
+        username: profile.userName,
+        name: profile.name || profile.userName,
+        email: profile.email,
+        roles: profile.roles ? profile.roles.map(role => typeof role === 'string' ? role : (role.roleId || role.roleId || '')) : []
       };
-
       this.setUser(user);
       this.notificationService.showSuccess('Login successful!');
       return true;
-    } catch (error) {
-      this.notificationService.showError('Login failed. Please check your credentials.');
+    } catch (error: any) {
+      this.notificationService.showError(error.message || 'Login failed. Please check your credentials.');
       return false;
     } finally {
       this.isLoadingSubject.next(false);
@@ -86,24 +94,25 @@ export class AuthService {
    */
   async register(data: RegisterRequest): Promise<boolean> {
     this.isLoadingSubject.next(true);
-    
     try {
       if (data.password !== data.confirmPassword) {
         throw new Error('Passwords do not match');
       }
-
-      // TODO: Replace with actual MixCore registration
-      await this.simulateApiCall();
-      
-      // Mock user data - replace with actual API response
-      const user: User = {
-        id: Date.now(), // Mock ID
-        username: data.username,
-        name: data.name,
+      await this.mixClient.auth.register({
+        userName: data.username,
         email: data.email,
-        role: 'customer'
+        password: data.password,
+        confirmPassword: data.confirmPassword
+      });
+      // Fetch user profile after registration
+      const profile = await this.mixClient.auth.initUserData();
+      const user: User = {
+        id: Number(profile.id) || 0,
+        username: profile.userName,
+        name: profile.name || profile.userName,
+        email: profile.email,
+        roles: profile.roles ? profile.roles.map(role => typeof role === 'string' ? role : (role.roleId || role.roleId || '')) : []
       };
-
       this.setUser(user);
       this.notificationService.showSuccess('Registration successful!');
       return true;
@@ -130,7 +139,7 @@ export class AuthService {
    * Check if user has specific role
    */
   hasRole(role: string): boolean {
-    return this.currentUser?.role === role;
+    return this.currentUser?.roles?.indexOf(role) !== -1 || false;
   }
 
   /**
@@ -216,8 +225,6 @@ export class AuthService {
 
   private setUser(user: User): void {
     localStorage.setItem('foodie_express_user', JSON.stringify(user));
-    // TODO: Store actual token from MixCore
-    localStorage.setItem('foodie_express_token', `mock_token_${user.id}`);
     this.currentUserSubject.next(user);
   }
 

@@ -1,4 +1,32 @@
+// Responsive admin list container
+.list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 24px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
 .admin-customer-list { padding: 1rem; }
-mat-table { width: 100%; margin-top: 1rem; }
+mat-table { width: 100%; margin-top: 1rem; overflow-x: auto; display: block; }
 mat-header-cell, mat-cell { padding: 0.5rem; }
 button { margin-right: 0.5rem; }
+
+@media (max-width: 768px) {
+  .list-container {
+    padding: 12px 4px;
+  }
+  mat-header-cell, mat-cell {
+    padding: 0.25rem;
+    font-size: 14px;
+  }
+  button {
+    margin-bottom: 0.5rem;
+    margin-right: 0;
+    width: 100%;
+  }
+  mat-table {
+    font-size: 13px;
+  }
+}

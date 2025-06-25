@@ -5,10 +5,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatFormFieldModule, MatError } from '@angular/material/form-field';
-import { CommonModule, NgIf, NgFor } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { CategoryService } from '../../../services/category.service';
 import { Category } from '../../../models';
 import { AdminCategoryFormComponent } from '../admin-category-form/admin-category-form.component';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-admin-category-list',
@@ -23,13 +24,16 @@ import { AdminCategoryFormComponent } from '../admin-category-form/admin-categor
     MatProgressBarModule,
     MatFormFieldModule,
     NgIf,
-    NgFor
+    MatPaginatorModule
   ]
 })
 export class AdminCategoryListComponent implements OnInit {
   categories: Category[] = [];
   loading = false;
   error: string | null = null;
+  pageIndex = 0;
+  pageSize = 15;
+  totalCount = 0;
 
   constructor(
     private categoryService: CategoryService,
@@ -40,18 +44,28 @@ export class AdminCategoryListComponent implements OnInit {
     this.loadCategories();
   }
 
-  loadCategories() {
+  loadCategories(event?: PageEvent) {
+    if (event) {
+      this.pageIndex = event.pageIndex;
+      this.pageSize = event.pageSize;
+    }
     this.loading = true;
     const query = {
-      pageIndex: 0,
-      pageSize: 100,
+      pageIndex: this.pageIndex,
+      pageSize: this.pageSize,
       orderBy: 'name',
       direction: 'asc',
       loadNestedData: false
     };
     this.categoryService.getAll(query as any).subscribe({
-      next: (cats: Category[]) => {
-        this.categories = cats;
+      next: (result: any) => {
+        if (Array.isArray(result)) {
+          this.categories = result;
+          this.totalCount = result.length < this.pageSize && this.pageIndex === 0 ? result.length : 1000;
+        } else {
+          this.categories = result.items || [];
+          this.totalCount = result.totalCount || this.categories.length;
+        }
         this.loading = false;
       },
       error: (err: any) => {

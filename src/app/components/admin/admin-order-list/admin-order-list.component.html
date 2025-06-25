@@ -1,4 +1,4 @@
-<div class="admin-order-list">
+<div class="list-container admin-order-list">
   <h2>Orders</h2>
   <mat-table [dataSource]="orders" *ngIf="!loading">
     <ng-container matColumnDef="id">
@@ -26,6 +26,15 @@
     <mat-header-row *matHeaderRowDef="['id', 'customer', 'total', 'status', 'actions']"></mat-header-row>
     <mat-row *matRowDef="let row; columns: ['id', 'customer', 'total', 'status', 'actions'];"></mat-row>
   </mat-table>
+  <mat-paginator
+    [length]="totalCount"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[15, 30, 50]"
+    (page)="loadOrders($event)"
+    *ngIf="!loading && totalCount > pageSize"
+    showFirstLastButtons>
+  </mat-paginator>
   <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>
   <mat-error *ngIf="error">{{ error }}</mat-error>
 </div>

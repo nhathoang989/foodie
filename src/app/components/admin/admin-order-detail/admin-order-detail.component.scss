@@ -1,2 +1,23 @@
-mat-dialog-content div { margin-bottom: 0.5rem; }
-mat-dialog-actions { margin-top: 1rem; }
+// Responsive admin order detail dialog
+mat-dialog-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px;
+  div { margin-bottom: 0.5rem; }
+}
+mat-dialog-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  mat-dialog-content {
+    padding: 12px 4px;
+    font-size: 15px;
+  }
+  mat-dialog-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+}

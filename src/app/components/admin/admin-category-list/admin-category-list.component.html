@@ -21,12 +21,12 @@
     <mat-row *matRowDef="let row; columns: ['name', 'description', 'actions'];"></mat-row>
   </mat-table>
   <mat-paginator
-    [length]="totalCount"
-    [pageSize]="pageSize"
-    [pageIndex]="pageIndex"
+    [length]="pagingData.total"
+    [pageSize]="pagingData.pageSize"
+    [pageIndex]="pagingData.pageIndex"
     [pageSizeOptions]="[15, 30, 50]"
     (page)="loadCategories($event)"
-    *ngIf="!loading && totalCount > pageSize"
+    *ngIf="!loading && pagingData.total > pagingData.pageSize"
     showFirstLastButtons>
   </mat-paginator>
   <mat-progress-bar *ngIf="loading" mode="indeterminate"></mat-progress-bar>

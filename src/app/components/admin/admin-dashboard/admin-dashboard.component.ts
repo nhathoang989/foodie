@@ -107,7 +107,9 @@ export class AdminDashboardComponent implements OnInit, OnDestroy {
     const customers$ = this.customerService.getAllCustomers();
 
     combineLatest([orders$, dishes$, customers$]).subscribe({
-      next: ([orders, dishes, customers]) => {
+      next: ([orders, dishesResult, customersResult]) => {
+        const dishes = Array.isArray(dishesResult) ? dishesResult : (dishesResult.items || []);
+        const customers = Array.isArray(customersResult) ? customersResult : (customersResult.items || []);
         this.calculateMetrics(orders, dishes, customers);
         this.generateRecentActivities(orders);
         this.updateSystemHealth();

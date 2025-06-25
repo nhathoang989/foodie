@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseMixDbDataService } from './base-mixdb-data.service';
-import { Dish, DishFilter, PaginatedResponse } from '../models';
+import { Dish, DishFilter } from '../models';
+import { IPaginationResultModel } from '@mixcore/sdk-client';
 
 @Injectable({
   providedIn: 'root'
@@ -11,9 +12,9 @@ export class DishService extends BaseMixDbDataService<Dish> {
   protected tableName = 'mix_dish';
 
   /**
-   * Get dishes with filters
+   * Get dishes with filters (paginated)
    */
-  getDishes(filter: DishFilter = {}, page = 0, pageSize = 12): Observable<PaginatedResponse<Dish>> {
+  getDishes(filter: DishFilter = {}, page = 0, pageSize = 12): Observable<IPaginationResultModel<Dish>> {
     const queries: Array<{ fieldName: string; value: any; compareOperator: string }> = [];
 
     if (filter.categoryId) {
@@ -73,20 +74,11 @@ export class DishService extends BaseMixDbDataService<Dish> {
       queries
     });
 
-    return this.getPaginated(query).pipe(
-      map(result => ({
-        items: result.items,
-        total: result.total,
-        page: result.page,
-        pageSize: result.pageSize,
-        hasNext: (result.page + 1) * result.pageSize < result.total,
-        hasPrevious: result.page > 0
-      }))
-    );
+    return this.getAll(query);
   }
 
   /**
-   * Get recommended dishes
+   * Get recommended dishes (array only)
    */
   getRecommendedDishes(limit = 6): Observable<Dish[]> {
     const query = this.buildQuery({
@@ -102,27 +94,27 @@ export class DishService extends BaseMixDbDataService<Dish> {
       }]
     });
 
-    return this.getAll(query);
+    return this.getAll(query).pipe(map(result => result.items));
   }
 
   /**
    * Get dishes by category
    */
-  getDishesByCategory(categoryId: number, page = 0, pageSize = 12): Observable<PaginatedResponse<Dish>> {
+  getDishesByCategory(categoryId: number, page = 0, pageSize = 12): Observable<IPaginationResultModel<Dish>> {
     return this.getDishes({ categoryId }, page, pageSize);
   }
 
   /**
    * Search dishes by name
    */
-  searchDishes(searchTerm: string, page = 0, pageSize = 12): Observable<PaginatedResponse<Dish>> {
+  searchDishes(searchTerm: string, page = 0, pageSize = 12): Observable<IPaginationResultModel<Dish>> {
     return this.getDishes({ search: searchTerm }, page, pageSize);
   }
 
   /**
    * Get available dishes only
    */
-  getAvailableDishes(page = 0, pageSize = 12): Observable<PaginatedResponse<Dish>> {
+  getAvailableDishes(page = 0, pageSize = 12): Observable<IPaginationResultModel<Dish>> {
     return this.getDishes({ availability: true }, page, pageSize);
   }
 

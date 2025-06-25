@@ -53,7 +53,8 @@ export class CheckoutComponent {
         method: ['card', Validators.required]
       })
     });
-    this.shippingService.getAllShippingOptions().subscribe(options => {
+    this.shippingService.getAllShippingOptions().subscribe(result => {
+      const options = Array.isArray(result) ? result : (result.items || []);
       this.shippingOptions = options;
       if (options.length > 0) {
         this.selectedShipping = options[0];

@@ -1,3 +1,10 @@
+export class PaginationModel {
+    pageIndex: number = 0;
+    page?: number;
+    pageSize: number = 10;
+    total?: number;
+    totalPage?: number;
+}
 export interface Dish {
   id?: number;
   name: string;
@@ -108,22 +115,6 @@ export interface ShippingOption {
   updated_at?: Date;
   created_by?: string;
   created_date_time?: Date;
-}
-
-// Response interfaces for API
-export interface ApiResponse<T> {
-  items: T[];
-  total?: number;
-  page?: number;
-  pageSize?: number;
-}
-
-export interface PaginatedResponse<T> extends ApiResponse<T> {
-  total: number;
-  page: number;
-  pageSize: number;
-  hasNext?: boolean;
-  hasPrevious?: boolean;
 }
 
 // Cart state management

@@ -7,7 +7,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule, NgIf, CurrencyPipe } from '@angular/common';
 import { OrderService } from '../../../services/order.service';
-import { Order } from '../../../models';
+import { Order, PaginationModel } from '../../../models';
 import { AdminOrderDetailComponent } from '../admin-order-detail/admin-order-detail.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 
@@ -32,9 +32,7 @@ export class AdminOrderListComponent implements OnInit {
   orders: Order[] = [];
   loading = false;
   error: string | null = null;
-  pageIndex = 0;
-  pageSize = 15;
-  totalCount = 0;
+  pagingData = { total: 0, pageSize: 15, pageIndex: 0 };
 
   constructor(
     private orderService: OrderService,
@@ -47,26 +45,20 @@ export class AdminOrderListComponent implements OnInit {
 
   loadOrders(event?: PageEvent) {
     if (event) {
-      this.pageIndex = event.pageIndex;
-      this.pageSize = event.pageSize;
+      this.pagingData.pageIndex = event.pageIndex;
+      this.pagingData.pageSize = event.pageSize;
     }
     this.loading = true;
     const query = {
-      pageIndex: this.pageIndex,
-      pageSize: this.pageSize,
+      pagingData: this.pagingData,
       orderBy: 'id',
       direction: 'desc',
       loadNestedData: false
     };
     this.orderService.getAll(query as any).subscribe({
       next: (result: any) => {
-        if (Array.isArray(result)) {
-          this.orders = result;
-          this.totalCount = result.length < this.pageSize && this.pageIndex === 0 ? result.length : 1000;
-        } else {
-          this.orders = result.items || [];
-          this.totalCount = result.totalCount || this.orders.length;
-        }
+        this.orders = result.items || [];
+        this.pagingData = result.pagingData || this.pagingData;
         this.loading = false;
       },
       error: (err: any) => {

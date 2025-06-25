@@ -27,7 +27,8 @@ export class CartDetailsComponent implements OnInit {  @Input() showSummaryOnly 
   ) {}
   ngOnInit(): void {
     this.cartService.cartState$.subscribe(state => this.cartState.set(state));
-    this.shippingService.getAllShippingOptions().subscribe(options => {
+    this.shippingService.getAllShippingOptions().subscribe(result => {
+      const options = Array.isArray(result) ? result : (result.items || []);
       this.shippingOptions.set(options);
       if (options.length > 0 && !this.selectedShipping()) {
         this.selectedShipping.set(options[0]);

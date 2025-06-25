@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, from } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
-import { MixcoreClient, MixQuery, IMixFilter } from '@mixcore/sdk-client';
+import { MixcoreClient, MixQuery, IMixFilter, IPaginationResultModel } from '@mixcore/sdk-client';
 import { environment } from '../../environments/environment';
 
 @Injectable({
@@ -16,30 +16,12 @@ export abstract class BaseMixDbDataService<T> {
       endpoint: environment.apiBaseUrl
     });
   }
-
+  
   /**
-   * Get paginated data from the table
+   * Get all data (paginated by default)
    */
-  getAll(query: MixQuery): Observable<T[]> {
-    return from(this.mixcoreClient.database.getData<T>(this.tableName, query))
-      .pipe(
-        map(result => result.items || []),
-        catchError(this.handleError<T[]>('getAll', []))
-      );
-  }  /**
-   * Get paginated data with pagination info
-   */
-  getPaginated(query: MixQuery): Observable<{ items: T[], total: number, page: number, pageSize: number }> {
-    return from(this.mixcoreClient.database.getData<T>(this.tableName, query))
-      .pipe(
-        map(result => ({
-          items: result.items || [],
-          total: (result as any).total || result.items?.length || 0,
-          page: (query.pageIndex || 0),
-          pageSize: query.pageSize || 10
-        })),
-        catchError(this.handleError<{ items: T[], total: number, page: number, pageSize: number }>('getPaginated', { items: [], total: 0, page: 0, pageSize: 10 }))
-      );
+  getAll(query: MixQuery): Observable<IPaginationResultModel<T>> {
+    return from(this.mixcoreClient.database.getData<T>(this.tableName, query));
   }
 
   /**

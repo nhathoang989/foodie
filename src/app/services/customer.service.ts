@@ -2,31 +2,30 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BaseMixDbDataService } from './base-mixdb-data.service';
 import { Customer } from '../models';
-import { MixQuery } from '@mixcore/sdk-client';
+import { MixQuery, IPaginationResultModel } from '@mixcore/sdk-client';
 
 @Injectable({ providedIn: 'root' })
 export class CustomerService extends BaseMixDbDataService<Customer> {
   protected tableName = 'mix_customer';
 
   /**
-   * Get all customers (optionally paginated)
+   * Get all customers (paginated)
    */
-  getAllCustomers(query: Partial<MixQuery> = {}): Observable<Customer[]> {
-    const defaultQuery = {
-      pageIndex: 0,
-      pageSize: 100,
+  getAllCustomers(pageIndex = 0, pageSize = 100): Observable<IPaginationResultModel<Customer>> {
+    const query = this.buildQuery({
+      pageIndex,
+      pageSize,
       orderBy: 'name',
       direction: 'asc',
-      loadNestedData: true,
-      ...query
-    };
-    return this.getAll(defaultQuery as MixQuery);
+      loadNestedData: true
+    });
+    return this.getAll(query);
   }
 
   /**
    * Get paginated customers with optional filters
    */
-  getPaginatedCustomers(query: Partial<MixQuery> = {}): Observable<{ items: Customer[], total: number, page: number, pageSize: number }> {
+  getPaginatedCustomers(query: Partial<MixQuery> = {}): Observable<IPaginationResultModel<Customer>> {
     const defaultQuery = {
       pageIndex: 0,
       pageSize: 20,
@@ -35,7 +34,7 @@ export class CustomerService extends BaseMixDbDataService<Customer> {
       loadNestedData: true,
       ...query
     };
-    return this.getPaginated(defaultQuery as MixQuery);
+    return this.getAll(defaultQuery as MixQuery);
   }
 
   /**

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseMixDbDataService } from './base-mixdb-data.service';
 import { ShippingOption } from '../models';
+import { IPaginationResultModel } from '@mixcore/sdk-client';
 
 @Injectable({
   providedIn: 'root'
@@ -11,12 +12,12 @@ export class ShippingService extends BaseMixDbDataService<ShippingOption> {
   protected tableName = 'mix_shipping_option';
 
   /**
-   * Get all shipping options
+   * Get all shipping options (paginated)
    */
-  getAllShippingOptions(): Observable<ShippingOption[]> {
+  getAllShippingOptions(pageIndex = 0, pageSize = 50): Observable<IPaginationResultModel<ShippingOption>> {
     const query = this.buildQuery({
-      pageIndex: 0,
-      pageSize: 50, // Assuming we won't have more than 50 shipping options
+      pageIndex,
+      pageSize, // Assuming we won't have more than 50 shipping options
       orderBy: 'name',
       direction: 'asc',
       loadNestedData: false
@@ -33,12 +34,12 @@ export class ShippingService extends BaseMixDbDataService<ShippingOption> {
   }
 
   /**
-   * Get free shipping options
+   * Get free shipping options (paginated)
    */
-  getFreeShippingOptions(): Observable<ShippingOption[]> {
+  getFreeShippingOptions(pageIndex = 0, pageSize = 50): Observable<IPaginationResultModel<ShippingOption>> {
     const query = this.buildQuery({
-      pageIndex: 0,
-      pageSize: 50,
+      pageIndex,
+      pageSize,
       orderBy: 'name',
       direction: 'asc',
       loadNestedData: false,
@@ -53,12 +54,12 @@ export class ShippingService extends BaseMixDbDataService<ShippingOption> {
   }
 
   /**
-   * Get paid shipping options
+   * Get paid shipping options (paginated)
    */
-  getPaidShippingOptions(): Observable<ShippingOption[]> {
+  getPaidShippingOptions(pageIndex = 0, pageSize = 50): Observable<IPaginationResultModel<ShippingOption>> {
     const query = this.buildQuery({
-      pageIndex: 0,
-      pageSize: 50,
+      pageIndex,
+      pageSize,
       orderBy: 'fee',
       direction: 'asc',
       loadNestedData: false,
@@ -84,7 +85,7 @@ export class ShippingService extends BaseMixDbDataService<ShippingOption> {
   /**
    * Get cheapest shipping option
    */
-  getCheapestShippingOption(): Observable<ShippingOption> {
+  getCheapestShippingOption(): Observable<ShippingOption | undefined> {
     const query = this.buildQuery({
       pageIndex: 0,
       pageSize: 1,
@@ -94,7 +95,7 @@ export class ShippingService extends BaseMixDbDataService<ShippingOption> {
     });
 
     return this.getAll(query).pipe(
-      map((options: ShippingOption[]) => options[0])
+      map(result => result.items[0])
     );
   }
 }

@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseMixDbDataService } from './base-mixdb-data.service';
-import { Order, OrderItem, Customer, PaginatedResponse } from '../models';
+import { Order, OrderItem, Customer } from '../models';
+import { IPaginationResultModel } from '@mixcore/sdk-client';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +27,7 @@ export class OrderService extends BaseMixDbDataService<Order> {
   /**
    * Get orders for a customer
    */
-  getCustomerOrders(customerId: number, page = 0, pageSize = 10): Observable<PaginatedResponse<Order>> {
+  getCustomerOrders(customerId: number, page = 0, pageSize = 10): Observable<IPaginationResultModel<Order>> {
     const query = this.buildQuery({
       pageIndex: page,
       pageSize,
@@ -40,16 +41,7 @@ export class OrderService extends BaseMixDbDataService<Order> {
       }]
     });
 
-    return this.getPaginated(query).pipe(
-      map(result => ({
-        items: result.items,
-        total: result.total,
-        page: result.page,
-        pageSize: result.pageSize,
-        hasNext: (result.page + 1) * result.pageSize < result.total,
-        hasPrevious: result.page > 0
-      }))
-    );
+    return this.getAll(query);
   }
 
   /**
@@ -69,7 +61,7 @@ export class OrderService extends BaseMixDbDataService<Order> {
   /**
    * Get orders by status
    */
-  getOrdersByStatus(status: string, page = 0, pageSize = 10): Observable<PaginatedResponse<Order>> {
+  getOrdersByStatus(status: string, page = 0, pageSize = 10): Observable<IPaginationResultModel<Order>> {
     const query = this.buildQuery({
       pageIndex: page,
       pageSize,
@@ -83,16 +75,7 @@ export class OrderService extends BaseMixDbDataService<Order> {
       }]
     });
 
-    return this.getPaginated(query).pipe(
-      map(result => ({
-        items: result.items,
-        total: result.total,
-        page: result.page,
-        pageSize: result.pageSize,
-        hasNext: (result.page + 1) * result.pageSize < result.total,
-        hasPrevious: result.page > 0
-      }))
-    );
+    return this.getAll(query);
   }
 
   /**
@@ -114,13 +97,15 @@ export class OrderService extends BaseMixDbDataService<Order> {
       loadNestedData: true
     });
 
-    return this.getAll(query);
+    return this.getAll(query).pipe(
+      map(result => (result.items))
+    );;
   }
 
   /**
    * Search orders by customer name or order ID
    */
-  searchOrders(searchTerm: string, page = 0, pageSize = 10): Observable<PaginatedResponse<Order>> {
+  searchOrders(searchTerm: string, page = 0, pageSize = 10): Observable<IPaginationResultModel<Order>> {
     // First try to search by order ID if the search term is numeric
     const isNumeric = /^\d+$/.test(searchTerm);
     
@@ -141,15 +126,6 @@ export class OrderService extends BaseMixDbDataService<Order> {
       }]
     });
 
-    return this.getPaginated(query).pipe(
-      map(result => ({
-        items: result.items,
-        total: result.total,
-        page: result.page,
-        pageSize: result.pageSize,
-        hasNext: (result.page + 1) * result.pageSize < result.total,
-        hasPrevious: result.page > 0
-      }))
-    );
+    return this.getAll(query);
   }
 }

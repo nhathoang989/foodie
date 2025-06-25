@@ -73,7 +73,7 @@ export class AdminDishFormComponent {
       loadNestedData: false
     };
     this.categoryService.getAll(query as any).subscribe({
-      next: (cats: Category[]) => this.categories = cats,
+      next: (cats: any) => this.categories = Array.isArray(cats) ? cats : (cats.items || []),
       error: (_err: any) => {}
     });
   }

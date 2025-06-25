@@ -9,7 +9,8 @@ import { CategoryService } from '../../services/category.service';
 import { CartService } from '../../services/cart.service';
 import { NotificationService } from '../../services/notification.service';
 import { LoadingService } from '../../services/loading.service';
-import { Dish, Category, PaginatedResponse, DishFilter, CartState } from '../../models';
+import { Dish, Category, DishFilter, CartState } from '../../models';
+import { IPaginationResultModel } from '@mixcore/sdk-client';
 
 @Component({
   selector: 'app-homepage',
@@ -106,7 +107,8 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     ]).pipe(
       takeUntil(this.destroy$)
     ).subscribe({
-      next: ([categories, recommended]) => {
+      next: ([categoriesResult, recommended]) => {
+        const categories = Array.isArray(categoriesResult) ? categoriesResult : (categoriesResult.items || []);
         this.categories.set(categories);
         this.recommendedDishes.set(recommended);
         this.loadDishes();
@@ -130,11 +132,14 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.dishService.getDishes(filter, this.currentPage(), 12)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (response: PaginatedResponse<Dish>) => {
+        next: (response: IPaginationResultModel<Dish>) => {
           this.dishes.set(response.items);
-          this.totalPages.set(Math.ceil(response.total / response.pageSize));
-          this.hasNext.set(response.hasNext || false);
-          this.hasPrevious.set(response.hasPrevious || false);
+          const total = response.pagingData?.total ?? 0;
+          const pageSize = response.pagingData?.pageSize ?? 12;
+          this.totalPages.set(Math.ceil(total / pageSize));
+          // If you want hasNext/hasPrevious, compute them here:
+          this.hasNext.set((response.pagingData?.pageIndex ?? 0) < this.totalPages() - 1);
+          this.hasPrevious.set((response.pagingData?.pageIndex ?? 0) > 0);
           if (this.searchTerm()) {
             this.scrollToResults();
           }

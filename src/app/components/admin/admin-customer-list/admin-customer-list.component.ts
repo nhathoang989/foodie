@@ -10,6 +10,7 @@ import { CustomerService } from '../../../services/customer.service';
 import { Customer } from '../../../models';
 import { AdminCustomerFormComponent } from '../admin-customer-form/admin-customer-form.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { IPaginationResultModel } from '@mixcore/sdk-client';
 
 @Component({
   selector: 'app-admin-customer-list',
@@ -31,9 +32,7 @@ export class AdminCustomerListComponent implements OnInit {
   customers: Customer[] = [];
   loading = false;
   error: string | null = null;
-  pageIndex = 0;
-  pageSize = 15;
-  totalCount = 0;
+  pagingData = { total: 0, pageSize: 15, pageIndex: 0 };
 
   constructor(
     private customerService: CustomerService,
@@ -46,26 +45,16 @@ export class AdminCustomerListComponent implements OnInit {
 
   loadCustomers(event?: PageEvent) {
     if (event) {
-      this.pageIndex = event.pageIndex;
-      this.pageSize = event.pageSize;
+      this.pagingData.pageIndex = event.pageIndex;
+      this.pagingData.pageSize = event.pageSize;
     }
     this.loading = true;
-    const query = {
-      pageIndex: this.pageIndex,
-      pageSize: this.pageSize,
-      orderBy: 'name',
-      direction: 'asc',
-      loadNestedData: false
-    };
-    this.customerService.getAll(query as any).subscribe({
-      next: (result: any) => {
-        if (Array.isArray(result)) {
-          this.customers = result;
-          this.totalCount = result.length < this.pageSize && this.pageIndex === 0 ? result.length : 1000;
-        } else {
-          this.customers = result.items || [];
-          this.totalCount = result.totalCount || this.customers.length;
-        }
+    this.customerService.getAllCustomers(this.pagingData.pageIndex, this.pagingData.pageSize).subscribe({
+      next: (result: IPaginationResultModel<Customer>) => {
+        this.customers = result.items || [];
+        this.pagingData.total = result.pagingData?.total ?? this.customers.length;
+        this.pagingData.pageIndex = result.pagingData?.pageIndex ?? 0;
+        this.pagingData.pageSize = result.pagingData?.pageSize ?? 15;
         this.loading = false;
       },
       error: (err: any) => {

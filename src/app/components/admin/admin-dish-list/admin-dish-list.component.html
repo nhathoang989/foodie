@@ -10,9 +10,27 @@
       <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
       <mat-cell *matCellDef="let dish">{{ dish.price | currency }}</mat-cell>
     </ng-container>
-    <ng-container matColumnDef="category">
-      <mat-header-cell *matHeaderCellDef>Category</mat-header-cell>
-      <mat-cell *matCellDef="let dish">{{ dish.category_id }}</mat-cell>
+    <ng-container matColumnDef="image">
+      <mat-header-cell *matHeaderCellDef>Image</mat-header-cell>
+      <mat-cell *matCellDef="let dish">
+        <div class="dish-image-container">
+          <img 
+            *ngIf="dish.image_url; else noImage" 
+            [src]="dish.image_url" 
+            [alt]="dish.name + ' image'"
+            class="dish-thumbnail clickable-image"
+            (error)="onImageError($event)"
+            (click)="openImagePopup(dish)"
+            [title]="'Click to view ' + dish.name + ' image'"
+          />
+          <ng-template #noImage>
+            <div class="no-image-placeholder">
+              <mat-icon>image</mat-icon>
+              <span>No Image</span>
+            </div>
+          </ng-template>
+        </div>
+      </mat-cell>
     </ng-container>
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>
@@ -21,8 +39,8 @@
         <button mat-icon-button color="warn" (click)="deleteDish(dish)"><mat-icon>delete</mat-icon></button>
       </mat-cell>
     </ng-container>
-    <mat-header-row *matHeaderRowDef="['name', 'price', 'category', 'actions']"></mat-header-row>
-    <mat-row *matRowDef="let row; columns: ['name', 'price', 'category', 'actions'];"></mat-row>
+    <mat-header-row *matHeaderRowDef="['image', 'name', 'price', 'actions']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['image', 'name', 'price', 'actions'];"></mat-row>
   </mat-table>
   <mat-paginator
     [length]="pagingData.total"

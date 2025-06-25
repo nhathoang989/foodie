@@ -18,7 +18,7 @@
       <li role="none"><a routerLink="/contact" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">✉️</span><span *ngIf="!isScrolled">Contact</span></a></li>
       <li role="none"><a routerLink="/orders" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">📦</span><span *ngIf="!isScrolled">My Orders</span></a></li>
       <!-- Admin Links (Desktop) -->
-      <ng-container *ngIf="currentUser?.roles?.includes('SuperAdmin') || currentUser?.roles?.includes('Admin')">
+      <ng-container *ngIf="currentUser?.roles?.includes('SuperAdmin') || currentUser?.roles?.includes('Owner')">
         <li role="none" class="admin-popover-trigger" style="position:relative;">
           <a href="#" class="nav-link admin-toggle" (click)="$event.preventDefault(); toggleAdminNav();" [attr.aria-expanded]="isAdminNavOpen" aria-controls="admin-nav-desktop">
             <span *ngIf="!isScrolled">Admin Panel</span>
@@ -84,7 +84,6 @@
             (keydown)="onSearchEnter($event)"
             (input)="onSearchInput()"
             (focus)="isSearchFocused = true"
-            (blur)="onSearchBlur()"
             #searchInput
           />
           <span class="search-icon">🔍</span>
@@ -93,12 +92,12 @@
             <div 
               *ngFor="let dish of searchResults" 
               class="search-result-item"
-              (click)="selectDish(dish)"
+              (click)="selectDish(dish); $event.stopPropagation()"
             >
               <img [src]="dish.image_url" [alt]="dish.name" class="result-image">
               <div class="result-content">
                 <span class="result-name">{{dish.name}}</span>
-                <span class="result-price">${{dish.price}}</span>
+                <span class="result-price"> ${{dish.price}}</span>
               </div>
             </div>
             <div class="search-actions" *ngIf="searchResults.length >= 5">
@@ -148,7 +147,7 @@
       <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">Contact</a></li>
       <li><a routerLink="/orders" routerLinkActive="active" (click)="closeMobileMenu()">My Orders</a></li>
       <!-- Admin Links (Mobile) -->
-      <ng-container *ngIf="currentUser?.roles?.includes('SuperAdmin') || currentUser?.roles?.includes('Admin')">
+      <ng-container *ngIf="currentUser?.roles?.includes('SuperAdmin') || currentUser?.roles?.includes('Owner')">
         <li>
           <a href="#" class="nav-link admin-toggle" (click)="$event.preventDefault(); toggleAdminNav();" [attr.aria-expanded]="isAdminNavOpen" aria-controls="admin-nav-mobile">
             Admin Panel

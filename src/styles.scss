@@ -303,3 +303,19 @@ body {
   opacity: 0.6;
   filter: grayscale(100%);
 }
+
+// Global styles for image popup dialog
+.image-popup-dialog {
+  .mat-mdc-dialog-container {
+    padding: 0;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 12px;
+  }
+  
+  .mat-mdc-dialog-content {
+    padding: 0;
+    margin: 0;
+    max-height: none;
+  }
+}

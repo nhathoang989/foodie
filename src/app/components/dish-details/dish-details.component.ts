@@ -4,6 +4,7 @@ import { DishService } from '../../services/dish.service';
 import { CartService } from '../../services/cart.service';
 import { Dish, Category } from '../../models';
 import { CommonModule } from '@angular/common';
+import { marked } from 'marked';
 
 @Component({
   selector: 'app-dish-details',
@@ -106,5 +107,15 @@ export class DishDetailsComponent implements OnInit {
   // Scroll to top when viewing a related dish
   scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  get renderedDescription(): string {
+    const d = this.dish();
+    return d && d.description ? marked(d.description, { async: false }) : '';
+  }
+
+  get renderedExcerpt(): string {
+    const d = this.dish();
+    return d && d.excerpt ? marked(d.excerpt, { async: false }) : '';
   }
 }

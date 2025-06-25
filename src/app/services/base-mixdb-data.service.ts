@@ -13,66 +13,60 @@ export abstract class BaseMixDbDataService<T> {
 
   constructor() {
     this.mixcoreClient = new MixcoreClient({
-      endpoint: environment.apiBaseUrl
+      endpoint: environment.apiBaseUrl,
+      tokenKey: 'mix_access_token',
+      refreshTokenKey: 'mix_refresh_token'
     });
-  }
-  
-  /**
+  }  /**
    * Get all data (paginated by default)
    */
   getAll(query: MixQuery): Observable<IPaginationResultModel<T>> {
-    return from(this.mixcoreClient.database.getData<T>(this.tableName, query));
-  }
-
-  /**
+    return from(this.mixcoreClient.table.filterData(this.tableName, query)) as Observable<IPaginationResultModel<T>>;
+  }  /**
    * Get single record by ID
    */
   getById(id: string | number): Observable<T> {
-    return from(this.mixcoreClient.database.getDataById<T>(this.tableName, id.toString()))
+    return from(this.mixcoreClient.table.getDataById(this.tableName, id.toString()) as Promise<T>)
       .pipe(
         catchError(this.handleError<T>('getById'))
       );
   }
-
   /**
    * Create a new record
    */
   create(data: Partial<T>): Observable<T> {
-    return from(this.mixcoreClient.database.createData<T>(this.tableName, data))
+    return from(this.mixcoreClient.table.createData(this.tableName, data))
       .pipe(
         map(item => item as T),
         catchError(this.handleError<T>('create'))
       );
   }
-
   /**
    * Update an existing record
    */
   update(id: string | number, data: Partial<T>): Observable<T> {
-    return from(this.mixcoreClient.database.updateData<T>(this.tableName, id.toString(), data))
+    return from(this.mixcoreClient.table.updateData(this.tableName, id.toString(), data))
       .pipe(
         map(item => item as T),
         catchError(this.handleError<T>('update'))
       );
   }
-
   /**
    * Delete a record
    */
   delete(id: string | number): Observable<void> {
-    return from(this.mixcoreClient.database.deleteData(this.tableName, id.toString()))
+    return from(this.mixcoreClient.table.deleteData(this.tableName, id.toString()))
       .pipe(
         map(() => undefined),
         catchError(this.handleError<void>('delete'))
       );
   }
-
   /**
    * Create multiple records
    */
   createMany(data: Partial<T>[]): Observable<T[]> {
     const createPromises = data.map(item => 
-      this.mixcoreClient.database.createData<T>(this.tableName, item)
+      this.mixcoreClient.table.createData(this.tableName, item)
     );
     
     return from(Promise.all(createPromises))
@@ -116,7 +110,13 @@ export abstract class BaseMixDbDataService<T> {
       pageSize: options.pageSize || environment.dishesPerPage,
       orderBy: options.orderBy || 'id',
       direction: options.direction === 'desc' ? 'desc' : 'asc',
-      loadNestedData: options.loadNestedData || false
+      loadNestedData: options.loadNestedData || false,
+       sortByColumns: [
+        {
+          fieldName: options.orderBy || 'id',
+          direction: options.direction || 'asc'
+        }
+      ]
     };
 
     if (options.queries && options.queries.length > 0) {

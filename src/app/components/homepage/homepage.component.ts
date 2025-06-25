@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subject, combineLatest, debounceTime, distinctUntilChanged, takeUntil, Observable } from 'rxjs';
+import { marked } from 'marked';
 
 import { DishService } from '../../services/dish.service';
 import { CategoryService } from '../../services/category.service';
@@ -36,8 +37,8 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   // Filter state
   selectedCategory = signal<number | null>(null);
   searchTerm = signal('');
-  sortBy = signal<'name' | 'price'>('name');
-  sortDirection = signal<'asc' | 'desc'>('asc');
+  sortByColumn = signal<'name' | 'price'>('name');
+  sortByDirection = signal<'asc' | 'desc'>('asc');
 
   // Computed values
   filteredDishes = computed(() => {
@@ -149,7 +150,11 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     const filter: DishFilter = {
       categoryId: this.selectedCategory() || undefined,
       search: this.searchTerm() || undefined,
-      availability: true // Only show available dishes
+      availability: true, // Only show available dishes
+      sortBy: {
+        field: this.sortByColumn(),
+        direction: this.sortByDirection(),
+      },
     };
 
     this.dishService.getDishes(filter, this.currentPage(), this.pageSize)
@@ -290,8 +295,8 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   onSortChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
     const [sortBy, direction] = value.split('_');
-    this.sortBy.set(sortBy as 'name' | 'price');
-    this.sortDirection.set(direction as 'asc' | 'desc');
+    this.sortByColumn.set(sortBy as 'name' | 'price');
+    this.sortByDirection.set(direction as 'asc' | 'desc');
     this.loadDishes(true); // Reset dishes when sort changes
   }
 
@@ -365,6 +370,19 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     return slides;
   }
 
+  getBannerText(dish: Dish): string {
+    let text = dish.excerpt?.trim() ? dish.excerpt : dish.description || '';
+    if (text.length > 100) {
+      text = text.slice(0, 100).trim() + '...';
+    }
+    return text;
+  }
+
+  getBannerHtml(dish: Dish): string {
+    const text = this.getBannerText(dish);
+    return marked(text || '', { async: false });
+  }
+
   private updateUrlParams(): void {
     const queryParams: any = {};
     
@@ -402,5 +420,9 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   goToCart(): void {
     this.router.navigate(['/cart']);
+  }
+
+  goToDishDetails(dish: Dish) {
+    this.router.navigate(['/dish', dish.id]);
   }
 }

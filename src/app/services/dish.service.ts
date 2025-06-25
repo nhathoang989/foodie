@@ -68,8 +68,8 @@ export class DishService extends BaseMixDbDataService<Dish> {
     const query = this.buildQuery({
       pageIndex: page,
       pageSize,
-      orderBy: 'name',
-      direction: 'asc',
+      orderBy: filter.sortBy?.field || 'name',
+      direction: filter.sortBy?.direction || 'asc',
       loadNestedData: true,
       queries
     });

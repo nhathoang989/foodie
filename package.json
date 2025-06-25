@@ -20,8 +20,12 @@
     "@angular/platform-browser": "^19.2.0",
     "@angular/platform-browser-dynamic": "^19.2.0",
     "@angular/router": "^19.2.0",
-    "@mixcore/sdk-client": "^0.0.2-dev.7",
+    "@kolkov/ngx-gallery": "^2.0.1",
+    "@mixcore/sdk-client": "file:../../libs/mixcore-sdk-client/packages/sdk-client",
     "axios": "^1.10.0",
+    "marked": "^15.0.12",
+    "ngx-monaco-editor": "^12.0.0",
+    "prismjs": "^1.30.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

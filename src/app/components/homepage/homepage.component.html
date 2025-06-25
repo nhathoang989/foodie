@@ -24,8 +24,15 @@
         >
           <div class="slide-overlay">
             <div class="slide-content">
-              <h3>{{ dish.name }}</h3>
-              <p class="slide-description">{{ dish.description }}</p>
+              <h3>
+                <a
+                  (click)="goToDishDetails(dish)"
+                  style="cursor: pointer; color: inherit; text-decoration: underline"
+                >
+                  {{ dish.name }}
+                </a>
+              </h3>
+              <p class="slide-description" [innerHTML]="getBannerHtml(dish)"></p>
               <div class="slide-details">
                 <span class="slide-price">{{ formatPrice(dish.price) }}</span>
                 <span class="slide-time" *ngIf="dish.preparation_time"
@@ -77,7 +84,7 @@
       <div class="sort-controls">
         <select
           class="sort-select"
-          [value]="sortBy() + '_' + sortDirection()"
+          [value]="sortByColumn() + '_' + sortByDirection()"
           (change)="onSortChange($event)"
         >
           <option value="name_asc">Name (A-Z)</option>

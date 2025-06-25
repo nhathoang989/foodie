@@ -9,6 +9,7 @@ import { CommonModule, NgIf, CurrencyPipe } from '@angular/common';
 import { DishService } from '../../../services/dish.service';
 import { Dish } from '../../../models';
 import { AdminDishFormComponent } from '../admin-dish-form/admin-dish-form.component';
+import { ImagePopupComponent } from '../../shared/image-popup/image-popup.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { IPaginationResultModel } from '@mixcore/sdk-client';
 
@@ -81,6 +82,30 @@ export class AdminDishListComponent implements OnInit {
     this.dishService.delete(dish.id).subscribe({
       next: () => this.loadDishes(),
       error: (err: any) => this.error = err?.message || 'Delete failed'
+    });
+  }
+
+  onImageError(event: any) {
+    // Hide broken image and show placeholder
+    event.target.style.display = 'none';
+    const placeholder = event.target.parentElement.querySelector('.no-image-placeholder');
+    if (placeholder) {
+      placeholder.style.display = 'flex';
+    }
+  }
+
+  openImagePopup(dish: Dish) {
+    if (!dish.image_url) return;
+    
+    this.dialog.open(ImagePopupComponent, {
+      data: {
+        imageUrl: dish.image_url,
+        title: dish.name,
+        altText: `${dish.name} image`
+      },
+      maxWidth: '90vw',
+      maxHeight: '90vh',
+      panelClass: 'image-popup-dialog'
     });
   }
 }

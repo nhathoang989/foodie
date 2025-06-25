@@ -12,19 +12,20 @@
   </div>
   <div class="info-section">
     <h2>{{ d.name }}</h2>
-    <p class="description">{{ d.description }}</p>
+    <div class="excerpt" *ngIf="d.excerpt" [innerHTML]="renderedExcerpt"></div>
+    <div class="description" [innerHTML]="renderedDescription"></div>
     <div class="price-time">
       <span class="price">${{ d.price.toFixed(2) }}</span>
       <span class="prep-time" *ngIf="d.preparation_time">Prep: {{ d.preparation_time }} min</span>
     </div>
     <div class="nutrition" *ngIf="d.nutritional_info">
-      <strong>Nutrition:</strong> {{ d.nutritional_info }}
+      <strong>Nutrition: </strong> {{ d.nutritional_info }}
     </div>
     <div class="allergens" *ngIf="d.allergens">
-      <strong>Allergens:</strong> <span class="allergen-warning">{{ d.allergens }}</span>
+      <strong>Allergens: </strong> <span class="allergen-warning">{{ d.allergens }}</span>
     </div>
     <div class="ingredients" *ngIf="d.ingredients">
-      <strong>Ingredients:</strong> {{ d.ingredients }}
+      <strong>Ingredients: </strong> {{ d.ingredients }}
     </div>
     <div class="quantity-add">
       <button (click)="decreaseQty()">-</button>

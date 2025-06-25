@@ -207,6 +207,7 @@
       box-shadow: 0 10px 30px $shadow-medium;
       max-height: 400px;
       overflow-y: auto;
+      overflow-x: hidden;
       z-index: 1001;
       margin-top: 0.5rem;
       animation: slideDown 0.3s ease;

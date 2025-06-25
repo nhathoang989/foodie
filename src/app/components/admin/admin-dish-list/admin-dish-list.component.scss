@@ -8,25 +8,125 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
-.admin-dish-list { padding: 1rem; }
-mat-table { width: 100%; margin-top: 1rem; overflow-x: auto; display: block; }
-mat-header-cell, mat-cell { padding: 0.5rem; }
-button { margin-right: 0.5rem; }
+.admin-dish-list { 
+  padding: 1rem; 
+}
+
+mat-table { 
+  width: 100%; 
+  margin-top: 1rem; 
+  overflow-x: auto; 
+  display: block; 
+}
+
+mat-header-cell, mat-cell { 
+  padding: 0.5rem; 
+}
+
+button { 
+  margin-right: 0.5rem; 
+}
+
+// Dish image styles
+.dish-image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  
+  .dish-thumbnail {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    
+    &.clickable-image {
+      cursor: pointer;
+      
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        border: 2px solid #2196f3;
+      }
+      
+      &:active {
+        transform: scale(1.05);
+      }
+    }
+  }
+  
+  .no-image-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background-color: #f5f5f5;
+    border: 1px dashed #ddd;
+    border-radius: 8px;
+    color: #999;
+    
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+      margin-bottom: 2px;
+    }
+    
+    span {
+      font-size: 10px;
+      text-align: center;
+      line-height: 1;
+    }
+  }
+}
 
 @media (max-width: 768px) {
   .list-container {
     padding: 12px 4px;
   }
+  
   mat-header-cell, mat-cell {
     padding: 0.25rem;
     font-size: 14px;
   }
+  
   button {
     margin-bottom: 0.5rem;
     margin-right: 0;
     width: 100%;
   }
+  
   mat-table {
     font-size: 13px;
+  }
+  
+  .dish-image-container {
+    width: 40px;
+    height: 40px;
+    
+    .dish-thumbnail {
+      width: 35px;
+      height: 35px;
+    }
+    
+    .no-image-placeholder {
+      width: 35px;
+      height: 35px;
+      
+      mat-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+      }
+      
+      span {
+        font-size: 8px;
+      }
+    }
   }
 }

@@ -9,6 +9,7 @@ export interface Dish {
   id?: number;
   name: string;
   description?: string;
+  excerpt?: string;
   price: number;
   image_url?: string;
   thumbnail_urls?: string[];
@@ -142,6 +143,7 @@ export interface DishFilter {
   isRecommended?: boolean;
   availability?: boolean;
   search?: string;
+  sortBy?: SortOption;
 }
 
 export interface SortOption {

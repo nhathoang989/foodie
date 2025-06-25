@@ -223,11 +223,22 @@ $gray-700: #495057;
           );
             .slide-content {
             position: absolute;
-            bottom: 0;
+            top: 0;
             left: 0;
             right: 0;
             padding: 2rem;
             color: $white;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 220px;
+            max-height: 220px;
+            height: 220px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: relative;
+
               h3 {
               font-size: 1.5rem;
               margin: 0 0 0.5rem 0;
@@ -236,9 +247,15 @@ $gray-700: #495057;
             }
             
             .slide-description {
+              height: 75px;
+              max-height: 100px;
+              text-overflow: ellipsis;
+              white-space: normal;
               margin: 0 0 1rem 0;
               opacity: 0.9;
               line-height: 1.4;
+              word-break: break-word;
+              display: block;
             }
             
             .slide-details {
@@ -260,6 +277,8 @@ $gray-700: #495057;
             .order-btn {
               @include button-style($accent-color);
               width: 100%;
+              margin-top: auto;
+              align-self: stretch;
             }
           }
         }
@@ -715,5 +734,15 @@ $gray-700: #495057;
     .search-container .search-input {
       width: 200px;
     }
+  }
+}
+
+// Responsive: allow slide-content to shrink on small screens
+@media (max-width: 600px) {
+  .banner-section .banner-carousel .carousel-slides .slide .slide-overlay .slide-content {
+    min-height: 160px;
+    max-height: 160px;
+    height: 160px;
+    padding: 1rem;
   }
 }

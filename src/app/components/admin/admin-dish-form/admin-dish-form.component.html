@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>{{ data.dish ? 'Edit Dish' : 'Create Dish' }}</h2>
+<h2 mat-dialog-title>{{ data.dish ? 'Edit Dish 1' : 'Create Dish' }}</h2>
 <form [formGroup]="form" (ngSubmit)="submit()" mat-dialog-content>
   <mat-form-field appearance="fill" class="w-100">
     <mat-label>Name</mat-label>
@@ -6,9 +6,16 @@
     <mat-error *ngIf="form.get('name')?.hasError('required')">Name is required</mat-error>
   </mat-form-field>
 
+  <app-markdown-editor
+    formControlName="description"
+    label="Description"
+    placeholder="Enter dish description in markdown format. You can use **bold**, *italic*, ## headings, [links](url), and more...">
+  </app-markdown-editor>
+
   <mat-form-field appearance="fill" class="w-100">
-    <mat-label>Description</mat-label>
-    <textarea matInput formControlName="description"></textarea>
+    <mat-label>Excerpt</mat-label>
+    <input matInput formControlName="excerpt" maxlength="255" placeholder="Short summary or teaser for the dish (optional)" />
+    <mat-hint align="end">{{ form.get('excerpt')?.value?.length || 0 }}/255</mat-hint>
   </mat-form-field>
 
   <mat-form-field appearance="fill" class="w-100">
@@ -31,19 +38,65 @@
     <mat-error *ngIf="form.get('inventory')?.hasError('required')">Inventory is required</mat-error>
   </mat-form-field>
 
-  <mat-checkbox formControlName="is_recommended">Recommended</mat-checkbox>
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Ingredients</mat-label>
+    <textarea matInput formControlName="ingredients" placeholder="List main ingredients separated by commas"></textarea>
+  </mat-form-field>
 
-  <div class="image-upload">
-    <label>Image</label>
-    <input type="file" (change)="onFileChange($event)" accept="image/*" />
-    <img *ngIf="form.value.image_url" [src]="form.value.image_url" alt="Dish image" class="preview" />
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Allergens</mat-label>
+    <textarea matInput formControlName="allergens" placeholder="List allergens (e.g., Contains nuts, dairy, gluten)"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Nutritional Information</mat-label>
+    <textarea matInput formControlName="nutritional_info" placeholder="Calories, proteins, carbs, etc."></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="w-100">
+    <mat-label>Preparation Time (minutes)</mat-label>
+    <input matInput type="number" formControlName="preparation_time" min="0" />
+  </mat-form-field>
+
+  <div class="checkbox-group">
+    <mat-checkbox formControlName="is_recommended">Recommended Dish</mat-checkbox>
+    <mat-checkbox formControlName="availability">Available for Order</mat-checkbox>
   </div>
 
-  <mat-error *ngIf="error">{{ error }}</mat-error>
+  <div class="image-upload-section">
+    <mat-form-field appearance="fill" class="w-100">
+      <mat-label>Image URL</mat-label>
+      <input matInput formControlName="image_url" placeholder="Or upload an image below" />
+    </mat-form-field>
+
+    <div class="image-upload">
+      <label class="upload-label">
+        <span>Choose Image File</span>
+        <input type="file" (change)="onFileChange($event)" accept="image/*" class="file-input" />
+      </label>
+      
+      <div *ngIf="imagePreview" class="image-preview">
+        <img [src]="imagePreview" alt="Image preview" class="preview-image" />
+        <p class="preview-text">{{ imageFile ? 'New image selected' : 'Current image' }}</p>
+      </div>
+      
+      <div *ngIf="uploadingImage" class="upload-progress">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        <p>Uploading image...</p>
+      </div>
+    </div>
+  </div>
+
+  <mat-error *ngIf="error" class="error-message">{{ error }}</mat-error>
 </form>
 <mat-dialog-actions align="end">
-  <button mat-button (click)="cancel()" [disabled]="loading">Cancel</button>
-  <button mat-flat-button color="primary" (click)="submit()" [disabled]="form.invalid || loading">
-    {{ data.dish ? 'Update' : 'Create' }}
+  <button mat-button (click)="cancel()" [disabled]="loading || uploadingImage">Cancel</button>
+  <button mat-flat-button color="primary" (click)="submit()" [disabled]="form.invalid || loading || uploadingImage">
+    <span *ngIf="loading || uploadingImage">
+      {{ uploadingImage ? 'Uploading...' : (data.dish ? 'Updating...' : 'Creating...') }}
+    </span>
+    <span *ngIf="!loading && !uploadingImage">
+      {{ data.dish ? 'Update' : 'Create' }}
+    </span>
   </button>
 </mat-dialog-actions>

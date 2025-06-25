@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, signal, computed, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, signal, computed, ViewChild, ElementRef, AfterViewInit, HostListener, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -17,7 +17,8 @@ import { IPaginationResultModel } from '@mixcore/sdk-client';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.scss']
+  styleUrls: ['./homepage.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$ = new Subject<void>();
@@ -28,10 +29,9 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   categories = signal<Category[]>([]);
   recommendedDishes = signal<Dish[]>([]);
   currentPage = signal(0);
-  totalPages = signal(0);
-  hasNext = signal(false);
-  hasPrevious = signal(false);
+  hasMoreDishes = signal(true);
   isLoading = signal(false);
+  isLoadingMore = signal(false);
   
   // Filter state
   selectedCategory = signal<number | null>(null);
@@ -55,6 +55,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     
     return filtered;
   });
+
   // Banner carousel state
   currentBannerIndex = signal(0);
   bannerInterval: any;
@@ -63,6 +64,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild('dishGridSection') dishGridSection!: ElementRef<HTMLElement>;
   private pendingScrollToResults = false;
+  private readonly pageSize = 12;
 
   constructor(
     private dishService: DishService,
@@ -98,6 +100,22 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     }
   }
 
+  // Listen for scroll events to implement infinite scroll
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event): void {
+    if (this.isLoadingMore() || !this.hasMoreDishes()) {
+      return;
+    }
+
+    const threshold = 100; // Start loading when 100px from bottom
+    const position = window.innerHeight + window.scrollY;
+    const height = document.documentElement.scrollHeight;
+
+    if (position >= height - threshold) {
+      this.loadMoreDishes();
+    }
+  }
+
   private loadInitialData(): void {
     this.isLoading.set(true);
     
@@ -111,7 +129,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
         const categories = Array.isArray(categoriesResult) ? categoriesResult : (categoriesResult.items || []);
         this.categories.set(categories);
         this.recommendedDishes.set(recommended);
-        this.loadDishes();
+        this.loadDishes(true); // Reset dishes on initial load
         this.isLoading.set(false);
       },
       error: (error) => {
@@ -122,31 +140,91 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  private loadDishes(): void {
+  private loadDishes(reset: boolean = false): void {
+    if (reset) {
+      this.currentPage.set(0);
+      this.hasMoreDishes.set(true);
+    }
+
     const filter: DishFilter = {
       categoryId: this.selectedCategory() || undefined,
       search: this.searchTerm() || undefined,
       availability: true // Only show available dishes
     };
 
-    this.dishService.getDishes(filter, this.currentPage(), 12)
+    this.dishService.getDishes(filter, this.currentPage(), this.pageSize)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response: IPaginationResultModel<Dish>) => {
-          this.dishes.set(response.items);
+          const newDishes = response.items;
+          
+          if (reset) {
+            this.dishes.set(newDishes);
+          } else {
+            // Append new dishes to existing ones
+            const currentDishes = this.dishes();
+            const updatedDishes = [...currentDishes, ...newDishes];
+            this.dishes.set(updatedDishes);
+          }
+          
+          // Update pagination state
           const total = response.pagingData?.total ?? 0;
-          const pageSize = response.pagingData?.pageSize ?? 12;
-          this.totalPages.set(Math.ceil(total / pageSize));
-          // If you want hasNext/hasPrevious, compute them here:
-          this.hasNext.set((response.pagingData?.pageIndex ?? 0) < this.totalPages() - 1);
-          this.hasPrevious.set((response.pagingData?.pageIndex ?? 0) > 0);
-          if (this.searchTerm()) {
+          const currentPage = response.pagingData?.pageIndex ?? 0;
+          const totalPages = Math.ceil(total / this.pageSize);
+          
+          this.hasMoreDishes.set(currentPage < totalPages - 1);
+          
+          if (reset && this.searchTerm()) {
             this.scrollToResults();
           }
         },
         error: (error) => {
           console.error('Error loading dishes:', error);
           this.notificationService.showError('Failed to load dishes. Please try again.');
+        }
+      });
+  }
+
+  private loadMoreDishes(): void {
+    if (this.isLoadingMore() || !this.hasMoreDishes()) {
+      return;
+    }
+
+    this.isLoadingMore.set(true);
+    const nextPage = this.currentPage() + 1;
+    this.currentPage.set(nextPage);
+
+    const filter: DishFilter = {
+      categoryId: this.selectedCategory() || undefined,
+      search: this.searchTerm() || undefined,
+      availability: true
+    };
+
+    this.dishService.getDishes(filter, nextPage, this.pageSize)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (response: IPaginationResultModel<Dish>) => {
+          const newDishes = response.items;
+          
+          // Append new dishes to existing ones
+          const currentDishes = this.dishes();
+          const updatedDishes = [...currentDishes, ...newDishes];
+          this.dishes.set(updatedDishes);
+          
+          // Update pagination state
+          const total = response.pagingData?.total ?? 0;
+          const currentPage = response.pagingData?.pageIndex ?? 0;
+          const totalPages = Math.ceil(total / this.pageSize);
+          
+          this.hasMoreDishes.set(currentPage < totalPages - 1);
+          this.isLoadingMore.set(false);
+        },
+        error: (error) => {
+          console.error('Error loading more dishes:', error);
+          this.notificationService.showError('Failed to load more dishes. Please try again.');
+          this.isLoadingMore.set(false);
+          // Revert page number on error
+          this.currentPage.set(this.currentPage() - 1);
         }
       });
   }
@@ -168,8 +246,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
       takeUntil(this.destroy$)
     ).subscribe(searchTerm => {
       this.searchTerm.set(searchTerm);
-      this.currentPage.set(0);
-      this.loadDishes();
+      this.loadDishes(true); // Reset dishes when searching
     });
   }
 
@@ -183,7 +260,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
       if (params['search']) {
         this.searchTerm.set(params['search']);
       }
-      this.loadDishes();
+      this.loadDishes(true); // Reset dishes when route changes
     });
   }
 
@@ -206,9 +283,8 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onCategorySelect(categoryId: number | null): void {
     this.selectedCategory.set(categoryId);
-    this.currentPage.set(0);
     this.updateUrlParams();
-    this.loadDishes();
+    this.loadDishes(true); // Reset dishes when category changes
   }
 
   onSortChange(event: Event): void {
@@ -216,14 +292,13 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     const [sortBy, direction] = value.split('_');
     this.sortBy.set(sortBy as 'name' | 'price');
     this.sortDirection.set(direction as 'asc' | 'desc');
-    this.loadDishes();
+    this.loadDishes(true); // Reset dishes when sort changes
   }
 
-  onPageChange(page: number): void {
-    this.currentPage.set(page);
-    this.loadDishes();
-    // Scroll to top
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  loadMoreManually(): void {
+    if (this.hasMoreDishes() && !this.isLoadingMore()) {
+      this.loadMoreDishes();
+    }
   }
 
   addToCart(dish: Dish, quantity: number = 1): void {

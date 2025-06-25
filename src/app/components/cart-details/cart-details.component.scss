@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use '../../../styles.scss' as *;
 
 .cart-details-container {
@@ -172,7 +173,7 @@
       margin-bottom: 0.7rem;
       cursor: pointer;
       transition: background 0.2s;
-      &:hover:enabled { background: darken($confirm-color, 10%); }
+      &:hover:enabled { background: color.adjust($confirm-color, $lightness: -10%); }
       &:disabled { background: $border-color; cursor: not-allowed; }
     }
     .clear-btn {
@@ -202,7 +203,7 @@
     transition: border 0.2s;
   }
   .shipping-select:focus {
-    border: 1.5px solid darken($accent-color, 10%);
+    border: 1.5px solid color.adjust($accent-color, $lightness: -10%);
     outline: none;
   }
 

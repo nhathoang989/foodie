@@ -207,29 +207,27 @@
       <p *ngIf="!searchTerm() && !selectedCategory()">
         No dishes available at the moment
       </p>
+    </div>    <!-- Load More Section -->
+    <div class="load-more-section" *ngIf="hasMoreDishes() || isLoadingMore()">
+      <div class="load-more-container">
+        <div class="load-more-spinner" *ngIf="isLoadingMore()">
+          <div class="spinner"></div>
+          <p>Loading more dishes...</p>
+        </div>
+        
+        <button 
+          *ngIf="!isLoadingMore() && hasMoreDishes()"
+          class="load-more-btn"
+          (click)="loadMoreManually()"
+        >
+          Load More Dishes
+        </button>
+      </div>
     </div>
 
-    <!-- Pagination -->
-    <div class="pagination" *ngIf="totalPages() > 1">
-      <button
-        class="pagination-btn"
-        [disabled]="!hasPrevious()"
-        (click)="onPageChange(currentPage() - 1)"
-      >
-        Previous
-      </button>
-
-      <span class="pagination-info">
-        Page {{ currentPage() + 1 }} of {{ totalPages() }}
-      </span>
-
-      <button
-        class="pagination-btn"
-        [disabled]="!hasNext()"
-        (click)="onPageChange(currentPage() + 1)"
-      >
-        Next
-      </button>
+    <!-- End of Results Indicator -->
+    <div class="end-results" *ngIf="!hasMoreDishes() && filteredDishes().length > 0">
+      <p>You've seen all available dishes!</p>
     </div>
   </div>
 </section>

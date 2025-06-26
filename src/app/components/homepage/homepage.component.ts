@@ -277,7 +277,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
           (this.currentBannerIndex() + 1) % recommended.length
         );
       }
-    }, 5000); // Change slide every 5 seconds
+    }, 500000); // Change slide every 5 seconds
   }
 
   // Event handlers

@@ -4,6 +4,6 @@ export const environment = {
   siteName: 'Foodie Express',
   dishesPerPage: 12,
   cacheTimeout: 300000,
-  currency: 'USD',
+  currency: 'VND',
   taxRate: 0.08
 };

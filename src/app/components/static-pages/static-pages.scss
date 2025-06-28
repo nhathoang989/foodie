@@ -1,6 +1,12 @@
 @use '../../../styles.scss' as *;
 
 /* Static Pages Base Styles */
+:host {
+  display: block;
+  background: transparent;
+  min-height: 100vh;
+}
+
 .static-page {
   min-height: calc(100vh - 140px);
   background: $background-light;

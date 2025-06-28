@@ -1,5 +1,13 @@
 @use '../../../styles.scss' as *;
 
+/* Host styles - inherit global gradient background */
+:host {
+  display: block;
+  background: transparent;
+  min-height: 100vh;
+  padding: 1rem 0;
+}
+
 /* Login Container */
 .login-container {
   min-height: 100vh;
@@ -7,7 +15,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  background: linear-gradient(135deg, $background-dark 0%, $background-color 100%);
+  background: transparent; // Use global gradient background
   padding: 4.5rem 1rem 2rem 1rem; // Add top padding for navbar (desktop)
   box-sizing: border-box;
   overflow: hidden;

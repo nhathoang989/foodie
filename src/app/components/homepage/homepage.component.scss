@@ -1,10 +1,10 @@
 @use 'sass:color';
 @use '../../../styles.scss' as *;
 
-// Host styles - set the global theme background
+// Host styles - inherit global gradient background
 :host {
   display: block;
-  background: $background-color;
+  background: transparent;
   min-height: 100vh;
 }
 
@@ -167,7 +167,9 @@ $gray-700: #495057;
 
 // Banner Section
 .banner-section {
-  background: linear-gradient(135deg, $primary-color, $accent-color);
+  background: linear-gradient(rgb(215 207 198 / 25%), rgb(63 55 47 / 25%));
+  background-size: cover;
+  background-position: center;
   padding: 3rem 0;
   margin-bottom: 2rem;
   
@@ -176,7 +178,7 @@ $gray-700: #495057;
       @include flex-between;
       margin-bottom: 2rem;
         h2 {
-        color: $white;
+        color: $primary-dark;
         font-size: 2.5rem;
         margin: 0;
       }
@@ -226,7 +228,7 @@ $gray-700: #495057;
             top: 0;
             left: 0;
             right: 0;
-            padding: 2rem;
+            padding: 1.2rem;
             color: $white;
             display: flex;
             flex-direction: column;
@@ -240,6 +242,7 @@ $gray-700: #495057;
             position: relative;
 
               h3 {
+                height: 60px;
               font-size: 1.5rem;
               margin: 0 0 0.5rem 0;
               font-weight: 700;
@@ -307,8 +310,6 @@ $gray-700: #495057;
 // Filter Section
 .filter-section {
   padding: 2rem 0;
-  border-bottom: 1px solid $border-color;
-  
   .filter-bar {
     @include flex-between;
     gap: 2rem;

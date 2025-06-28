@@ -235,7 +235,10 @@
   <nav class="breadcrumbs" *ngIf="breadcrumbs.length > 1">
     <ul class="breadcrumb">
       <li class="breadcrumb-item" *ngFor="let crumb of breadcrumbs; let last = last">
-        <a [routerLink]="crumb.url" [class.active]="last">{{ crumb.label }}</a>
+        <a [routerLink]="crumb.url" [class.active]="last">
+          <ng-container *ngIf="crumb.slug; else labelOnly">{{ crumb.label }} <span class="breadcrumb-slug">({{ crumb.slug }})</span></ng-container>
+          <ng-template #labelOnly>{{ crumb.label }}</ng-template>
+        </a>
       </li>
     </ul>
   </nav>

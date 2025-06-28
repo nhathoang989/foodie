@@ -133,8 +133,13 @@ $font-weight-medium: 500;
 $breakpoint-md: 768px;
 $breakpoint-sm: 576px;
 
+// Background gradient
+$background-gradient: linear-gradient(135deg, $parchment-bg 0%, $parchment-bg-light 50%, $background-medium 100%);
+
 body {
-  background: $background-color;
+  background: url('/assets/bg.jpg') no-repeat center center fixed, #f8f9fa;
+  background-attachment: fixed;
+  min-height: 100vh;
   color: $text-color;
   font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
 }
@@ -174,7 +179,10 @@ html, body {
 
 body { 
   font-family: 'Inter', Roboto, "Helvetica Neue", sans-serif; 
-  background-color: #fafafa;
+  background: url('/assets/bg.jpg') repeat-y center top fixed, #f8f9fa;
+  background-size: 100% auto;
+  background-attachment: fixed;
+  min-height: 100vh;
   color: #333;
 }
 
@@ -247,6 +255,16 @@ body {
 .text-center { text-align: center; }
 .text-left { text-align: left; }
 .text-right { text-align: right; }
+
+// Background utility classes
+.bg-gradient {
+  background: $background-gradient !important;
+  background-attachment: fixed;
+}
+
+.bg-transparent {
+  background: transparent !important;
+}
 
 .mt-1 { margin-top: 0.25rem; }
 .mt-2 { margin-top: 0.5rem; }

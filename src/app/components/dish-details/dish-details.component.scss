@@ -1,5 +1,13 @@
 @use '../../../styles.scss' as *;
 
+// Host styles - inherit global gradient background
+:host {
+  display: block;
+  background: transparent;
+  min-height: 100vh;
+  padding: 1rem 0;
+}
+
 // Local gray variables for this component (copied from homepage)
 $gray-100: #f8f9fa;
 $gray-200: #e9ecef;

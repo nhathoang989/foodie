@@ -13,6 +13,7 @@ import { MatIconModule } from '@angular/material/icon';
 interface Breadcrumb {
   label: string;
   url: string;
+  slug?: string;
 }
 
 @Component({
@@ -110,15 +111,23 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   private buildBreadcrumbs() {
     this.breadcrumbs = [{ label: 'Home', url: '/' }];
-    
     const url = this.router.url.split('?')[0];
     const pathSegments = url.split('/').filter(segment => segment);
-    
     let currentPath = '';
-    
+    // If viewing a dish details page, try to get the slug from the state or service
+    if (pathSegments[0] === 'dish' && pathSegments[1]) {
+      const dishId = Number(pathSegments[1]);
+      let label = 'Dish Details';
+      // Try to get the dish object if available
+      const dish = this.dishService.getCachedDish(dishId);
+      if (dish && dish.name) {
+        label = dish.name;
+      }
+      this.breadcrumbs.push({ label: label, url: `/dish/${dishId}` });
+      return;
+    }
     pathSegments.forEach((segment, index) => {
       currentPath += `/${segment}`;
-      
       let label = this.getRouteLabel(segment, pathSegments, index);
       this.breadcrumbs.push({ label, url: currentPath });
     });

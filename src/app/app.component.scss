@@ -1,7 +1,7 @@
 // Global app styles
 .app-container {
   min-height: 100vh;
-  background-color: #f8f9fa;
+  background: transparent; // Inherit the global gradient background
 }
 
 // Reset some default styles

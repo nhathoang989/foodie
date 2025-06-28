@@ -8,6 +8,7 @@ export class PaginationModel {
 export interface Dish {
   id?: number;
   name: string;
+  slug?: string;
   description?: string;
   excerpt?: string;
   price: number;

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BaseMixDbDataService } from './base-mixdb-data.service';
-import { Dish, DishFilter } from '../models';
+import { Dish, DishFilter, Category } from '../models';
 import { IPaginationResultModel } from '@mixcore/sdk-client';
 
 @Injectable({
@@ -10,6 +10,32 @@ import { IPaginationResultModel } from '@mixcore/sdk-client';
 })
 export class DishService extends BaseMixDbDataService<Dish> {
   protected tableName = 'mix_dish';
+  private dishCache: { [id: number]: Dish } = {};
+  private categoryCache: { [id: number]: Category } = {};
+
+  /**
+   * Get dish by id and cache it
+   */
+  override getById(id: number): Observable<Dish> {
+    return super.getById(id).pipe(
+      map(dish => {
+        if (dish && dish.id) {
+          this.dishCache[dish.id] = dish;
+          if (dish.category && dish.category.id) {
+            this.categoryCache[dish.category.id] = dish.category;
+          }
+        }
+        return dish;
+      })
+    );
+  }
+
+  /**
+   * Get cached dish by id
+   */
+  getCachedDish(id: number): Dish | null {
+    return this.dishCache[id] || null;
+  }
 
   /**
    * Get dishes with filters (paginated)
@@ -74,7 +100,21 @@ export class DishService extends BaseMixDbDataService<Dish> {
       queries
     });
 
-    return this.getAll(query);
+    return this.getAll(query).pipe(
+      map(result => {
+        if (result && Array.isArray(result.items)) {
+          result.items.forEach(dish => {
+            if (dish && dish.id) {
+              this.dishCache[dish.id] = dish;
+              if (dish.category && dish.category.id) {
+                this.categoryCache[dish.category.id] = dish.category;
+              }
+            }
+          });
+        }
+        return result;
+      })
+    );
   }
 
   /**
@@ -94,7 +134,21 @@ export class DishService extends BaseMixDbDataService<Dish> {
       }]
     });
 
-    return this.getAll(query).pipe(map(result => result.items));
+    return this.getAll(query).pipe(
+      map(result => {
+        if (result && Array.isArray(result.items)) {
+          result.items.forEach(dish => {
+            if (dish && dish.id) {
+              this.dishCache[dish.id] = dish;
+              if (dish.category && dish.category.id) {
+                this.categoryCache[dish.category.id] = dish.category;
+              }
+            }
+          });
+        }
+        return result.items;
+      })
+    );
   }
 
   /**

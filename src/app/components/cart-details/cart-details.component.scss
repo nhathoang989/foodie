@@ -1,6 +1,14 @@
 @use 'sass:color';
 @use '../../../styles.scss' as *;
 
+// Host styles - inherit global gradient background
+:host {
+  display: block;
+  background: transparent;
+  min-height: 100vh;
+  padding: 1rem 0;
+}
+
 .cart-details-container {
   max-width: 900px;
   margin: 2rem auto;

@@ -1,3 +1,11 @@
+// Host styles - inherit global gradient background
+:host {
+  display: block;
+  background: transparent;
+  min-height: 100vh;
+  padding: 1rem 0;
+}
+
 .checkout-page { max-width: 800px; margin: 2rem auto; padding: 2rem; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); font-family: 'Segoe UI', Arial, sans-serif; }
 
 .checkout-page-flex {

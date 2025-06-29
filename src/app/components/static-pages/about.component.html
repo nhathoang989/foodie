@@ -2,8 +2,29 @@
   <div class="page-header">
     <div class="container">
       <h1>{{ page?.title }}</h1>
-      <p class="page-subtitle">{{ page?.excerpt }}</p>
+      <div class="page-subtitle">
+        <app-formatted-text [content]="page?.excerpt || ''" [preserveLineBreaks]="true"></app-formatted-text>
+      </div>
     </div>
   </div>
-  <div [innerHTML]="page?.content" class="page-content"></div>
+  <div class="page-content">
+    <div class="container">
+      <section class="content-section">
+        <div class="row">
+          <div class="col-md-8">
+            <div [innerHTML]="page?.content" class="dynamic-content"></div>
+          </div>
+          <div class="col-md-4" *ngIf="page?.image">
+            <div class="image-placeholder">
+              <img
+                [src]="page?.image"
+                alt="{{ page?.title }} Image"
+                class="img-fluid rounded"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
 </div>

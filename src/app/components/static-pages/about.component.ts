@@ -2,11 +2,12 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PageService } from '../../services/page-service';
 import { PageContent } from '../../models';
+import { FormattedTextComponent } from '../shared/formatted-text/formatted-text.component';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormattedTextComponent],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
   encapsulation: ViewEncapsulation.None

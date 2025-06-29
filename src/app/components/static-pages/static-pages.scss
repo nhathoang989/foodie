@@ -43,10 +43,56 @@
   }
 
   .page-content {
+    padding: 2rem 0;
+    
     .container {
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 20px;
+    }
+    
+    /* Dynamic content styling */
+    .dynamic-content {
+      width: 100%;
+      overflow-x: hidden;
+      
+      /* Ensure images are responsive */
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+      
+      /* Ensure tables are responsive */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+        overflow-x: auto;
+        display: block;
+        
+        @media (min-width: 768px) {
+          display: table;
+        }
+      }
+      
+      /* Make sure paragraphs have proper spacing */
+      p {
+        margin-bottom: 1rem;
+        line-height: 1.6;
+      }
+      
+      /* Fix responsive layout for content sections */
+      section, div {
+        width: 100%;
+        box-sizing: border-box;
+      }
+      
+      /* Fix for embedded videos */
+      iframe, video, embed, object {
+        max-width: 100%;
+        height: auto;
+      }
     }
   }
 
@@ -793,6 +839,50 @@
       }
     }
 
+    .page-content {
+      padding: 1.5rem 0;
+      
+      .container {
+        padding: 0 15px;
+      }
+      
+      .dynamic-content {
+        /* Fix embedded content for mobile */
+        iframe, video, embed, object {
+          height: auto;
+          aspect-ratio: 16/9;
+        }
+        
+        /* Adjust font sizes */
+        h2 {
+          font-size: 1.8rem;
+        }
+        
+        h3 {
+          font-size: 1.5rem;
+        }
+        
+        /* Fix spacing */
+        section {
+          margin-bottom: 2rem;
+        }
+        
+        /* Fix images */
+        img {
+          margin: 1rem auto;
+        }
+        
+        /* Improve table readability on mobile */
+        table {
+          font-size: 0.9rem;
+          
+          th, td {
+            padding: 0.5rem;
+          }
+        }
+      }
+    }
+
     .content-section {
       padding: 2rem 0;
 
@@ -808,6 +898,16 @@
         flex: 0 0 100%;
         margin-bottom: 2rem;
       }
+    }
+
+    .values-grid,
+    .stats-grid,
+    .team-grid,
+    .faq-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+  }
     }
 
     .values-grid,

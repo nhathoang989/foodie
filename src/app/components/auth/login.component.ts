@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, ActivatedRoute, RouterModule } from '@angular/router';
+import { Router, ActivatedRoute, RouterModule, NavigationExtras } from '@angular/router';
 import { AuthService, LoginRequest } from '../../services/auth.service';
 import { LoadingService } from '../../services/loading.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-login',
@@ -15,6 +16,7 @@ import { LoadingService } from '../../services/loading.service';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   returnUrl: string = '/';
+  previousUrl: string | null = null;
   isLoading = false;
   showPassword = false;
 
@@ -23,7 +25,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private route: ActivatedRoute,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private location: Location
   ) {
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.minLength(3)]],
@@ -39,8 +42,13 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    // Get return URL from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';    // Subscribe to loading state
+    // Get return URL from route parameters
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    
+    // Get previous URL from navigation history
+    this.previousUrl = sessionStorage.getItem('previousUrl');
+    
+    // Subscribe to loading state
     this.authService.isLoading$.subscribe(loading => {
       this.isLoading = loading;
       this.loadingService.setLoading('auth', loading);
@@ -66,8 +74,20 @@ export class LoginComponent implements OnInit {
     try {
       const success = await this.authService.login(credentials);
       if (success) {
-        // Navigate to return URL or dashboard
-        this.router.navigate([this.returnUrl]);
+        // Determine where to navigate after login
+        if (this.returnUrl !== '/') {
+          // If there's a specific returnUrl in the query params, use that
+          this.router.navigate([this.returnUrl]);
+        } else if (this.previousUrl && !this.previousUrl.includes('/login') && !this.previousUrl.includes('/register')) {
+          // If there's a previousUrl in session storage that's not login or register, navigate there
+          this.router.navigateByUrl(this.previousUrl);
+        } else {
+          // Default fallback to home
+          this.router.navigate(['/']);
+        }
+        
+        // Clear the previousUrl from session storage
+        sessionStorage.removeItem('previousUrl');
       }
     } catch (error) {
       console.error('Login error:', error);

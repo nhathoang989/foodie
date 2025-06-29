@@ -25,7 +25,9 @@
     "axios": "^1.10.0",
     "marked": "^15.0.12",
     "ngx-monaco-editor": "^12.0.0",
+    "ngx-quill": "^28.0.1",
     "prismjs": "^1.30.0",
+    "quill": "^2.0.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"

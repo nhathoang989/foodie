@@ -154,10 +154,27 @@ export interface SortOption {
 
 
 export interface PageContent {
-  // Define the properties of your page content model here
   id?: number;
+  type?: string;
+  detailUrl?: string;
   title?: string;
   excerpt?: string;
   content?: string;
-  // ...other fields as needed
+  layoutId?: number;
+  templateId?: number;
+  image?: string;
+  seoName?: string;
+  seoTitle?: string;
+  tenantId?: number;
+  isPublic?: boolean;
+  specificulture?: string;
+  parentId?: number;
+  mixCultureId?: number;
+  createdDateTime?: string;
+  lastModified?: string;
+  createdBy?: string;
+  modifiedBy?: string;
+  priority?: number;
+  status?: string;
+  isDeleted?: boolean;
 }

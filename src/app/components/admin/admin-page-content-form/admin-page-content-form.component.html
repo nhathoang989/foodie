@@ -40,19 +40,46 @@
         </mat-error>
       </mat-form-field>
 
-      <!-- Content Field -->
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Content</mat-label>
-        <textarea
-          matInput
-          formControlName="content"
-          placeholder="Enter the full page content"
-          rows="10"
-        ></textarea>
-        <mat-error *ngIf="contentControl?.invalid && contentControl?.touched">
+      <!-- Content Field with HTML Editor -->
+      <div class="content-field full-width">
+        <label class="content-label">Content *</label>
+        <div class="quill-container">
+          <quill-editor
+            formControlName="content"
+            [styles]="{height: '250px'}"
+            (onEditorCreated)="onEditorCreated($event)"
+            placeholder="Enter the full page content with HTML formatting...">
+          </quill-editor>
+        </div>
+        <div class="field-error" *ngIf="contentControl?.invalid && contentControl?.touched">
           {{ getErrorMessage('content') }}
-        </mat-error>
-      </mat-form-field>
+        </div>
+      </div>
+      
+      <!-- Image Upload Section -->
+      <div class="image-upload-section">
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Image URL</mat-label>
+          <input matInput formControlName="image" placeholder="Or upload an image below" />
+        </mat-form-field>
+
+        <div class="image-upload">
+          <label class="upload-label">
+            <span>Choose Image File</span>
+            <input type="file" (change)="onFileChange($event)" accept="image/*" class="file-input" />
+          </label>
+          
+          <div *ngIf="imagePreview" class="image-preview">
+            <img [src]="imagePreview" alt="Image preview" class="preview-image" />
+            <p class="preview-text">{{ imageFile ? 'New image selected' : 'Current image' }}</p>
+          </div>
+          
+          <div *ngIf="uploadingImage" class="upload-progress">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+            <p>Uploading image...</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div mat-dialog-actions class="dialog-actions">

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { Location } from '@angular/common';
@@ -8,7 +8,8 @@ import { Location } from '@angular/common';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './not-found.component.html',
-  styleUrls: ['./not-found.component.scss']
+  styleUrls: ['./not-found.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class NotFoundComponent {
 

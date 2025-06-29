@@ -151,3 +151,13 @@ export interface SortOption {
   field: string;
   direction: 'asc' | 'desc';
 }
+
+
+export interface PageContent {
+  // Define the properties of your page content model here
+  id?: number;
+  title?: string;
+  excerpt?: string;
+  content?: string;
+  // ...other fields as needed
+}

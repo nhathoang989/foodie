@@ -7,6 +7,7 @@ import { AdminCategoryListComponent } from './admin-category-list/admin-category
 import { AdminOrderListComponent } from './admin-order-list/admin-order-list.component';
 import { AdminCustomerListComponent } from './admin-customer-list/admin-customer-list.component';
 import { AdminShippingListComponent } from './admin-shipping-list/admin-shipping-list.component';
+import { AdminPageContentListComponent } from './admin-page-content-list/admin-page-content-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'categories', component: AdminCategoryListComponent, canActivate: [AuthGuard] },
   { path: 'orders', component: AdminOrderListComponent, canActivate: [AuthGuard] },
   { path: 'customers', component: AdminCustomerListComponent, canActivate: [AuthGuard] },
-  { path: 'shipping', component: AdminShippingListComponent, canActivate: [AuthGuard] }
+  { path: 'shipping', component: AdminShippingListComponent, canActivate: [AuthGuard] },
+  { path: 'page-content', component: AdminPageContentListComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({

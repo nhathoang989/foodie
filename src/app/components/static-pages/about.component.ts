@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PageService, PageContent } from '../../services/page-service';
+import { PageService } from '../../services/page-service';
+import { PageContent } from '../../models';
 
 @Component({
   selector: 'app-about',

@@ -14,6 +14,8 @@ import { AdminCustomerListComponent } from './admin-customer-list/admin-customer
 import { AdminCustomerFormComponent } from './admin-customer-form/admin-customer-form.component';
 import { AdminShippingListComponent } from './admin-shipping-list/admin-shipping-list.component';
 import { AdminShippingFormComponent } from './admin-shipping-form/admin-shipping-form.component';
+import { AdminPageContentListComponent } from './admin-page-content-list/admin-page-content-list.component';
+import { AdminPageContentFormComponent } from './admin-page-content-form/admin-page-content-form.component';
 
 @NgModule({
   declarations: [],
@@ -32,7 +34,9 @@ import { AdminShippingFormComponent } from './admin-shipping-form/admin-shipping
     AdminCustomerListComponent,
     AdminCustomerFormComponent,
     AdminShippingListComponent,
-    AdminShippingFormComponent
+    AdminShippingFormComponent,
+    AdminPageContentListComponent,
+    AdminPageContentFormComponent
   ],
   providers: [CurrencyPipe, DatePipe]
 })

@@ -16,7 +16,6 @@
       <li role="none"><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">🏠</span><span *ngIf="!isScrolled">Home</span></a></li>
       <li role="none"><a routerLink="/about" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">ℹ️</span><span *ngIf="!isScrolled">About</span></a></li>
       <li role="none"><a routerLink="/contact" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">✉️</span><span *ngIf="!isScrolled">Contact</span></a></li>
-      <li role="none"><a routerLink="/orders" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">📦</span><span *ngIf="!isScrolled">My Orders</span></a></li>
       <!-- Admin Links (Desktop) -->
       <ng-container *ngIf="currentUser?.roles?.includes('SuperAdmin') || currentUser?.roles?.includes('Owner')">
         <li role="none" class="admin-popover-trigger" style="position:relative;">
@@ -120,7 +119,6 @@
         <div class="user-dropdown" *ngIf="isUserMenuOpen">
           <div *ngIf="currentUser; else guestMenu">
             <a routerLink="/profile" class="dropdown-item">Profile</a><br>
-            <a routerLink="/orders" class="dropdown-item">My Orders</a><br>
             <button (click)="logout()" class="dropdown-item logout">Logout</button>
           </div>
           <ng-template #guestMenu>
@@ -145,7 +143,6 @@
       <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileMenu()">Home</a></li>
       <li><a routerLink="/about" routerLinkActive="active" (click)="closeMobileMenu()">About</a></li>
       <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">Contact</a></li>
-      <li><a routerLink="/orders" routerLinkActive="active" (click)="closeMobileMenu()">My Orders</a></li>
       <!-- Admin Links (Mobile) -->
       <ng-container *ngIf="currentUser?.roles?.includes('SuperAdmin') || currentUser?.roles?.includes('Owner')">
         <li>
@@ -181,7 +178,6 @@
           <span class="user-name">{{ currentUser.name }}</span>
         </div>
         <a routerLink="/profile" (click)="closeMobileMenu()">Profile</a><br>
-        <a routerLink="/orders" (click)="closeMobileMenu()">My Orders</a><br>
         <button (click)="logout(); closeMobileMenu()" class="logout">Logout</button>
       </div>
       <ng-template #guestSidebarMenu>

@@ -4,20 +4,23 @@
 import { MixcoreClient } from '@mixcore/sdk-client';
 import { environment } from "../../environments/environment";
 import { AUTH_CONSTANTS } from '../constants/auth.constants';
+import { Router } from '@angular/router';
 
 export class BaseRestService<T> {
   protected endpoint: string;
   protected mixClient: MixcoreClient;
+  protected router?: Router;
   private isRefreshing = false;
   private failedQueue: Array<{ resolve: Function; reject: Function; request: RequestInit & { url: string } }> = [];
 
-  constructor(modelName: string) {
+  constructor(modelName: string, router?: Router) {
     this.endpoint = `${environment.apiBaseUrl}/${modelName}`;
     this.mixClient = new MixcoreClient({
       endpoint: environment.apiBaseUrl,
       tokenKey: AUTH_CONSTANTS.TOKEN_KEY,
       refreshTokenKey: AUTH_CONSTANTS.REFRESH_TOKEN_KEY
     });
+    this.router = router;
   }
 
   protected async getRestApiResult(req: RequestInit & { url: string }): Promise<any> {
@@ -60,16 +63,17 @@ export class BaseRestService<T> {
     try {
       // Attempt to refresh the token using direct API call
       const refreshToken = localStorage.getItem(AUTH_CONSTANTS.REFRESH_TOKEN_KEY);
+      const accessToken = localStorage.getItem(AUTH_CONSTANTS.TOKEN_KEY);
       if (!refreshToken) {
         throw new Error('No refresh token available');
       }
 
-      const refreshResponse = await fetch(`${environment.apiBaseUrl}/api/account/renew-token`, {
+      const refreshResponse = await fetch(`${environment.apiEndpoint}/rest/auth/user/renew-token`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ refreshToken })
+        body: JSON.stringify({ refreshToken: refreshToken, accessToken: accessToken  })
       });
 
       if (!refreshResponse.ok) {
@@ -104,10 +108,9 @@ export class BaseRestService<T> {
       localStorage.removeItem(AUTH_CONSTANTS.TOKEN_KEY);
       localStorage.removeItem(AUTH_CONSTANTS.REFRESH_TOKEN_KEY);
       localStorage.removeItem(AUTH_CONSTANTS.USER_KEY);
-      
       // Redirect to login or throw error for handling by calling component
-      if (typeof window !== 'undefined' && window.location) {
-        window.location.href = '/login';
+      if (this.router) {
+        this.router.navigate(['/login']);
       }
       
       throw new Error('Authentication failed. Please log in again.');

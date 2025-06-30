@@ -3,6 +3,7 @@
 
 import { MixcoreClient } from '@mixcore/sdk-client';
 import { environment } from "../../environments/environment";
+import { AUTH_CONSTANTS } from '../constants/auth.constants';
 
 export class BaseRestService<T> {
   protected endpoint: string;
@@ -14,8 +15,8 @@ export class BaseRestService<T> {
     this.endpoint = `${environment.apiBaseUrl}/${modelName}`;
     this.mixClient = new MixcoreClient({
       endpoint: environment.apiBaseUrl,
-      tokenKey: 'foodie_express_token',
-      refreshTokenKey: 'foodie_express_refresh_token'
+      tokenKey: AUTH_CONSTANTS.TOKEN_KEY,
+      refreshTokenKey: AUTH_CONSTANTS.REFRESH_TOKEN_KEY
     });
   }
 
@@ -25,7 +26,7 @@ export class BaseRestService<T> {
 
   private async executeRequest(req: RequestInit & { url: string }, isRetry = false): Promise<any> {
     // Always add foodie_express_token from localStorage as Bearer token
-    const token = localStorage.getItem('foodie_express_token');
+    const token = localStorage.getItem(AUTH_CONSTANTS.TOKEN_KEY);
     req.headers = {
       ...(req.headers || {}),
       'Authorization': token ? `Bearer ${token}` : '',
@@ -58,7 +59,7 @@ export class BaseRestService<T> {
 
     try {
       // Attempt to refresh the token using direct API call
-      const refreshToken = localStorage.getItem('foodie_express_refresh_token');
+      const refreshToken = localStorage.getItem(AUTH_CONSTANTS.REFRESH_TOKEN_KEY);
       if (!refreshToken) {
         throw new Error('No refresh token available');
       }
@@ -79,10 +80,10 @@ export class BaseRestService<T> {
       
       // Update the stored tokens
       if (tokenData.accessToken) {
-        localStorage.setItem('foodie_express_token', tokenData.accessToken);
+        localStorage.setItem(AUTH_CONSTANTS.TOKEN_KEY, tokenData.accessToken);
       }
       if (tokenData.refreshToken) {
-        localStorage.setItem('foodie_express_refresh_token', tokenData.refreshToken);
+        localStorage.setItem(AUTH_CONSTANTS.REFRESH_TOKEN_KEY, tokenData.refreshToken);
       }
       
       console.log('✅ Token refreshed successfully!');
@@ -100,9 +101,9 @@ export class BaseRestService<T> {
       this.processQueue(error);
       
       // Clear tokens and redirect to login
-      localStorage.removeItem('foodie_express_token');
-      localStorage.removeItem('foodie_express_refresh_token');
-      localStorage.removeItem('foodie_express_user');
+      localStorage.removeItem(AUTH_CONSTANTS.TOKEN_KEY);
+      localStorage.removeItem(AUTH_CONSTANTS.REFRESH_TOKEN_KEY);
+      localStorage.removeItem(AUTH_CONSTANTS.USER_KEY);
       
       // Redirect to login or throw error for handling by calling component
       if (typeof window !== 'undefined' && window.location) {

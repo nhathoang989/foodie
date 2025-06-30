@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -36,7 +36,7 @@ export interface DialogData {
     QuillModule
   ]
 })
-export class AdminPageContentFormComponent implements OnInit {
+export class AdminPageContentFormComponent implements OnInit, OnDestroy {
   pageContentForm: FormGroup;
   loading = false;
   isEditMode = false;
@@ -44,6 +44,7 @@ export class AdminPageContentFormComponent implements OnInit {
   imagePreview: string | null = null;
   uploadingImage = false;
   error: string | null = null;
+  private quillEditor: any = null;
 
   constructor(
     private fb: FormBuilder,
@@ -80,6 +81,13 @@ export class AdminPageContentFormComponent implements OnInit {
     }
   }
 
+  ngOnDestroy() {
+    // Clean up space preservation observers when component is destroyed
+    if (this.quillEditor) {
+      this.quillConfigService.cleanupSpacePreservation(this.quillEditor);
+    }
+  }
+
   createForm(): FormGroup {
     return this.fb.group({
       title: ['', [Validators.required, Validators.maxLength(255)]],
@@ -97,6 +105,11 @@ export class AdminPageContentFormComponent implements OnInit {
 
     this.loading = true;
     const formValue = this.pageContentForm.value;
+
+    // Clean the content to remove any &nbsp; entities before saving
+    if (formValue.content) {
+      formValue.content = this.quillConfigService.cleanContentForSaving(formValue.content);
+    }
 
     try {
       // Upload image if a new file is selected
@@ -188,6 +201,9 @@ export class AdminPageContentFormComponent implements OnInit {
   }
 
   onEditorCreated(editor: any) {
+    // Store editor reference for cleanup
+    this.quillEditor = editor;
+    
     // Apply space preservation configuration
     this.quillConfigService.applySpacePreservation(editor);
     
@@ -197,11 +213,26 @@ export class AdminPageContentFormComponent implements OnInit {
       setTimeout(() => {
         const currentContent = this.contentControl?.value;
         if (!currentContent && editor) {
-          this.contentControl?.setValue(this.data.pageContent?.content || '');
-          editor.clipboard.dangerouslyPasteHTML(this.data.pageContent?.content || '');
+          // Clean up any existing &nbsp; in the content before setting it
+          const cleanContent = this.quillConfigService.cleanContentForSaving(this.data.pageContent?.content || '');
+          this.contentControl?.setValue(cleanContent);
+          editor.clipboard.dangerouslyPasteHTML(cleanContent);
         }
       }, 200);
     }
+    
+    // Add a listener to the content form control to clean up &nbsp; on changes
+    this.contentControl?.valueChanges.subscribe(() => {
+      if (editor && editor.quillEditor) {
+        const quill = editor.quillEditor;
+        // Make sure the HTML in the editor doesn't contain &nbsp;
+        const editorContent = quill.root.innerHTML;
+        if (editorContent && editorContent.includes('&nbsp;')) {
+          const cleanContent = editorContent.replace(/&nbsp;/g, ' ');
+          quill.clipboard.dangerouslyPasteHTML(cleanContent);
+        }
+      }
+    });
   }
 
   get titleControl() { return this.pageContentForm.get('title'); }

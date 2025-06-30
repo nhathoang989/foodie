@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NotificationService } from './notification.service';
 import { MixcoreClient } from '@mixcore/sdk-client';
 import { environment } from '../../environments/environment';
+import { AUTH_CONSTANTS } from '../constants/auth.constants';
 
 export interface User {
   id: number;
@@ -45,8 +46,8 @@ export class AuthService {
   ) {
     this.mixClient = new MixcoreClient({
       endpoint: environment.apiBaseUrl,
-      tokenKey: 'foodie_express_token',
-      refreshTokenKey: 'foodie_express_refresh_token'
+      tokenKey: AUTH_CONSTANTS.TOKEN_KEY,
+      refreshTokenKey: AUTH_CONSTANTS.REFRESH_TOKEN_KEY
     });
     this.loadUserFromStorage();
   }
@@ -128,8 +129,8 @@ export class AuthService {
    * Logout current user
    */
   logout(): void {
-    localStorage.removeItem('foodie_express_user');
-    localStorage.removeItem('foodie_express_token');
+    localStorage.removeItem(AUTH_CONSTANTS.USER_KEY);
+    localStorage.removeItem(AUTH_CONSTANTS.TOKEN_KEY);
     this.currentUserSubject.next(null);
     this.notificationService.showInfo('You have been logged out.');
     this.router.navigate(['/']);
@@ -224,13 +225,13 @@ export class AuthService {
   }
 
   private setUser(user: User): void {
-    localStorage.setItem('foodie_express_user', JSON.stringify(user));
+    localStorage.setItem(AUTH_CONSTANTS.USER_KEY, JSON.stringify(user));
     this.currentUserSubject.next(user);
   }
 
   private loadUserFromStorage(): void {
-    const userData = localStorage.getItem('foodie_express_user');
-    const token = localStorage.getItem('foodie_express_token');
+    const userData = localStorage.getItem(AUTH_CONSTANTS.USER_KEY);
+    const token = localStorage.getItem(AUTH_CONSTANTS.TOKEN_KEY);
     
     if (userData && token) {
       try {

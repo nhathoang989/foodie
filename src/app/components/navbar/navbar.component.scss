@@ -33,8 +33,10 @@
     }
 
     .brand-icon {
-      font-size: 2rem;
+      height: 2rem;
+      width: auto;
       animation: pulse 2s infinite;
+      object-fit: contain;
     }
 
     &.scrolled {
@@ -574,7 +576,8 @@
       font-size: 1.5rem;
 
       .brand-icon {
-        font-size: 1.7rem;
+        height: 1.7rem;
+        width: auto;
       }
     }
 
@@ -606,7 +609,8 @@
     font-size: 1.2rem;
     padding: 0.25rem 0;
     .brand-icon {
-      font-size: 1.3rem;
+      height: 1.3rem;
+      width: auto;
     }
   }
   .mobile-menu-toggle {

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { NotificationService } from './notification.service';
 import { MixcoreClient } from '@mixcore/sdk-client';
 import { environment } from '../../environments/environment';
@@ -40,9 +42,17 @@ export class AuthService {
 
   private mixClient: MixcoreClient;
 
+  private isRefreshing = false;
+  private failedQueue: Array<{
+    resolve: Function;
+    reject: Function;
+  }> = [];
+
   constructor(
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
   ) {
     this.mixClient = new MixcoreClient({
       endpoint: environment.apiBaseUrl,
@@ -128,12 +138,24 @@ export class AuthService {
   /**
    * Logout current user
    */
-  logout(): void {
+  logout(returnUrl?: string): void {
     localStorage.removeItem(AUTH_CONSTANTS.USER_KEY);
     localStorage.removeItem(AUTH_CONSTANTS.TOKEN_KEY);
+    localStorage.removeItem(AUTH_CONSTANTS.REFRESH_TOKEN_KEY);
     this.currentUserSubject.next(null);
     this.notificationService.showInfo('You have been logged out.');
-    this.router.navigate(['/']);
+    
+    // Close all open dialogs
+    this.dialog.closeAll();
+    
+    // Dismiss all snack bars
+    this.snackBar.dismiss();
+
+    if (returnUrl) {
+      this.router.navigate(['/login'], { queryParams: { returnUrl } });
+    } else {
+      this.router.navigate(['/']);
+    }
   }
 
   /**
@@ -222,6 +244,93 @@ export class AuthService {
     } finally {
       this.isLoadingSubject.next(false);
     }
+  }
+
+  /**
+   * Attempt to refresh the access token using the refresh token
+   */
+  async refreshToken(): Promise<boolean> {
+    // If already refreshing, queue this request
+    if (this.isRefreshing) {
+      return new Promise((resolve, reject) => {
+        this.failedQueue.push({ resolve, reject });
+      });
+    }
+
+    this.isRefreshing = true;
+
+    try {
+      const refreshToken = localStorage.getItem(AUTH_CONSTANTS.REFRESH_TOKEN_KEY);
+      const accessToken = localStorage.getItem(AUTH_CONSTANTS.TOKEN_KEY);
+      
+      if (!refreshToken) {
+        throw new Error('No refresh token available');
+      }
+
+      console.log('🔄 Attempting to refresh token...');
+      
+      const refreshResponse = await fetch(
+        `${environment.apiBaseUrl}/auth/user/renew-token`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            refreshToken: refreshToken,
+            accessToken: accessToken,
+          }),
+        }
+      );
+
+      if (!refreshResponse.ok) {
+        throw new Error(`Token refresh failed: ${refreshResponse.status}`);
+      }
+
+      const tokenData = await refreshResponse.json();
+
+      // Update the stored tokens
+      if (tokenData.accessToken) {
+        localStorage.setItem(AUTH_CONSTANTS.TOKEN_KEY, tokenData.accessToken);
+      }
+      if (tokenData.refreshToken) {
+        localStorage.setItem(AUTH_CONSTANTS.REFRESH_TOKEN_KEY, tokenData.refreshToken);
+      }
+
+      console.log('✅ Token refreshed successfully!');
+
+      // Process all queued requests with success
+      this.processRefreshQueue(null);
+      
+      return true;
+    } catch (error) {
+      console.error('❌ Token refresh failed:', error);
+      
+      // Process queue with error (reject all pending requests)
+      this.processRefreshQueue(error);
+      
+      // Get current URL for returnUrl
+      const currentUrl = this.router.url || window.location.pathname + window.location.search;
+      
+      // Logout and redirect to login with returnUrl
+      this.logout(currentUrl);
+      
+      throw error;
+    } finally {
+      this.isRefreshing = false;
+    }
+  }
+
+  private processRefreshQueue(error: any) {
+    this.failedQueue.forEach(({ resolve, reject }) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(true);
+      }
+    });
+
+    this.failedQueue = [];
   }
 
   private setUser(user: User): void {

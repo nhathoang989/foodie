@@ -43,18 +43,36 @@
         <div class="row">
           <div class="col-md-8 mx-auto">
             <h2 class="text-center">Send Us a Message</h2>
-            <form class="contact-form">
+            <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="name">Full Name *</label>
-                    <input type="text" id="name" class="form-control" placeholder="Enter your full name" required>
+                    <input 
+                      type="text" 
+                      id="name" 
+                      class="form-control" 
+                      placeholder="Enter your full name" 
+                      formControlName="name"
+                      [class.is-invalid]="isFieldInvalid('name')">
+                    <div class="invalid-feedback" *ngIf="isFieldInvalid('name')">
+                      {{ getFieldError('name') }}
+                    </div>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="email">Email Address *</label>
-                    <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                    <input 
+                      type="email" 
+                      id="email" 
+                      class="form-control" 
+                      placeholder="Enter your email" 
+                      formControlName="email"
+                      [class.is-invalid]="isFieldInvalid('email')">
+                    <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
+                      {{ getFieldError('email') }}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -62,13 +80,22 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number">
+                    <input 
+                      type="tel" 
+                      id="phone" 
+                      class="form-control" 
+                      placeholder="Enter your phone number"
+                      formControlName="phone">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="subject">Subject *</label>
-                    <select id="subject" class="form-control" required>
+                    <select 
+                      id="subject" 
+                      class="form-control" 
+                      formControlName="subject"
+                      [class.is-invalid]="isFieldInvalid('subject')">
                       <option value="">Select a subject</option>
                       <option value="order">Order Issue</option>
                       <option value="delivery">Delivery Problem</option>
@@ -76,15 +103,38 @@
                       <option value="feedback">General Feedback</option>
                       <option value="other">Other</option>
                     </select>
+                    <div class="invalid-feedback" *ngIf="isFieldInvalid('subject')">
+                      {{ getFieldError('subject') }}
+                    </div>
                   </div>
                 </div>
               </div>
               <div class="form-group">
                 <label for="message">Message *</label>
-                <textarea id="message" class="form-control" rows="5" placeholder="Tell us how we can help you..." required></textarea>
+                <textarea 
+                  id="message" 
+                  class="form-control" 
+                  rows="5" 
+                  placeholder="Tell us how we can help you..." 
+                  formControlName="message"
+                  [class.is-invalid]="isFieldInvalid('message')"></textarea>
+                <div class="invalid-feedback" *ngIf="isFieldInvalid('message')">
+                  {{ getFieldError('message') }}
+                </div>
               </div>
               <div class="text-center">
-                <button type="submit" class="btn btn-primary btn-lg">Send Message</button>
+                <button 
+                  type="submit" 
+                  class="btn btn-primary btn-lg"
+                  [disabled]="isSubmitting">
+                  <span *ngIf="isSubmitting">Sending...</span>
+                  <span *ngIf="!isSubmitting">Send Message</span>
+                </button>
+              </div>
+              <div class="text-center mt-3" *ngIf="submitMessage">
+                <div class="alert" [class.alert-success]="!hasError" [class.alert-danger]="hasError">
+                  {{ submitMessage }}
+                </div>
               </div>
             </form>
           </div>

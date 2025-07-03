@@ -178,3 +178,29 @@ export interface PageContent {
   status?: string;
   isDeleted?: boolean;
 }
+
+export interface Contact {
+  id?: number;
+  name: string;
+  email: string;
+  phone?: string;
+  subject: string;
+  message: string;
+  status?: string;
+  is_read?: boolean;
+  response_message?: string;
+  responded_by?: string;
+  responded_at?: Date;
+  created_by?: string;
+  created_date_time?: Date;
+}
+
+export interface ContactFilter {
+  search?: string;
+  status?: string;
+  is_read?: boolean;
+  subject?: string;
+  dateFrom?: Date;
+  dateTo?: Date;
+  sortBy?: SortOption;
+}

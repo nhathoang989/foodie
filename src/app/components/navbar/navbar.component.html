@@ -13,25 +13,30 @@
 
     <!-- Desktop Navigation Links -->
     <ul class="navbar-nav desktop-nav" *ngIf="isDesktop" id="main-menu" role="menubar">
-      <li role="none"><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">🏠</span><span *ngIf="!isScrolled">Trang chủ</span></a></li>
-      <li role="none"><a routerLink="/about" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">ℹ️</span><span *ngIf="!isScrolled">Về Cụi</span></a></li>
+      <li role="none"><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">🏠</span><span *ngIf="!isScrolled">{{ 'nav.home' | translate }}</span></a></li>
+      <li role="none"><a routerLink="/about" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">ℹ️</span><span *ngIf="!isScrolled">{{ 'nav.about' | translate }}</span></a></li>
 
-      <li role="none"><a routerLink="/contact" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">✉️</span><span *ngIf="!isScrolled">Liên hệ</span></a></li>
+      <li role="none"><a routerLink="/contact" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">✉️</span><span *ngIf="!isScrolled">{{ 'nav.contact' | translate }}</span></a></li>
+      
+      <!-- Language Switcher -->
+      <li role="none" class="language-switcher-item">
+        <app-language-switcher></app-language-switcher>
+      </li>
       <!-- Admin Links (Desktop) -->
       <ng-container *ngIf="currentUser?.roles?.includes('SuperAdmin') || currentUser?.roles?.includes('Owner')">
         <li role="none" class="admin-popover-trigger" style="position:relative;">
           <a href="#" class="nav-link admin-toggle" (click)="$event.preventDefault(); toggleAdminNav();" [attr.aria-expanded]="isAdminNavOpen" aria-controls="admin-nav-desktop">
-            <span *ngIf="!isScrolled">Admin Panel</span>
+            <span *ngIf="!isScrolled">{{ 'admin.panel' | translate }}</span>
             <mat-icon style="vertical-align:middle; margin-left:8px;">{{ isAdminNavOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
           </a>
           <div *ngIf="isAdminNavOpen" class="admin-popover" style="position:absolute; left:0; top:100%; min-width:200px; background:#fff; box-shadow:0 4px 16px rgba(0,0,0,0.15); border-radius:6px; z-index:1000; padding:8px 0;">
-            <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link" style="display:flex;align-items:center;padding:8px 16px;" (click)="toggleAdminNav()"><mat-icon style="vertical-align:middle;">dashboard</mat-icon><span style="margin-left:8px;">Dashboard</span></a>
-            <a routerLink="/admin/orders" routerLinkActive="active" class="nav-link" style="display:flex;align-items:center;padding:8px 16px;" (click)="toggleAdminNav()"><mat-icon style="vertical-align:middle;">shopping_cart</mat-icon><span style="margin-left:8px;">Orders</span></a>
-            <a routerLink="/admin/dishes" routerLinkActive="active" class="nav-link" style="display:flex;align-items:center;padding:8px 16px;" (click)="toggleAdminNav()"><mat-icon style="vertical-align:middle;">restaurant</mat-icon><span style="margin-left:8px;">Dishes</span></a>
-            <a routerLink="/admin/categories" routerLinkActive="active" class="nav-link" style="display:flex;align-items:center;padding:8px 16px;" (click)="toggleAdminNav()"><mat-icon style="vertical-align:middle;">category</mat-icon><span style="margin-left:8px;">Categories</span></a>
-            <a routerLink="/admin/customers" routerLinkActive="active" class="nav-link" style="display:flex;align-items:center;padding:8px 16px;" (click)="toggleAdminNav()"><mat-icon style="vertical-align:middle;">people</mat-icon><span style="margin-left:8px;">Customers</span></a>
-            <a routerLink="/admin/shipping" routerLinkActive="active" class="nav-link" style="display:flex;align-items:center;padding:8px 16px;" (click)="toggleAdminNav()"><mat-icon style="vertical-align:middle;">local_shipping</mat-icon><span style="margin-left:8px;">Shipping</span></a>
-            <a routerLink="/" class="nav-link logout" style="display:flex;align-items:center;padding:8px 16px;" (click)="toggleAdminNav()"><mat-icon style="vertical-align:middle;">exit_to_app</mat-icon><span style="margin-left:8px;">Back to Store</span></a>
+            <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link" style="display:flex;align-items:center;padding:8px 16px;" (click)="toggleAdminNav()"><mat-icon style="vertical-align:middle;">dashboard</mat-icon><span style="margin-left:8px;">{{ 'admin.dashboard' | translate }}</span></a>
+            <a routerLink="/admin/orders" routerLinkActive="active" class="nav-link" style="display:flex;align-items:center;padding:8px 16px;" (click)="toggleAdminNav()"><mat-icon style="vertical-align:middle;">shopping_cart</mat-icon><span style="margin-left:8px;">{{ 'admin.orders' | translate }}</span></a>
+            <a routerLink="/admin/dishes" routerLinkActive="active" class="nav-link" style="display:flex;align-items:center;padding:8px 16px;" (click)="toggleAdminNav()"><mat-icon style="vertical-align:middle;">restaurant</mat-icon><span style="margin-left:8px;">{{ 'admin.dishes' | translate }}</span></a>
+            <a routerLink="/admin/categories" routerLinkActive="active" class="nav-link" style="display:flex;align-items:center;padding:8px 16px;" (click)="toggleAdminNav()"><mat-icon style="vertical-align:middle;">category</mat-icon><span style="margin-left:8px;">{{ 'admin.categories' | translate }}</span></a>
+            <a routerLink="/admin/customers" routerLinkActive="active" class="nav-link" style="display:flex;align-items:center;padding:8px 16px;" (click)="toggleAdminNav()"><mat-icon style="vertical-align:middle;">people</mat-icon><span style="margin-left:8px;">{{ 'admin.customers' | translate }}</span></a>
+            <a routerLink="/admin/shipping" routerLinkActive="active" class="nav-link" style="display:flex;align-items:center;padding:8px 16px;" (click)="toggleAdminNav()"><mat-icon style="vertical-align:middle;">local_shipping</mat-icon><span style="margin-left:8px;">{{ 'admin.shipping' | translate }}</span></a>
+            <a routerLink="/" class="nav-link logout" style="display:flex;align-items:center;padding:8px 16px;" (click)="toggleAdminNav()"><mat-icon style="vertical-align:middle;">exit_to_app</mat-icon><span style="margin-left:8px;">{{ 'admin.back_to_store' | translate }}</span></a>
           </div>
         </li>
       </ng-container>
@@ -79,7 +84,7 @@
           <input 
             class="search-input"
             type="text" 
-            placeholder="Tìm món ăn..." 
+            placeholder="{{ 'search.placeholder' | translate }}" 
             [(ngModel)]="searchValue" 
             (keydown)="onSearchEnter($event)"
             (input)="onSearchInput()"
@@ -101,7 +106,7 @@
               </div>
             </div>
             <div class="search-actions" *ngIf="searchResults.length >= 5">
-              <button class="view-all-btn" (click)="viewAllResults()">View all results</button>
+              <button class="view-all-btn" (click)="viewAllResults()">{{ 'search.view_all' | translate }}</button>
             </div>
           </div>
         </div>
@@ -114,17 +119,17 @@
         <button class="user-button" aria-haspopup="true" [attr.aria-expanded]="isUserMenuOpen">
           <span class="user-avatar">{{ currentUser?.name ? (currentUser.name | slice:0:1) : '👤' }}</span>
           <span class="user-text" *ngIf="!isScrolled && currentUser">{{ currentUser.name }}</span>
-          <span class="user-text" *ngIf="!isScrolled && !currentUser">Account</span>
+          <span class="user-text" *ngIf="!isScrolled && !currentUser">{{ 'user.account' | translate }}</span>
           <span class="chevron">▼</span>
         </button>
         <div class="user-dropdown" *ngIf="isUserMenuOpen">
           <div *ngIf="currentUser; else guestMenu">
-            <a routerLink="/profile" class="dropdown-item">Thông tin</a><br>
-            <button (click)="logout()" class="dropdown-item logout">Đăng xuất</button>
+            <a routerLink="/profile" class="dropdown-item">{{ 'user.profile' | translate }}</a><br>
+            <button (click)="logout()" class="dropdown-item logout">{{ 'user.logout' | translate }}</button>
           </div>
           <ng-template #guestMenu>
-            <a routerLink="/login" class="dropdown-item">Đăng nhập</a>
-            <a routerLink="/register" class="dropdown-item">Đăng ký</a>
+            <a routerLink="/login" class="dropdown-item">{{ 'user.login' | translate }}</a>
+            <a routerLink="/register" class="dropdown-item">{{ 'user.register' | translate }}</a>
           </ng-template>
         </div>
       </div>
@@ -142,26 +147,26 @@
       <button class="close-sidebar" (click)="closeMobileMenu()" aria-label="Close menu">×</button>
     </div>
     <ul class="sidebar-nav">
-      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileMenu()">Về chúng tôi</a></li>
-      <li><a routerLink="/about" routerLinkActive="active" (click)="closeMobileMenu()">Về Cụi</a></li>
-
-      <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">Liên hệ</a></li>
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileMenu()">{{ 'nav.home' | translate }}</a></li>
+      <li><a routerLink="/about" routerLinkActive="active" (click)="closeMobileMenu()">{{ 'nav.about' | translate }}</a></li>
+      <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">{{ 'nav.contact' | translate }}</a></li>
+      
       <!-- Admin Links (Mobile) -->
       <ng-container *ngIf="currentUser?.roles?.includes('SuperAdmin') || currentUser?.roles?.includes('Owner')">
         <li>
           <a href="#" class="nav-link admin-toggle" (click)="$event.preventDefault(); toggleAdminNav();" [attr.aria-expanded]="isAdminNavOpen" aria-controls="admin-nav-mobile">
-            Admin Panel
+            {{ 'admin.panel' | translate }}
             <mat-icon style="margin-left:8px; vertical-align:middle;">{{ isAdminNavOpen ? 'expand_less' : 'expand_more' }}</mat-icon>
           </a>
         </li>
         <ng-container *ngIf="isAdminNavOpen">
-          <li><a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()"><mat-icon style="vertical-align:middle;">dashboard</mat-icon>Dashboard</a></li>
-          <li><a routerLink="/admin/orders" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()"><mat-icon style="vertical-align:middle;">shopping_cart</mat-icon>Orders</a></li>
-          <li><a routerLink="/admin/dishes" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()"><mat-icon style="vertical-align:middle;">restaurant</mat-icon>Dishes</a></li>
-          <li><a routerLink="/admin/categories" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()"><mat-icon style="vertical-align:middle;">category</mat-icon>Categories</a></li>
-          <li><a routerLink="/admin/customers" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()"><mat-icon style="vertical-align:middle;">people</mat-icon>Customers</a></li>
-          <li><a routerLink="/admin/shipping" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()"><mat-icon style="vertical-align:middle;">local_shipping</mat-icon>Shipping</a></li>
-          <li><a routerLink="/" class="nav-link logout" (click)="closeMobileMenu()"><mat-icon style="vertical-align:middle;">exit_to_app</mat-icon>Back to Store</a></li>
+          <li><a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()"><mat-icon style="vertical-align:middle;">dashboard</mat-icon>{{ 'admin.dashboard' | translate }}</a></li>
+          <li><a routerLink="/admin/orders" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()"><mat-icon style="vertical-align:middle;">shopping_cart</mat-icon>{{ 'admin.orders' | translate }}</a></li>
+          <li><a routerLink="/admin/dishes" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()"><mat-icon style="vertical-align:middle;">restaurant</mat-icon>{{ 'admin.dishes' | translate }}</a></li>
+          <li><a routerLink="/admin/categories" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()"><mat-icon style="vertical-align:middle;">category</mat-icon>{{ 'admin.categories' | translate }}</a></li>
+          <li><a routerLink="/admin/customers" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()"><mat-icon style="vertical-align:middle;">people</mat-icon>{{ 'admin.customers' | translate }}</a></li>
+          <li><a routerLink="/admin/shipping" routerLinkActive="active" class="nav-link" (click)="closeMobileMenu()"><mat-icon style="vertical-align:middle;">local_shipping</mat-icon>{{ 'admin.shipping' | translate }}</a></li>
+          <li><a routerLink="/" class="nav-link logout" (click)="closeMobileMenu()"><mat-icon style="vertical-align:middle;">exit_to_app</mat-icon>{{ 'admin.back_to_store' | translate }}</a></li>
         </ng-container>
       </ng-container>
     </ul>
@@ -180,12 +185,12 @@
           <span class="user-avatar">{{ currentUser.name | slice:0:1 }}</span>
           <span class="user-name">{{ currentUser.name }}</span>
         </div>
-        <a routerLink="/profile" (click)="closeMobileMenu()">Thông tin</a><br>
-        <button (click)="logout(); closeMobileMenu()" class="logout">Đăng xuất</button>
+        <a routerLink="/profile" (click)="closeMobileMenu()">{{ 'user.profile' | translate }}</a><br>
+        <button (click)="logout(); closeMobileMenu()" class="logout">{{ 'user.logout' | translate }}</button>
       </div>
       <ng-template #guestSidebarMenu>
-        <a routerLink="/login" (click)="closeMobileMenu()">Đăng nhập</a>
-        <a routerLink="/register" (click)="closeMobileMenu()">Đăng ký</a>
+        <a routerLink="/login" (click)="closeMobileMenu()">{{ 'user.login' | translate }}</a>
+        <a routerLink="/register" (click)="closeMobileMenu()">{{ 'user.register' | translate }}</a>
       </ng-template>
     </div>
   </aside>
@@ -199,7 +204,7 @@
         <input 
           class="search-input"
           type="text" 
-          placeholder="Tìm món ăn..." 
+          placeholder="{{ 'search.placeholder' | translate }}" 
           [(ngModel)]="searchValue" 
           (keydown)="onSearchEnter($event)"
           (input)="onSearchInput()"
@@ -222,7 +227,7 @@
             </div>
           </div>
           <div class="search-actions" *ngIf="searchResults.length >= 5">
-            <button class="view-all-btn" (click)="viewAllResults()">View all results</button>
+            <button class="view-all-btn" (click)="viewAllResults()">{{ 'search.view_all' | translate }}</button>
           </div>
         </div>
       </div>

@@ -4,6 +4,7 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ImagePopupComponent } from '../shared/image-popup/image-popup.component';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 interface GalleryImage {
   src: string;
@@ -14,7 +15,7 @@ interface GalleryImage {
 @Component({
   selector: 'app-gallery',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatDialogModule, MatButtonModule, MatIconModule, TranslatePipe],
   templateUrl: './gallery.component.html',
   styleUrls: ['./gallery.component.scss']
 })

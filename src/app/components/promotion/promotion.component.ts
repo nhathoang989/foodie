@@ -1,6 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 interface PromotionImage {
   src: string;
@@ -11,7 +12,7 @@ interface PromotionImage {
 @Component({
   selector: 'app-promotion',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, TranslatePipe],
   templateUrl: './promotion.component.html',
   styleUrls: ['./promotion.component.scss']
 })

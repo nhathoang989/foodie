@@ -10,6 +10,8 @@ import { map, filter, debounceTime, distinctUntilChanged, switchMap, takeUntil }
 import { Dish } from '../../models';
 import { MatIconModule } from '@angular/material/icon';
 import { environment } from '../../../environments/environment';
+import { LanguageSwitcherComponent } from '../shared/language-switcher/language-switcher.component';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 interface Breadcrumb {
   label: string;
@@ -20,7 +22,7 @@ interface Breadcrumb {
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, MatIconModule],
+  imports: [CommonModule, RouterModule, FormsModule, MatIconModule, LanguageSwitcherComponent, TranslatePipe],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })

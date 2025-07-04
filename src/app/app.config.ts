@@ -4,6 +4,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
 import { QuillModule } from 'ngx-quill';
+import { I18nService } from './i18n/i18n.service';
 
 import { routes } from './app.routes';
 
@@ -50,6 +51,8 @@ export const appConfig: ApplicationConfig = {
       ],
       bounds: document.body,
       debug: 'warn'
-    }))
+    })),
+    // Provide I18nService for internationalization
+    { provide: I18nService, useClass: I18nService }
   ]
 };

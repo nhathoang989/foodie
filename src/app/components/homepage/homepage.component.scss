@@ -8,6 +8,15 @@
   min-height: 100vh;
 }
 
+// Font styles for the homepage
+h1, h2, h3, h4, h5, h6, .logo, .dish-name, .slide h3 {
+  font-family: 'LHanoienne', serif !important;
+}
+
+p, div, button, input, .dish-description, .slide-description {
+  font-family: 'TravelingTypewriter', monospace !important;
+}
+
 // Using global color palette from styles.scss - no local overrides needed
 // Local gray variables for specific component styling
 $gray-100: #f8f9fa;
@@ -178,7 +187,7 @@ $gray-700: #495057;
       @include flex-between;
       margin-bottom: 2rem;
         h2 {
-        color: $primary-dark;
+        color: $deep-brown;
         font-size: 2.5rem;
         margin: 0;
       }

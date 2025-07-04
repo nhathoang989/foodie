@@ -1,8 +1,8 @@
 <nav class="navbar" role="navigation" aria-label="Main navigation" [class.scrolled]="isScrolled">
   <div class="container-fluid navbar-flex">    <!-- Brand/Logo -->
     <a routerLink="/" class="navbar-brand" tabindex="0">
-      <img src="assets/logo.png" alt="Foodie Express Logo" class="brand-icon">
-      <span class="brand-text">Foodie Express</span>
+      <img src="assets/logo.png" alt="{{ siteName }} Logo" class="brand-icon">
+      <span class="brand-text">{{ siteName }} - {{ siteDescription }}</span>
     </a>
     <!-- Mobile Menu Toggle (Hamburger) on the right -->
     <button class="mobile-menu-toggle" (click)="toggleMobileMenu()" [attr.aria-expanded]="isMobileMenuOpen" aria-controls="mobile-sidebar" aria-label="Open navigation menu">
@@ -134,8 +134,9 @@
   <aside class="mobile-sidebar" *ngIf="!isDesktop && isMobileMenuOpen" id="mobile-sidebar" tabindex="0">
     <div class="sidebar-header">
       <a routerLink="/" class="sidebar-brand">
-        <img src="assets/logo.png" alt="Foodie Express Logo" class="brand-icon">
-        <span class="brand-text">Foodie Express</span>
+        <img src="assets/logo.png" alt="{{ siteName }} Logo" class="brand-icon">
+        <span class="brand-text">{{ siteName }} - {{ siteDescription }}
+        </span>
       </a>
       <button class="close-sidebar" (click)="closeMobileMenu()" aria-label="Close menu">×</button>
     </div>

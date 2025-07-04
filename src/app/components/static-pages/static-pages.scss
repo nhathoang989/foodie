@@ -9,12 +9,18 @@
 
 .static-page {
   min-height: calc(100vh - 140px);
-  background: linear-gradient(rgb(215 207 198 / 25%), rgb(63 55 47 / 25%));
+  background: linear-gradient(rgba(237, 226, 198, 0.25), rgba(237, 226, 198, 0.45));
   color: $text-color;
   border: 1px solid $border-color;
+  font-family: 'TravelingTypewriter', monospace;
+  font-size: 1.1rem; /* Increased base font size */
+
+  h1, h2, h3, h4, h5, h6, .title, .section-title {
+    font-family: 'LHanoienne', serif;
+  }
 
   .page-header {
-    // background: linear-gradient(rgb(215 207 198 / 25%), rgb(63 55 47 / 25%));
+    // background: linear-gradient(rgba(237, 226, 198, 0.25), rgba(237, 226, 198, 0.45));
     background-size: cover;
     background-position: center;
     color: $primary-color;
@@ -30,7 +36,7 @@
     }
 
     h1 {
-      font-size: 3rem;
+      font-size: 3.2rem; /* Increased from 3rem */
       font-weight: 700;
       margin-bottom: 1rem;
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -38,11 +44,11 @@
     }
 
     .page-subtitle {
-      font-size: 1.2rem;
+      font-size: 1.3rem; /* Increased from 1.2rem */
       color: $primary-color;
       margin: 0;
       font-weight: 300;
-      line-height: 1.6;
+      line-height: 2;
       text-align: center;
       
       /* Ensure proper spacing between paragraphs */
@@ -100,7 +106,7 @@
       /* Make sure paragraphs have proper spacing */
       p {
         margin-bottom: 1rem;
-        line-height: 1.6;
+        line-height: 2;
       }
       
       /* Fix responsive layout for content sections */
@@ -133,7 +139,7 @@
     }
 
     h2 {
-      font-size: 2.5rem;
+      font-size: 2.7rem; /* Increased from 2.5rem */
       color: #2c3e50;
       margin-bottom: 2rem;
       font-weight: 600;
@@ -146,7 +152,7 @@
     .lead {
       font-size: 1.25rem;
       color: #7f8c8d;
-      line-height: 1.6;
+      line-height: 2;
       max-width: 800px;
       margin: 0 auto;
     }
@@ -244,11 +250,11 @@
       padding: 2rem 0;
 
       h1 {
-        font-size: 2rem;
+        font-size: 2.2rem; /* Increased from 2rem */
       }
 
       .page-subtitle {
-        font-size: 1rem;
+        font-size: 1.1rem; /* Increased from 1rem */
       }
     }
 
@@ -268,11 +274,11 @@
         
         /* Adjust font sizes */
         h2 {
-          font-size: 1.8rem;
+          font-size: 2rem; /* Increased from 1.8rem */
         }
         
         h3 {
-          font-size: 1.5rem;
+          font-size: 1.7rem; /* Increased from 1.5rem */
         }
         
         /* Fix spacing */
@@ -300,7 +306,7 @@
       padding: 2rem 0;
 
       h2 {
-        font-size: 2rem;
+        font-size: 2.2rem; /* Increased from 2rem */
       }
     }
 
@@ -329,26 +335,26 @@
       padding: 1.5rem 0;
 
       h1 {
-        font-size: 1.75rem;
+        font-size: 1.9rem; /* Increased from 1.75rem */
       }
 
       .page-subtitle {
-        font-size: 0.9rem;
+        font-size: 1rem; /* Increased from 0.9rem */
       }
     }
 
     .page-content {
       .dynamic-content {
         h2 {
-          font-size: 1.5rem;
+          font-size: 1.6rem; /* Increased from 1.5rem */
         }
         
         h3 {
-          font-size: 1.25rem;
+          font-size: 1.35rem; /* Increased from 1.25rem */
         }
         
         p, li, td, th {
-          font-size: 0.95rem;
+          font-size: 1rem; /* Increased from 0.95rem */
         }
       }
     }
@@ -357,12 +363,12 @@
       padding: 1.5rem 0;
 
       h2 {
-        font-size: 1.75rem;
+        font-size: 1.9rem; /* Increased from 1.75rem */
         margin-bottom: 1.5rem;
       }
 
       .lead {
-        font-size: 1rem;
+        font-size: 1.1rem; /* Increased from 1rem */
       }
     }
   }

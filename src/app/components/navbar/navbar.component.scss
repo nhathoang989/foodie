@@ -2,7 +2,7 @@
 
 // Navbar specific styles
 .navbar {
-  background: $background-light;
+  background-color: $background-light;
   color: $text-color;
   border-bottom: 1px solid $border-color;
   box-shadow: 0 2px 20px rgba($deep-brown, 0.08);
@@ -12,7 +12,7 @@
   transition: all 0.3s ease;
 
   &.scrolled {
-    background: $background-light;
+    
     box-shadow: 0 2px 10px rgba($deep-brown, 0.08);
     border-bottom: 1px solid $border-color;
   }
@@ -20,7 +20,7 @@
   .navbar-brand {
     font-size: 1.8rem;
     font-weight: 700;
-    color: $primary-color;
+    color: $deep-brown;
     text-decoration: none;
     transition: all 0.3s ease;
     display: flex;
@@ -223,7 +223,7 @@
         transition: all 0.3s ease;
 
         &:hover {
-          background: $background-light;
+          
           transform: translateX(5px);
         }
 
@@ -394,7 +394,7 @@
         border-bottom: 1px solid $light-gray;
 
         &:hover {
-          background: $background-light;
+          
           color: $primary-color;
           transform: translateX(5px);
         }
@@ -576,7 +576,7 @@
       font-size: 1.5rem;
 
       .brand-icon {
-        height: 1.7rem;
+        height: 1.5rem; /* Reduced from 1.7rem */
         width: auto;
       }
     }
@@ -589,6 +589,24 @@
     .mobile-menu-toggle,
     .mobile-search-toggle {
       font-size: 1.3rem;
+    }
+  }
+}
+
+/* Extra small screens */
+@media (max-width: 480px) {
+  .navbar {
+    .navbar-brand {
+      font-size: 1.3rem;
+
+      .brand-icon {
+        height: 1.3rem;
+        width: auto;
+      }
+      
+      .brand-text {
+        font-size: 1.1rem;
+      }
     }
   }
 }
@@ -695,8 +713,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 80vw;
-  max-width: 320px;
+  width: calc(80vw + 10px);
+  max-width: 330px;
   height: 100vh;
   background: $white;
   box-shadow: 2px 0 24px $shadow-medium;
@@ -704,6 +722,22 @@
   padding: 1.5rem 1rem 1rem 1.5rem;
   animation: sidebarSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow-y: auto;
+  
+  @media (max-width: 480px) {
+    width: calc(85vw + 10px);
+    max-width: 330px;
+    
+    .sidebar-brand {
+      .brand-icon {
+        height: 1.3rem;
+        width: auto;
+      }
+      
+      .brand-text {
+        font-size: 1.1rem;
+      }
+    }
+  }
 
   .sidebar-header {
     display: flex;
@@ -725,12 +759,23 @@
     }
     .sidebar-brand {
       display: flex;
-      align-items: center;
+      align-items: flex-start; /* Align at top */
       gap: 0.5rem;
       font-size: 1.3rem;
-      color: $primary-color;
+      color: $muted-red-dark;
       text-decoration: none;
       font-weight: $font-weight-bold;
+      
+      .brand-icon {
+        height: 1.5rem; /* Reduced from 1.8rem */
+        width: auto;
+        animation: none; /* Remove animation in mobile sidebar */
+        margin-top: 0.3rem; /* Add top margin to align with the first line of text */
+      }
+      
+      .brand-text {
+        line-height: 1.4; /* Improved line height for better readability */
+      }
     }
   }
   .sidebar-nav {
@@ -802,6 +847,30 @@
       font-weight: $font-weight-semibold;
       &:hover {
         background: rgba($danger-color, 0.08);
+      }
+    }
+  }
+}
+
+// Extra small screens - Adjust sidebar brand icon
+@media (max-width: 480px) {
+  .mobile-sidebar {
+    width: calc(85vw + 10px);
+    max-width: 330px;
+    
+    .sidebar-header {
+      .sidebar-brand {
+        font-size: 1.2rem;
+        
+        .brand-icon {
+          height: 1.3rem;
+          width: auto;
+          margin-top: 0.15rem; /* Slightly adjust the top margin for smaller screens */
+        }
+        
+        .brand-text {
+          line-height: 1.3; /* Tighter line height for smaller screens */
+        }
       }
     }
   }

@@ -20,13 +20,13 @@ $gray-700: #495057;
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
-  background: $background-light;
+  
   border-radius: 16px;
   box-shadow: 0 2px 16px $shadow-medium;
   padding: 2rem;
   margin: 2rem auto;
   max-width: 1000px;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: 'TravelingTypewriter', monospace;
 
   .gallery-section {
     flex: 1 1 320px;
@@ -177,7 +177,7 @@ $gray-700: #495057;
 .related-section {
   max-width: 1000px;
   margin: 2rem auto 0 auto;
-  background: $background-light;
+  
   border-radius: 15px;
   padding: 2rem 2.5rem;
   box-shadow: 0 4px 16px $shadow-medium;
@@ -308,7 +308,7 @@ $gray-700: #495057;
 }
 .image-popup {
   position: relative;
-  background: $background-light;
+  
   border-radius: 12px;
   padding: 1.5rem;
   box-shadow: 0 4px 32px rgba(0,0,0,0.18);

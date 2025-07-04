@@ -1,6 +1,27 @@
 // Custom Theming for Angular Material - FoodieExpress Theme
 @use '@angular/material' as mat;
 
+// Define custom fonts
+@font-face {
+  font-family: 'LHanoienne';
+  src: url('/assets/fonts/LHanoienne-dfgth5.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'TravelingTypewriter';
+  src: url('/assets/fonts/TravelingTypewriter.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+// Global font-family variables
+$title-font-family: 'LHanoienne', serif;
+$body-font-family: 'TravelingTypewriter', monospace;
+
 // Define custom color palette for food app
 $primary-palette: (
   50: #fff3e0,
@@ -80,18 +101,60 @@ $foodie-theme: mat.m2-define-light-theme((
     accent: $foodie-accent,
     warn: $foodie-warn,
   ),
-  typography: mat.m2-define-typography-config(),
+  typography: mat.m2-define-typography-config(
+    $font-family: $body-font-family,
+    $headline-1: mat.m2-define-typography-level(
+      $font-size: 2.5rem,
+      $font-family: $title-font-family,
+      $font-weight: 400,
+    ),
+    $headline-2: mat.m2-define-typography-level(
+      $font-size: 2rem,
+      $font-family: $title-font-family,
+      $font-weight: 400,
+    ),
+    $headline-3: mat.m2-define-typography-level(
+      $font-size: 1.75rem,
+      $font-family: $title-font-family,
+      $font-weight: 400,
+    ),
+    $headline-4: mat.m2-define-typography-level(
+      $font-size: 1.5rem,
+      $font-family: $title-font-family,
+      $font-weight: 400,
+    ),
+    $headline-5: mat.m2-define-typography-level(
+      $font-size: 1.25rem,
+      $font-family: $title-font-family,
+      $font-weight: 400,
+    ),
+    $headline-6: mat.m2-define-typography-level(
+      $font-size: 1rem,
+      $font-family: $title-font-family,
+      $font-weight: 400,
+    ),
+  ),
   density: 0,
 ));
 
 // Apply the theme
 @include mat.all-component-themes($foodie-theme);
 
+// Apply custom fonts to Angular Material components
+.mat-typography {
+  font-family: $body-font-family;
+  
+  h1, h2, h3, h4, h5, h6, .mat-headline-1, .mat-headline-2, 
+  .mat-headline-3, .mat-headline-4, .mat-headline-5, .mat-headline-6 {
+    font-family: $title-font-family !important;
+  }
+}
+
 // FoodieExpress Vintage Menu Color Palette
 $parchment-bg: #e6d3b3;
 $parchment-bg-dark: #cbb893;
 $parchment-bg-light: #f5ecd7;
-$deep-brown: #5a3a1b;
+$deep-brown: #5f4d34;
 $mid-brown: #7c5a36;
 $muted-red: #a13d2d;
 $muted-red-dark: #8c2e1b;
@@ -141,12 +204,13 @@ body {
   background-attachment: fixed;
   min-height: 100vh;
   color: $text-color;
-  font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+  font-family: $body-font-family;
 }
 
 // Example: apply to headings and buttons
 a, h1, h2, h3, h4, h5, h6 {
   color: $deep-brown;
+  font-family: $title-font-family;
 }
 
 button, .btn, .mat-raised-button, .mat-flat-button {
@@ -163,7 +227,7 @@ button, .btn, .mat-raised-button, .mat-flat-button {
 }
 
 .card, .mat-card, .login-card, .static-page, .navbar, .sidebar {
-  background: $background-light;
+  
   color: $deep-brown;
   border: 1px solid $border-color;
   box-shadow: 0 2px 12px rgba($deep-brown, 0.06);
@@ -175,10 +239,11 @@ html, body {
   margin: 0; 
   padding: 0;
   box-sizing: border-box;
+  font-family: $body-font-family;
 }
 
 body { 
-  font-family: 'Inter', Roboto, "Helvetica Neue", sans-serif; 
+  font-family: $body-font-family;
   background: url('/assets/bg.jpg') repeat-y center top fixed, #f8f9fa;
   background-size: 100% auto;
   background-attachment: fixed;
@@ -231,6 +296,21 @@ body {
     background-color: #666;
     color: white;
   }
+}
+
+// Global font styles
+.title, .card-title, .section-title, label, legend, 
+.mat-card-title, .mat-dialog-title, .navbar-brand, 
+.carousel-header h2, .dish-name, .dish-header h3, 
+.mat-toolbar, .mat-tab-label {
+  font-family: 'LHanoienne', serif !important;
+}
+
+p, span, div, button, input, textarea, select, 
+.card-text, .mat-card-content, .mat-dialog-content, 
+.dish-description, .slide-description, 
+.form-control, .input-field, .mat-form-field {
+  font-family: 'TravelingTypewriter', monospace !important;
 }
 
 // Custom scrollbar

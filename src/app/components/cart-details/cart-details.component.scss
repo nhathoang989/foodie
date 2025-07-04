@@ -13,10 +13,10 @@
   max-width: 900px;
   margin: 2rem auto;
   padding: 2rem;
-  background: $background-light;
+  
   border-radius: 16px;
   box-shadow: 0 2px 16px $shadow-medium;
-  font-family: 'Segoe UI', Arial, sans-serif;
+  font-family: 'TravelingTypewriter', monospace;
   color: $text-color;
 
   h2 {
@@ -204,7 +204,7 @@
     border: 1px solid $accent-color;
     border-radius: 6px;
     font-size: 1rem;
-    background: $background-light;
+    
     color: $secondary-color;
     margin-left: 0.5rem;
     min-width: 160px;

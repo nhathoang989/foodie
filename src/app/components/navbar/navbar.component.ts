@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { map, filter, debounceTime, distinctUntilChanged, switchMap, takeUntil } from 'rxjs/operators';
 import { Dish } from '../../models';
 import { MatIconModule } from '@angular/material/icon';
+import { environment } from '../../../environments/environment';
 
 interface Breadcrumb {
   label: string;
@@ -45,6 +46,10 @@ export class NavbarComponent implements OnInit, OnDestroy {
   
   // Breadcrumbs
   breadcrumbs: Breadcrumb[] = [];
+  
+  // Site name from environment
+  siteName: string = environment.siteName;
+  siteDescription: string = environment.siteDescription;
   
   // User (placeholder for authentication)
   currentUser: any = null;

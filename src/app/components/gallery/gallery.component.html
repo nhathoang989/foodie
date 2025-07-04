@@ -1,0 +1,36 @@
+<div class="gallery-container">
+  <div class="gallery-grid">
+    <div 
+      class="gallery-item" 
+      *ngFor="let image of images(); trackBy: trackByImageSrc"
+      (click)="openImagePopup(image)"
+    >
+      <img 
+        [src]="image.src" 
+        [alt]="image.alt" 
+        [title]="image.title"
+        loading="lazy"
+      />
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-content">
+          <mat-icon>zoom_in</mat-icon>
+          <span>View Image</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Image Popup -->
+<div class="image-popup-backdrop" *ngIf="showImagePopup()" (click)="closeImagePopup()">
+  <div class="image-popup" (click)="$event.stopPropagation()">
+    <img 
+      [src]="selectedImage()?.src" 
+      [alt]="selectedImage()?.alt" 
+      *ngIf="selectedImage()"
+    />
+    <button class="close-btn" (click)="closeImagePopup()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>

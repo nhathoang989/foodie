@@ -26,7 +26,6 @@ $gray-700: #495057;
   padding: 2rem;
   margin: 2rem auto;
   max-width: 1000px;
-  font-family: 'TravelingTypewriter', monospace;
 
   .gallery-section {
     flex: 1 1 320px;
@@ -91,7 +90,7 @@ $gray-700: #495057;
       .price {
         font-size: 1.4rem;
         font-weight: 700;
-        color: $accent-color;
+        color: $primary-color;
       }
       .prep-time {
         color: $medium-gray;

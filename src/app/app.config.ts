@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection, importProvidersFrom } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withViewTransitions } from '@angular/router';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { APP_BASE_HREF } from '@angular/common';
@@ -14,7 +14,11 @@ function getBaseHref() {
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }), 
-    provideRouter(routes),
+    provideRouter(
+      routes,
+      withViewTransitions(),
+      // Enable scrolling to top on navigation
+    ),
     provideAnimationsAsync(),
     provideHttpClient(withInterceptorsFromDi()),
     { provide: APP_BASE_HREF, useFactory: getBaseHref },

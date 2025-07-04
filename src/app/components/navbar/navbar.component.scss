@@ -39,6 +39,16 @@
       object-fit: contain;
     }
 
+    .brand-text {
+      font-family: 'LHanoienne', serif !important;
+      letter-spacing: 0.5px;
+      text-shadow: 1px 1px 1px rgba($deep-brown, 0.1);
+      line-height: 1.2;
+      display: inline-block;
+      transform-origin: left center;
+      transition: all 0.3s ease;
+    }
+
     &.scrolled {
       font-size: 1.1rem;
 
@@ -66,6 +76,7 @@
       border-radius: 0.5rem;
       transition: all 0.3s ease;
       position: relative;
+      font-family: $body-font-family;
 
       &:hover,
       &.active {
@@ -605,7 +616,7 @@
       }
       
       .brand-text {
-        font-size: 1.1rem;
+        font-size: 1rem;
       }
     }
   }
@@ -651,7 +662,7 @@
         align-items: center;
         gap: 0.5rem;
         font-size: 1.3rem;
-        color: $primary-color;
+        color: $deep-brown;
         text-decoration: none;
         font-weight: $font-weight-bold;
       }
@@ -684,8 +695,8 @@
         border-radius: 0.5rem;
         transition: all 0.3s ease;
         &:hover {
-          color: $primary-color;
-          background: rgba($primary-color, 0.1);
+          color: $deep-brown;
+          background: rgba($deep-brown, 0.1);
         }
       }
       .cart-badge {
@@ -762,7 +773,7 @@
       align-items: flex-start; /* Align at top */
       gap: 0.5rem;
       font-size: 1.3rem;
-      color: $muted-red-dark;
+      color: $deep-brown;
       text-decoration: none;
       font-weight: $font-weight-bold;
       

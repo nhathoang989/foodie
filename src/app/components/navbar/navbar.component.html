@@ -13,9 +13,10 @@
 
     <!-- Desktop Navigation Links -->
     <ul class="navbar-nav desktop-nav" *ngIf="isDesktop" id="main-menu" role="menubar">
-      <li role="none"><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">🏠</span><span *ngIf="!isScrolled">Home</span></a></li>
-      <li role="none"><a routerLink="/about" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">ℹ️</span><span *ngIf="!isScrolled">About</span></a></li>
-      <li role="none"><a routerLink="/contact" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">✉️</span><span *ngIf="!isScrolled">Contact</span></a></li>
+      <li role="none"><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">🏠</span><span *ngIf="!isScrolled">Trang chủ</span></a></li>
+      <li role="none"><a routerLink="/about" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">ℹ️</span><span *ngIf="!isScrolled">Về Cụi</span></a></li>
+
+      <li role="none"><a routerLink="/contact" routerLinkActive="active" class="nav-link" role="menuitem" tabindex="0"><span *ngIf="isScrolled">✉️</span><span *ngIf="!isScrolled">Liên hệ</span></a></li>
       <!-- Admin Links (Desktop) -->
       <ng-container *ngIf="currentUser?.roles?.includes('SuperAdmin') || currentUser?.roles?.includes('Owner')">
         <li role="none" class="admin-popover-trigger" style="position:relative;">
@@ -118,12 +119,12 @@
         </button>
         <div class="user-dropdown" *ngIf="isUserMenuOpen">
           <div *ngIf="currentUser; else guestMenu">
-            <a routerLink="/profile" class="dropdown-item">Profile</a><br>
-            <button (click)="logout()" class="dropdown-item logout">Logout</button>
+            <a routerLink="/profile" class="dropdown-item">Thông tin</a><br>
+            <button (click)="logout()" class="dropdown-item logout">Đăng xuất</button>
           </div>
           <ng-template #guestMenu>
-            <a routerLink="/login" class="dropdown-item">Login</a>
-            <a routerLink="/register" class="dropdown-item">Register</a>
+            <a routerLink="/login" class="dropdown-item">Đăng nhập</a>
+            <a routerLink="/register" class="dropdown-item">Đăng ký</a>
           </ng-template>
         </div>
       </div>
@@ -141,9 +142,10 @@
       <button class="close-sidebar" (click)="closeMobileMenu()" aria-label="Close menu">×</button>
     </div>
     <ul class="sidebar-nav">
-      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileMenu()">Home</a></li>
-      <li><a routerLink="/about" routerLinkActive="active" (click)="closeMobileMenu()">About</a></li>
-      <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">Contact</a></li>
+      <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileMenu()">Về chúng tôi</a></li>
+      <li><a routerLink="/about" routerLinkActive="active" (click)="closeMobileMenu()">Về Cụi</a></li>
+
+      <li><a routerLink="/contact" routerLinkActive="active" (click)="closeMobileMenu()">Liên hệ</a></li>
       <!-- Admin Links (Mobile) -->
       <ng-container *ngIf="currentUser?.roles?.includes('SuperAdmin') || currentUser?.roles?.includes('Owner')">
         <li>
@@ -178,12 +180,12 @@
           <span class="user-avatar">{{ currentUser.name | slice:0:1 }}</span>
           <span class="user-name">{{ currentUser.name }}</span>
         </div>
-        <a routerLink="/profile" (click)="closeMobileMenu()">Profile</a><br>
-        <button (click)="logout(); closeMobileMenu()" class="logout">Logout</button>
+        <a routerLink="/profile" (click)="closeMobileMenu()">Thông tin</a><br>
+        <button (click)="logout(); closeMobileMenu()" class="logout">Đăng xuất</button>
       </div>
       <ng-template #guestSidebarMenu>
-        <a routerLink="/login" (click)="closeMobileMenu()">Login</a>
-        <a routerLink="/register" (click)="closeMobileMenu()">Register</a>
+        <a routerLink="/login" (click)="closeMobileMenu()">Đăng nhập</a>
+        <a routerLink="/register" (click)="closeMobileMenu()">Đăng ký</a>
       </ng-template>
     </div>
   </aside>
@@ -228,7 +230,7 @@
   </div>
 </nav>
 <!-- Breadcrumb Navigation -->
-<div class="container-fluid breadcrumb-container">
+<!-- <div class="container-fluid breadcrumb-container">
   <nav class="breadcrumbs" *ngIf="breadcrumbs.length > 1">
     <ul class="breadcrumb">
       <li class="breadcrumb-item" *ngFor="let crumb of breadcrumbs; let last = last">
@@ -239,4 +241,4 @@
       </li>
     </ul>
   </nav>
-</div>
+</div> -->

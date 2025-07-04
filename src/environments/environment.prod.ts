@@ -5,5 +5,6 @@ export const environment = {
   dishesPerPage: 12,
   cacheTimeout: 300000,
   currency: 'USD',
+  currencySymbol: '₫',
   taxRate: 0.08
 };

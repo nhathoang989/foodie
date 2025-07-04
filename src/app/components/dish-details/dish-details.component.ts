@@ -1,4 +1,5 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DishService } from '../../services/dish.service';
 import { CartService } from '../../services/cart.service';
@@ -31,6 +32,9 @@ export class DishDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Scroll to top when component initializes
+    window.scrollTo(0, 0);
+    
     this.route.paramMap.subscribe(params => {
       const id = Number(params.get('id'));
       if (id) {
@@ -40,6 +44,9 @@ export class DishDetailsComponent implements OnInit {
             this.dishService.getDishesByCategory(dish.category_id, 0, 8).subscribe(res => {
               // Exclude current dish from related
               this.relatedDishes.set(res.items.filter(d => d.id !== dish.id));
+              
+              // Ensure we're at the top of the page after data loads
+              window.scrollTo(0, 0);
             });
           }
         });
@@ -117,5 +124,9 @@ export class DishDetailsComponent implements OnInit {
   get renderedExcerpt(): string {
     const d = this.dish();
     return d && d.excerpt ? marked(d.excerpt, { async: false }) : '';
+  }
+
+  formatPrice(price: number): string {
+    return `${Math.round(price).toLocaleString()} ${environment.currencySymbol}`;
   }
 }

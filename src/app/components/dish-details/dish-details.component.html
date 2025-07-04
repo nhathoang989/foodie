@@ -15,7 +15,7 @@
     <div class="excerpt" *ngIf="d.excerpt" [innerHTML]="renderedExcerpt"></div>
     <div class="description" [innerHTML]="renderedDescription"></div>
     <div class="price-time">
-      <span class="price">${{ d.price.toFixed(2) }}</span>
+      <span class="price">{{ formatPrice(d.price) }}</span>
       <span class="prep-time" *ngIf="d.preparation_time">Prep: {{ d.preparation_time }} min</span>
     </div>
     <div class="nutrition" *ngIf="d.nutritional_info">
@@ -56,7 +56,7 @@
       <img [src]="r.image_url" [alt]="r.name" />
       <div class="related-info">
         <div class="related-name">{{ r.name }}</div>
-        <div class="related-price">${{ r.price.toFixed(2) }}</div>
+        <div class="related-price">{{ formatPrice(r.price) }}</div>
         <button (click)="scrollToTop(); router.navigate(['/dish', r.id])">View</button>
       </div>
     </div>

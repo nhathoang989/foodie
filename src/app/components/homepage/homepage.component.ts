@@ -11,6 +11,7 @@ import { CartService } from '../../services/cart.service';
 import { NotificationService } from '../../services/notification.service';
 import { LoadingService } from '../../services/loading.service';
 import { Dish, Category, DishFilter, CartState } from '../../models';
+import { environment } from '../../../environments/environment';
 import { IPaginationResultModel } from '@mixcore/sdk-client';
 
 @Component({
@@ -403,7 +404,9 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Utility methods
   formatPrice(price: number): string {
-    return `$${price.toFixed(2)}`;
+    // Use environment variable for currency symbol
+    // Format: 10,000 ₫ (no decimals)
+    return `${Math.round(price).toLocaleString()} ${environment.currencySymbol}`;
   }
 
   getDefaultImage(): string {

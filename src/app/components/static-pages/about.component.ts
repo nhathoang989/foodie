@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { PageService } from '../../services/page-service';
 import { PageContent } from '../../models';
 import { FormattedTextComponent } from '../shared/formatted-text/formatted-text.component';
+import { GalleryComponent } from '../gallery/gallery.component';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, FormattedTextComponent],
+  imports: [CommonModule, FormattedTextComponent, GalleryComponent],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
   encapsulation: ViewEncapsulation.None

@@ -4,11 +4,12 @@ import { PageService } from '../../services/page-service';
 import { PageContent } from '../../models';
 import { FormattedTextComponent } from '../shared/formatted-text/formatted-text.component';
 import { GalleryComponent } from '../gallery/gallery.component';
+import { PromotionComponent } from '../promotion/promotion.component';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, FormattedTextComponent, GalleryComponent],
+  imports: [CommonModule, FormattedTextComponent, GalleryComponent, PromotionComponent],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
   encapsulation: ViewEncapsulation.None

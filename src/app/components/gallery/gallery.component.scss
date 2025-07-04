@@ -1,8 +1,8 @@
 @use '../../../styles.scss' as *;
 
 .gallery-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
   padding: 2rem 1rem;
   font-family: $body-font-family;
 }

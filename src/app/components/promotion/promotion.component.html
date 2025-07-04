@@ -1,0 +1,90 @@
+<div class="promotion-container">
+  <div class="promotion-header">
+    <h2>Khuyến Mãi Đặc Biệt</h2>
+  </div>
+
+  <div class="promotion-content">
+    <div class="promotion-title">
+      <h3>CẬP BẾN "BỘ TỨ COMBO" SIÊU HẤP DẪN TẠI CỤI</h3>
+    </div>
+
+    <div class="promotion-text">
+      <p>
+        🍛 Cụi biết rằng, ăn cơm không chỉ để no bữa, mà còn để thưởng thức hết
+        những tinh hoa ẩm thực mà món ăn đó mang lại, ăn để du dương, để thương,
+        để nhớ. Thế, nên các món ăn ở Cụi luôn được chế biến kĩ càng và bày biện
+        bắt mắt để mang đến những "món quà" ẩm thực neo đậu trong lòng thực
+        khách mỗi lần ghé thăm.
+      </p>
+
+      <p>
+        Đậm chất Việt Nam hoài cổ nhưng cực kì gần gũi với bữa ăn gia đình, món
+        kho tộ, món gỏi, món rau luộc hay món chè sen xứ Huế được thiết kế làm
+        món tráng miệng đặc trưng ở Cụi.
+      </p>
+
+      <p>Tất cả tạo nên nét hoà quyện khó quên.</p>
+
+      <p>
+        Cụi xin gửi đến quý khách <strong>BỘ TỨ COMBO</strong> siêu bắt vị được
+        Cụi chọn lọc qua những món best-seller nhà Cụi:
+      </p>
+
+      <div class="combo-list">
+        <div class="combo-item">
+          📍 <strong>COMBO2N:</strong> YÊU NHAU TAM TỨ NÚI CŨNG ĐÈO
+        </div>
+        <div class="combo-item">
+          📍 <strong>COMBO3N:</strong> CẢ NHÀ THƯƠNG NHAU
+        </div>
+        <div class="combo-item">
+          📍 <strong>COMBO4N:</strong> ANH EM ĐỒNG KHỞI
+        </div>
+        <div class="combo-item">
+          📍 <strong>COMBO5N:</strong> NĂM MƯỜI MƯỜI LĂM 20
+        </div>
+      </div>
+
+      <div class="contact-info">
+        <p>
+          Liên hệ đặt bàn qua hotline: <a href="tel:0898184176"><strong>0898.184.176</strong></a> hoặc qua
+          fanpage
+        </p>
+        <p class="slogan">Đến Cụi, để thưởng thức nhiều hơn một bữa cơm.....</p>
+      </div>
+    </div>
+
+    <div class="promotion-images">
+      <div
+        class="promotion-image-item"
+        *ngFor="let image of images(); trackBy: trackByImageSrc"
+        (click)="openImagePopup(image)"
+      >
+        <img
+          [src]="image.src"
+          [alt]="image.alt"
+          [title]="image.title"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Image Popup -->
+<div
+  class="image-popup-backdrop"
+  *ngIf="showImagePopup()"
+  (click)="closeImagePopup()"
+>
+  <div class="image-popup" (click)="$event.stopPropagation()">
+    <img
+      [src]="selectedImage()?.src"
+      [alt]="selectedImage()?.alt"
+      *ngIf="selectedImage()"
+    />
+    <button class="close-btn" (click)="closeImagePopup()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</div>

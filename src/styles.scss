@@ -20,7 +20,7 @@
 
 // Global font-family variables
 $title-font-family: 'LHanoienne', serif;
-$body-font-family: 'Libertinus Mono', monospace;
+$body-font-family: 'TravelingTypewriter';
 
 // Define custom color palette for food app
 $primary-palette: (
@@ -299,10 +299,19 @@ body {
 }
 
 // Global font styles
+
 .navbar-brand .brand-text {
   font-family: $title-font-family !important;
   font-weight: 600;
   letter-spacing: 0.5px;
+  font-size: 2rem;
+}
+
+@media (max-width: 576px) {
+  .navbar-brand .brand-text {
+    font-size: 1.2rem !important;
+    line-height: 1.2;
+  }
 }
 
 .title, .card-title, .section-title, label, legend, 

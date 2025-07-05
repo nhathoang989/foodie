@@ -60,10 +60,10 @@
 </section>
 
 <!-- Filter Section -->
-<section class="filter-section">
+<section class="filter-section" #filterSection>
   <div class="container">
     <div class="filter-bar">
-      <div class="category-filters">
+      <div class="category-filters-scroll">
         <button
           class="category-btn"
           [class.active]="selectedCategory() === null"
@@ -108,7 +108,7 @@
   <div class="container">
     <div class="dishes-grid">
       <div
-        *ngFor="let dish of filteredDishes(); trackBy: trackByDishId"
+        *ngFor="let dish of limitedDishes(); trackBy: trackByDishId"
         class="dish-card"
         [class.out-of-stock]="
           !dish.availability || (dish.inventory && dish.inventory <= 0)

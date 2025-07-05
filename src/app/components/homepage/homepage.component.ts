@@ -26,6 +26,9 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$ = new Subject<void>();
   private searchSubject = new Subject<string>();
 
+  // Track previous category for scroll logic
+  private previousCategory: number | null = null;
+
   // Signals for reactive state management
   dishes = signal<Dish[]>([]);
   categories = signal<Category[]>([]);
@@ -58,12 +61,21 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     return filtered;
   });
 
+  // Limit dishes for iPhone SE and similar small screens
+  limitedDishes() {
+    if (window.innerWidth <= 375) {
+      return this.filteredDishes().slice(0, 6);
+    }
+    return this.filteredDishes();
+  }
+
   // Banner carousel state
   currentBannerIndex = signal(0);
   bannerInterval: any;
   // Cart state - will be initialized in constructor
   cartState$: Observable<CartState>;
 
+  @ViewChild('filterSection') filterSection!: ElementRef<HTMLElement>;
   @ViewChild('dishGridSection') dishGridSection!: ElementRef<HTMLElement>;
   private pendingScrollToResults = false;
   private readonly pageSize = 12;
@@ -172,15 +184,13 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
             const updatedDishes = [...currentDishes, ...newDishes];
             this.dishes.set(updatedDishes);
           }
-          
           // Update pagination state
           const total = response.pagingData?.total ?? 0;
           const currentPage = response.pagingData?.pageIndex ?? 0;
           const totalPages = Math.ceil(total / this.pageSize);
-          
           this.hasMoreDishes.set(currentPage < totalPages - 1);
-          
-          if (reset && this.searchTerm()) {
+          // Only scroll to results if searching (not when changing category)
+          if (reset && this.searchTerm() && !this.selectedCategory()) {
             this.scrollToResults();
           }
         },
@@ -236,9 +246,9 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private scrollToResults(): void {
-    if (this.dishGridSection && this.dishGridSection.nativeElement) {
+    if (this.filterSection && this.filterSection.nativeElement) {
       setTimeout(() => {
-        this.dishGridSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        this.filterSection.nativeElement.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }, 0);
     } else {
       this.pendingScrollToResults = true;
@@ -253,6 +263,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     ).subscribe(searchTerm => {
       this.searchTerm.set(searchTerm);
       this.loadDishes(true); // Reset dishes when searching
+      this.scrollToResults();
     });
   }
 
@@ -260,13 +271,28 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.route.queryParams.pipe(
       takeUntil(this.destroy$)
     ).subscribe(params => {
+      let categoryChanged = false;
       if (params['category']) {
-        this.selectedCategory.set(parseInt(params['category']));
+        const newCategory = parseInt(params['category']);
+        if (this.previousCategory !== newCategory) {
+          categoryChanged = true;
+        }
+        this.selectedCategory.set(newCategory);
+        this.previousCategory = newCategory;
+      } else {
+        if (this.previousCategory !== null) {
+          categoryChanged = true;
+        }
+        this.selectedCategory.set(null);
+        this.previousCategory = null;
       }
       if (params['search']) {
         this.searchTerm.set(params['search']);
       }
       this.loadDishes(true); // Reset dishes when route changes
+      if (categoryChanged) {
+        this.scrollToResults();
+      }
     });
   }
 
@@ -290,7 +316,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
   onCategorySelect(categoryId: number | null): void {
     this.selectedCategory.set(categoryId);
     this.updateUrlParams();
-    this.loadDishes(true); // Reset dishes when category changes
+    // Do NOT call loadDishes or scrollToResults here; let queryParams subscription handle it
   }
 
   onSortChange(event: Event): void {
@@ -299,6 +325,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
     this.sortByColumn.set(sortBy as 'name' | 'price');
     this.sortByDirection.set(direction as 'asc' | 'desc');
     this.loadDishes(true); // Reset dishes when sort changes
+    this.scrollToResults();
   }
 
   loadMoreManually(): void {

@@ -743,6 +743,60 @@ $gray-700: #495057;
   }
 }
 
+// iPhone SE and similar (≤375px)
+@media (max-width: 375px) {
+  .container {
+    padding: 0 2px;
+    max-width: 100vw;
+  }
+  .banner-section {
+    padding: 1.2rem 0;
+    .banner-carousel .carousel-header h2 {
+      font-size: 1.2rem;
+    }
+    .carousel-slides .slide .slide-overlay .slide-content {
+      min-height: 100px;
+      max-height: 100px;
+      height: 100px;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+    }
+  }
+  .dishes-section {
+    padding: 0.5rem 0 0 0;
+    .dishes-grid {
+      gap: 0.5rem;
+    }
+    .dish-card {
+      padding: 0.5rem;
+      .dish-info {
+        padding: 0.5rem 0 0 0;
+      }
+      .dish-header h3 {
+        font-size: 1rem;
+      }
+      .dish-description {
+        font-size: 0.9rem;
+      }
+    }
+  }
+  .floating-cart {
+    display: none !important;
+  }
+  .filter-section {
+    .filter-bar {
+      gap: 0.5rem;
+      .category-filters {
+        flex-wrap: wrap;
+        gap: 0.25rem;
+      }
+      .sort-controls {
+        margin-top: 0.25rem;
+      }
+    }
+  }
+}
+
 // Responsive: allow slide-content to shrink on small screens
 @media (max-width: 600px) {
   .banner-section .banner-carousel .carousel-slides .slide .slide-overlay .slide-content {
@@ -751,4 +805,60 @@ $gray-700: #495057;
     height: 160px;
     padding: 1rem;
   }
+}
+
+// Category Filters Scroll
+.category-filters-scroll {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
+  .category-btn {
+    border-radius: 999px;
+    background: #f8f9fa;
+    color: #333;
+    border: 1px solid #e0e0e0;
+    padding: 0.5rem 1.2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: background 0.2s, color 0.2s, border 0.2s;
+    cursor: pointer;
+    box-shadow: none;
+    outline: none;
+    &:hover, &.active {
+      background: #333;
+      color: #fff;
+      border: 1px solid #333;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .category-filters-scroll {
+    gap: 0.25rem;
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.25rem;
+    .category-btn {
+      font-size: 0.95rem;
+      padding: 0.4rem 1rem;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .category-filters-scroll {
+    .category-btn {
+      font-size: 0.9rem;
+      padding: 0.35rem 0.7rem;
+    }
+  }
+}
+
+// Remove old .category-filters gap for new scroll style
+.filter-section .filter-bar .category-filters {
+  gap: 0;
+  justify-content: flex-start;
 }

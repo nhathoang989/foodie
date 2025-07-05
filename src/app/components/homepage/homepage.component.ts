@@ -13,6 +13,7 @@ import { LoadingService } from '../../services/loading.service';
 import { Dish, Category, DishFilter, CartState } from '../../models';
 import { environment } from '../../../environments/environment';
 import { IPaginationResultModel } from '@mixcore/sdk-client';
+import { PriceUtil } from '../../utils/price.util';
 
 @Component({
   selector: 'app-homepage',
@@ -431,9 +432,7 @@ export class HomepageComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // Utility methods
   formatPrice(price: number): string {
-    // Use environment variable for currency symbol
-    // Format: 10,000 ₫ (no decimals)
-    return `${Math.round(price).toLocaleString()} ${environment.currencySymbol}`;
+    return PriceUtil.formatPrice(price);
   }
 
   getDefaultImage(): string {

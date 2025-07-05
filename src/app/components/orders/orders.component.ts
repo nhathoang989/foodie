@@ -5,11 +5,12 @@ import { OrderService } from '../../services/order.service';
 import { CartService } from '../../services/cart.service';
 import { NotificationService } from '../../services/notification.service';
 import { Order, OrderItem } from '../../models';
+import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-orders',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, TranslatePipe],
   templateUrl: './orders.component.html',
   styleUrls: ['./orders.component.scss']
 })

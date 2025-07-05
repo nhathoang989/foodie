@@ -59,10 +59,11 @@
   .navbar-nav {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 1rem;
     list-style: none;
     margin: 0;
     padding: 0;
+    flex-shrink: 0;
 
     li {
       display: flex;
@@ -73,11 +74,12 @@
       color: $secondary-color;
       text-decoration: none;
       font-weight: 500;
-      padding: 0.5rem 1rem;
+      padding: 0.5rem 0.75rem;
       border-radius: 0.5rem;
       transition: all 0.3s ease;
       position: relative;
       font-family: $body-font-family;
+      white-space: nowrap;
 
       &:hover,
       &.active {
@@ -114,11 +116,14 @@
   .navbar-actions {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 0.75rem;
+    flex-shrink: 0;
+    min-width: 0;
 
     .cart-button,
     .user-button {
       color: $primary-color;
+      flex-shrink: 0;
     }
 
     .user-avatar {
@@ -126,16 +131,114 @@
       width: 28px;
       height: 28px;
     }
+
+    .navbar-search {
+      max-width: 300px;
+      min-width: 200px;
+    }
   }
 
   .navbar-flex {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 1.5rem;
+    flex-wrap: nowrap;
+    gap: 1rem;
     min-height: 48px;
     padding: 0 0.5rem;
+  }
+
+  .desktop-content {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex: 1;
+    justify-content: space-between;
+    min-width: 0;
+  }
+
+  .navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+    min-width: 0;
+    order: 1;
+
+    .cart-button,
+    .user-button {
+      color: $primary-color;
+      flex-shrink: 0;
+    }
+
+    .user-avatar {
+      font-size: 1.1rem;
+      width: 28px;
+      height: 28px;
+    }
+
+    .navbar-search {
+      max-width: 300px;
+      min-width: 200px;
+    }
+  }
+
+  .navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+    order: 2;
+    margin-left: auto;
+
+    li {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: $secondary-color;
+      text-decoration: none;
+      font-weight: 500;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      font-family: $body-font-family;
+      white-space: nowrap;
+
+      &:hover,
+      &.active {
+        color: $primary-color;
+        background: rgba($primary-color, 0.08);
+        transform: translateY(-2px);
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: $primary-color;
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+      }
+
+      &:hover::after,
+      &.active::after {
+        width: 80%;
+      }
+
+      &.scrolled {
+        font-size: 1.1rem;
+        padding: 0.5rem 0.5rem;
+      }
+    }
   }
 
   .navbar-main {
@@ -163,7 +266,7 @@
 
       .search-input {
         width: 100%;
-        padding: 0.75rem 1rem 0.75rem 3rem;
+        padding: 0.5rem 1rem 0.5rem 3rem;
         border: 2px solid $border-color;
         border-radius: 25px;
         font-size: 0.95rem;
@@ -631,6 +734,11 @@
     gap: 0.5rem;
     padding: 0.25rem 0.5rem;
   }
+  
+  .desktop-content {
+    display: none;
+  }
+  
   .navbar-brand {
     flex: 1 1 auto;
     display: flex;
@@ -718,173 +826,61 @@
   }
 }
 
-// Mobile sidebar navigation
-.mobile-sidebar {
-  display: flex;
-  flex-direction: column;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: calc(80vw + 10px);
-  max-width: 330px;
-  height: 100vh;
-  background: $white;
-  box-shadow: 2px 0 24px $shadow-medium;
-  z-index: 1002;
-  padding: 1.5rem 1rem 1rem 1.5rem;
-  animation: sidebarSlideIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow-y: auto;
+// Additional responsive styles for better layout
+@media (min-width: 1200px) {
+  .desktop-content {
+    gap: 2rem;
+  }
   
-  @media (max-width: 480px) {
-    width: calc(90vw + 20px);
-    max-width: 375px;
-    
-    .sidebar-brand {
-      .brand-icon {
-        height: 1.3rem;
-        width: auto;
-      }
-      
-      .brand-text {
-        font-size: 1.1rem;
-      }
-    }
+  .navbar-nav {
+    gap: 1.5rem;
   }
-
-  .sidebar-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 2rem;
-    .close-sidebar {
-      background: none;
-      border: none;
-      font-size: 2rem;
-      color: $dark-gray;
-      cursor: pointer;
-      padding: 0.25rem 0.75rem;
-      border-radius: 50%;
-      transition: background 0.2s;
-      &:hover {
-        background: $light-gray;
-      }
-    }
-    .sidebar-brand {
-      display: flex;
-      align-items: flex-start; /* Align at top */
-      gap: 0.5rem;
-      font-size: 1.3rem;
-      color: $deep-brown;
-      text-decoration: none;
-      font-weight: $font-weight-bold;
-      
-      .brand-icon {
-        height: 1.5rem; /* Reduced from 1.8rem */
-        width: auto;
-        animation: none; /* Remove animation in mobile sidebar */
-        margin-top: 0.3rem; /* Add top margin to align with the first line of text */
-      }
-      
-      .brand-text {
-        line-height: 1.4; /* Improved line height for better readability */
-      }
-    }
-  }
-  .sidebar-nav {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 2rem 0;
-    li {
-      margin-bottom: 1.2rem;
-      a {
-        color: $secondary-color;
-        font-size: 1rem;
-        text-decoration: none;
-        font-weight: $font-weight-medium;
-        transition: color 0.2s;
-        &:hover,
-        &.active {
-          color: $primary-color;
-        }
-      }
-    }
-  }
-  .sidebar-user-menu {
-    border-top: 1px solid $light-gray;
-    padding-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
+  
+  .navbar-actions {
     gap: 1rem;
-    .sidebar-user-info {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      margin-bottom: 0.5rem;
-      .user-avatar {
-        width: 36px;
-        height: 36px;
-        background: $primary-color;
-        color: $white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: $font-weight-bold;
-        font-size: 1rem;
-      }
-      .user-name {
-        font-weight: $font-weight-semibold;
-        color: $secondary-color;
-        font-size: 1rem;
-      }
-    }
-    a,
-    button {
-      background: none;
-      border: none;
-      color: $secondary-color;
-      font-size: 1rem;
-      text-align: left;
-      padding: 0.5rem 0;
-      cursor: pointer;
-      text-decoration: none;
-      transition: color 0.2s;
-      &:hover,
-      &.active {
-        color: $primary-color;
-      }
-    }
-    .logout {
-      color: $danger-color;
-      font-weight: $font-weight-semibold;
-      &:hover {
-        background: rgba($danger-color, 0.08);
-      }
+    
+    .navbar-search {
+      max-width: 350px;
     }
   }
 }
 
-// Extra small screens - Adjust sidebar brand icon
-@media (max-width: 480px) {
-  .mobile-sidebar {
-    width: calc(90vw + 20px);
-    max-width: 375px;
+@media (min-width: 768px) and (max-width: 1199px) {
+  .navbar-nav {
+    gap: 0.75rem;
     
-    .sidebar-header {
-      .sidebar-brand {
-        font-size: 1.2rem;
-        
-        .brand-icon {
-          height: 1.3rem;
-          width: auto;
-          margin-top: 0.15rem; /* Slightly adjust the top margin for smaller screens */
-        }
-        
-        .brand-text {
-          line-height: 1.3; /* Tighter line height for smaller screens */
-        }
-      }
+    .nav-link {
+      padding: 0.5rem 0.5rem;
+      font-size: 0.9rem;
     }
+  }
+  
+  .navbar-actions {
+    gap: 0.5rem;
+    
+    .navbar-search {
+      max-width: 250px;
+    }
+  }
+}
+
+// Ensure proper spacing for navbar brand
+.navbar-brand {
+  max-width: 300px;
+  flex-shrink: 0;
+  
+  .brand-text {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+// Ensure navbar doesn't break on smaller desktop screens
+@media (min-width: 768px) {
+  .navbar-flex {
+    flex-wrap: nowrap;
   }
 }
 

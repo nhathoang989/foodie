@@ -6,6 +6,7 @@ import { CartService } from '../../services/cart.service';
 import { Dish, Category } from '../../models';
 import { CommonModule } from '@angular/common';
 import { marked } from 'marked';
+import { PriceUtil } from '../../utils/price.util';
 
 @Component({
   selector: 'app-dish-details',
@@ -127,6 +128,6 @@ export class DishDetailsComponent implements OnInit {
   }
 
   formatPrice(price: number): string {
-    return `${Math.round(price).toLocaleString()} ${environment.currencySymbol}`;
+    return PriceUtil.formatPrice(price);
   }
 }

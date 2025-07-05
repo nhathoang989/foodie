@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import { PageService } from '../../services/page-service';
 import { PageContent } from '../../models';
 import { FormattedTextComponent } from '../shared/formatted-text/formatted-text.component';
@@ -10,7 +11,7 @@ import { TranslatePipe } from '../../i18n/translate.pipe';
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, FormattedTextComponent, GalleryComponent, PromotionComponent, TranslatePipe],
+  imports: [CommonModule, MatIconModule, FormattedTextComponent, GalleryComponent, PromotionComponent, TranslatePipe],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -19,6 +20,11 @@ export class AboutComponent implements OnInit {
   page: PageContent | null = null;
   loading = true;
   error: string | null = null;
+  
+  // Image popup properties
+  showImagePopup = false;
+  selectedImageSrc = '';
+  selectedImageAlt = '';
 
   constructor(private pageService: PageService) {}
 
@@ -30,5 +36,17 @@ export class AboutComponent implements OnInit {
     } finally {
       this.loading = false;
     }
+  }
+  
+  openImagePopup(src: string, alt: string): void {
+    this.selectedImageSrc = src;
+    this.selectedImageAlt = alt;
+    this.showImagePopup = true;
+  }
+  
+  closeImagePopup(): void {
+    this.showImagePopup = false;
+    this.selectedImageSrc = '';
+    this.selectedImageAlt = '';
   }
 }

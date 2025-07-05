@@ -1,60 +1,60 @@
 <div class="checkout-page">
-  <h1>Checkout</h1>
+  <h1>{{ 'checkout.title' | translate }}</h1>
   <form [formGroup]="checkoutForm" (ngSubmit)="placeOrder()" autocomplete="off">
     <div class="form-section">
-      <h2>Customer Information</h2>
+      <h2>{{ 'checkout.customer_info' | translate }}</h2>
       <div formGroupName="customer">
         <div class="form-row">
-          <label>Name</label>
+          <label>{{ 'contact.name' | translate }}</label>
           <input formControlName="name" type="text" required />
         </div>
         <div class="form-row">
-          <label>Email</label>
+          <label>{{ 'contact.email' | translate }}</label>
           <input formControlName="email" type="email" required />
         </div>
         <div class="form-row">
-          <label>Phone</label>
+          <label>{{ 'contact.phone' | translate }}</label>
           <input formControlName="phone" type="tel" required />
         </div>
       </div>
-      <h2>Delivery Address</h2>
+      <h2>{{ 'checkout.delivery_address' | translate }}</h2>
       <div formGroupName="address">
         <div class="form-row">
-          <label>Street</label>
+          <label>{{ 'checkout.street' | translate }}</label>
           <input formControlName="street" type="text" required />
         </div>
         <div class="form-row">
-          <label>City</label>
+          <label>{{ 'checkout.city' | translate }}</label>
           <input formControlName="city" type="text" required />
         </div>
         <div class="form-row">
-          <label>ZIP</label>
+          <label>{{ 'checkout.zip' | translate }}</label>
           <input formControlName="zip" type="text" required />
         </div>
       </div>
-      <h2>Payment Method</h2>
+      <h2>{{ 'checkout.payment_method' | translate }}</h2>
       <div formGroupName="payment">
         <div class="form-row">
-          <label>Payment</label>
+          <label>{{ 'checkout.payment' | translate }}</label>
           <select formControlName="method">
-            <option value="card">Credit/Debit Card</option>
-            <option value="cod">Cash on Delivery</option>
+            <option value="card">{{ 'checkout.card' | translate }}</option>
+            <option value="cod">{{ 'checkout.cod' | translate }}</option>
           </select>
         </div>
       </div>
-      <h2>Shipping Option</h2>
+      <h2>{{ 'checkout.shipping_option' | translate }}</h2>
       <div class="form-row">
-        <label>Shipping</label>
+        <label>{{ 'cart.shipping' | translate }}</label>
         <select [ngModel]="selectedShipping" (ngModelChange)="selectedShipping = $event" name="shippingOption">
-          <option *ngFor="let s of shippingOptions" [ngValue]="s">{{ s.name }} ({{ s.fee === 0 ? 'Free' : ('$' + (s.fee?.toFixed(2) ?? '0.00')) }})</option>
+          <option *ngFor="let s of shippingOptions" [ngValue]="s">{{ s.name }} ({{ s.fee === 0 ? ('cart.free' | translate) : formatPrice(s.fee || 0) }})</option>
         </select>
       </div>
-      <h2>Order Review</h2>
+      <h2>{{ 'checkout.order_review' | translate }}</h2>
       <div class="order-summary-box">
         <app-cart-details [showSummaryOnly]="true"></app-cart-details>
       </div>
-      <button type="submit" [disabled]="isPlacingOrder || checkoutForm.invalid">Place Order</button>
-      <div *ngIf="isPlacingOrder" class="loading">Placing order...</div>
+      <button type="submit" [disabled]="isPlacingOrder || checkoutForm.invalid">{{ 'checkout.place_order' | translate }}</button>
+      <div *ngIf="isPlacingOrder" class="loading">{{ 'checkout.placing_order' | translate }}</div>
       <div *ngIf="orderError" class="error">{{ orderError }}</div>
     </div>
   </form>

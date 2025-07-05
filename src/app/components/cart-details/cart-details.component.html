@@ -1,9 +1,9 @@
 <!-- Cart Details Page -->
 <div class="cart-details-container">
-  <h2>Your Cart</h2>
+  <h2>{{ 'cart.title' | translate }}</h2>
   <div *ngIf="cartState().itemCount === 0" class="empty-cart">
-    <p>Your cart is empty.</p>
-    <button routerLink="/">Browse Dishes</button>
+    <p>{{ 'cart.empty' | translate }}</p>
+    <button routerLink="/">{{ 'cart.browse_dishes' | translate }}</button>
   </div>
   <div *ngIf="cartState().itemCount > 0" class="cart-details-flex">
     <div class="cart-items-list" *ngIf="!showSummaryOnly">
@@ -11,32 +11,32 @@
         <img [src]="item.dish?.image_url" [alt]="item.dish?.name" class="cart-item-img" />
         <div class="cart-item-info">
           <div class="cart-item-name">{{ item.dish?.name }}</div>
-          <div class="cart-item-price">${{ (item.dish?.price || 0) | number:'1.2-2' }}</div>
+          <div class="cart-item-price">{{ formatPrice(item.dish?.price || 0) }}</div>
           <div class="cart-item-qty">
             <button (click)="updateQuantity(item, item.quantity - 1)">-</button>
             <input type="number" [value]="item.quantity" min="1" readonly />
             <button (click)="updateQuantity(item, item.quantity + 1)">+</button>
           </div>
-          <button class="remove-btn" (click)="removeItem(item)">Remove</button>
+          <button class="remove-btn" (click)="removeItem(item)">{{ 'cart.remove' | translate }}</button>
         </div>
       </div>
     </div>
     <div class="cart-summary">
-      <h3>Order Summary</h3>
-      <div class="summary-row"><span>Subtotal:</span><span>${{ subtotal() | number:'1.2-2' }}</span></div>
-      <div class="summary-row"><span>Tax (8%):</span><span>${{ tax() | number:'1.2-2' }}</span></div>      <div class="summary-row">
-        <span>Shipping:</span>
+      <h3>{{ 'cart.order_summary' | translate }}</h3>
+      <div class="summary-row"><span>{{ 'cart.subtotal' | translate }}:</span><span>{{ formatPrice(subtotal()) }}</span></div>
+      <div class="summary-row"><span>{{ 'cart.tax' | translate }} (8%):</span><span>{{ formatPrice(tax()) }}</span></div>      <div class="summary-row">
+        <span>{{ 'cart.shipping' | translate }}:</span>
         <select [ngModel]="selectedShipping()" (ngModelChange)="onShippingChange($event)" class="shipping-select">
-          <option *ngFor="let s of shippingOptions()" [ngValue]="s">{{ s?.name }} ({{ s?.fee === 0 ? 'Free' : ('$' + (s?.fee?.toFixed(2) ?? '0.00')) }})</option>
+          <option *ngFor="let s of shippingOptions()" [ngValue]="s">{{ s?.name }} ({{ s?.fee === 0 ? ('cart.free' | translate) : formatPrice(s?.fee || 0) }})</option>
         </select>
       </div>
-      <div class="summary-row"><span>Total:</span><span class="total">${{ total() | number:'1.2-2' }}</span></div>
+      <div class="summary-row"><span>{{ 'cart.total' | translate }}:</span><span class="total">{{ formatPrice(total()) }}</span></div>
       <div class="promo-row" *ngIf="!showSummaryOnly">
-        <input type="text" placeholder="Promo code (UI only)" [(ngModel)]="promoCode" />
-        <button disabled>Apply</button>
+        <input type="text" [placeholder]="'cart.promo_code' | translate" [(ngModel)]="promoCode" />
+        <button disabled>{{ 'cart.apply' | translate }}</button>
       </div>
-      <button class="checkout-btn" *ngIf="!showSummaryOnly" [disabled]="cartState().itemCount === 0" (click)="proceedToCheckout()">Proceed to Checkout</button>
-      <button class="clear-btn" *ngIf="!showSummaryOnly" (click)="clearCart()">Clear Cart</button>
+      <button class="checkout-btn" *ngIf="!showSummaryOnly" [disabled]="cartState().itemCount === 0" (click)="proceedToCheckout()">{{ 'cart.proceed_to_checkout' | translate }}</button>
+      <button class="clear-btn" *ngIf="!showSummaryOnly" (click)="clearCart()">{{ 'cart.clear_cart' | translate }}</button>
     </div>
   </div>
 </div>

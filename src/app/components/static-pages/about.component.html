@@ -19,8 +19,22 @@
               <img
                 [src]="page?.image"
                 alt="{{ page?.title }} Image"
-                class="img-fluid rounded"
+                class="img-fluid rounded mb-2"
               />
+              <div class="about-images gallery-grid mt-2">
+                <div class="gallery-item" (click)="openImagePopup('/assets/about/1.jpg', 'About 1')">
+                  <img src="/assets/about/1.jpg" alt="About 1" class="img-fluid rounded" />
+                </div>
+                <div class="gallery-item" (click)="openImagePopup('/assets/about/2.jpg', 'About 2')">
+                  <img src="/assets/about/2.jpg" alt="About 2" class="img-fluid rounded" />
+                </div>
+                <div class="gallery-item" (click)="openImagePopup('/assets/about/3.jpg', 'About 3')">
+                  <img src="/assets/about/3.jpg" alt="About 3" class="img-fluid rounded" />
+                </div>
+                <div class="gallery-item" (click)="openImagePopup('/assets/about/4.jpg', 'About 4')">
+                  <img src="/assets/about/4.jpg" alt="About 4" class="img-fluid rounded" />
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -40,5 +54,19 @@
         <app-promotion></app-promotion>
       </section>
     </div>
+  </div>
+</div>
+
+<!-- Image Popup -->
+<div class="image-popup-backdrop" *ngIf="showImagePopup" (click)="closeImagePopup()">
+  <div class="image-popup" (click)="$event.stopPropagation()">
+    <img 
+      [src]="selectedImageSrc" 
+      [alt]="selectedImageAlt" 
+      *ngIf="selectedImageSrc"
+    />
+    <button class="close-btn" (click)="closeImagePopup()">
+      <mat-icon>close</mat-icon>
+    </button>
   </div>
 </div>

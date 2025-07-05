@@ -64,8 +64,8 @@ export class I18nService {
   // Get language display name
   getLanguageDisplayName(language: SupportedLanguage): string {
     const displayNames: Record<SupportedLanguage, string> = {
-      vi: 'Tiếng Việt',
-      en: 'English'
+      vi: 'VN',
+      en: 'EN'
     };
     return displayNames[language] || language;
   }

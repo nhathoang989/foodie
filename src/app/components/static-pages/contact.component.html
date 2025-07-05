@@ -1,8 +1,8 @@
 <div class="static-page contact-page">
   <div class="page-header">
     <div class="container">
-      <h1>Contact Us</h1>
-      <p class="page-subtitle">We're here to help! Get in touch with our team</p>
+      <h1>{{ 'contact.title' | translate }}</h1>
+      <p class="page-subtitle">{{ 'contact.subtitle' | translate }}</p>
     </div>
   </div>
 
@@ -14,25 +14,25 @@
           <div class="col-md-4">
             <div class="contact-card">
               <div class="contact-icon">📞</div>
-              <h3>Phone Support</h3>
+              <h3>{{ 'contact.phone_support' | translate }}</h3>
               <p><strong>(555) 123-FOOD</strong></p>
-              <p>Monday - Sunday<br>8:00 AM - 10:00 PM</p>
+              <p>{{ 'contact.phone_hours' | translate }}<br>{{ 'contact.phone_schedule' | translate }}</p>
             </div>
           </div>
           <div class="col-md-4">
             <div class="contact-card">
               <div class="contact-icon">✉️</div>
-              <h3>Email Us</h3>
+              <h3>{{ 'contact.email_us' | translate }}</h3>
               <p><strong>support&#64;foodieexpress.com</strong></p>
-              <p>We typically respond<br>within 2 hours</p>
+              <p>{{ 'contact.email_response' | translate }}<br>{{ 'contact.email_time' | translate }}</p>
             </div>
           </div>
           <div class="col-md-4">
             <div class="contact-card">
               <div class="contact-icon">💬</div>
-              <h3>Live Chat</h3>
-              <p><strong>Available 24/7</strong></p>
-              <p>Instant support<br>Click the chat icon</p>
+              <h3>{{ 'contact.live_chat' | translate }}</h3>
+              <p><strong>{{ 'contact.available_24_7' | translate }}</strong></p>
+              <p>{{ 'contact.instant_support' | translate }}<br>{{ 'contact.click_chat' | translate }}</p>
             </div>
           </div>
         </div>
@@ -42,17 +42,17 @@
       <section class="content-section bg-light">
         <div class="row">
           <div class="col-md-8 mx-auto">
-            <h2 class="text-center">Send Us a Message</h2>
+            <h2 class="text-center">{{ 'contact.send_message' | translate }}</h2>
             <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="name">Full Name *</label>
+                    <label for="name">{{ 'contact.form.name' | translate }} *</label>
                     <input 
                       type="text" 
                       id="name" 
                       class="form-control" 
-                      placeholder="Enter your full name" 
+                      [placeholder]="'contact.form.name_placeholder' | translate"
                       formControlName="name"
                       [class.is-invalid]="isFieldInvalid('name')">
                     <div class="invalid-feedback" *ngIf="isFieldInvalid('name')">
@@ -62,12 +62,12 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="email">Email Address *</label>
+                    <label for="email">{{ 'contact.form.email' | translate }} *</label>
                     <input 
                       type="email" 
                       id="email" 
                       class="form-control" 
-                      placeholder="Enter your email" 
+                      [placeholder]="'contact.form.email_placeholder' | translate"
                       formControlName="email"
                       [class.is-invalid]="isFieldInvalid('email')">
                     <div class="invalid-feedback" *ngIf="isFieldInvalid('email')">
@@ -79,29 +79,29 @@
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="phone">Phone Number</label>
+                    <label for="phone">{{ 'contact.form.phone' | translate }}</label>
                     <input 
                       type="tel" 
                       id="phone" 
                       class="form-control" 
-                      placeholder="Enter your phone number"
+                      [placeholder]="'contact.form.phone_placeholder' | translate"
                       formControlName="phone">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="subject">Subject *</label>
+                    <label for="subject">{{ 'contact.form.subject' | translate }} *</label>
                     <select 
                       id="subject" 
                       class="form-control" 
                       formControlName="subject"
                       [class.is-invalid]="isFieldInvalid('subject')">
-                      <option value="">Select a subject</option>
-                      <option value="order">Order Issue</option>
-                      <option value="delivery">Delivery Problem</option>
-                      <option value="restaurant">Restaurant Partnership</option>
-                      <option value="feedback">General Feedback</option>
-                      <option value="other">Other</option>
+                      <option value="">{{ 'contact.form.subject_placeholder' | translate }}</option>
+                      <option value="order">{{ 'contact.form.subject_order' | translate }}</option>
+                      <option value="delivery">{{ 'contact.form.subject_delivery' | translate }}</option>
+                      <option value="restaurant">{{ 'contact.form.subject_partnership' | translate }}</option>
+                      <option value="feedback">{{ 'contact.form.subject_feedback' | translate }}</option>
+                      <option value="other">{{ 'contact.form.subject_other' | translate }}</option>
                     </select>
                     <div class="invalid-feedback" *ngIf="isFieldInvalid('subject')">
                       {{ getFieldError('subject') }}
@@ -110,12 +110,12 @@
                 </div>
               </div>
               <div class="form-group">
-                <label for="message">Message *</label>
+                <label for="message">{{ 'contact.form.message' | translate }} *</label>
                 <textarea 
                   id="message" 
                   class="form-control" 
                   rows="5" 
-                  placeholder="Tell us how we can help you..." 
+                  [placeholder]="'contact.form.message_placeholder' | translate"
                   formControlName="message"
                   [class.is-invalid]="isFieldInvalid('message')"></textarea>
                 <div class="invalid-feedback" *ngIf="isFieldInvalid('message')">
@@ -127,8 +127,8 @@
                   type="submit" 
                   class="btn btn-primary btn-lg"
                   [disabled]="isSubmitting">
-                  <span *ngIf="isSubmitting">Sending...</span>
-                  <span *ngIf="!isSubmitting">Send Message</span>
+                  <span *ngIf="isSubmitting">{{ 'contact.form.sending' | translate }}</span>
+                  <span *ngIf="!isSubmitting">{{ 'contact.form.send_button' | translate }}</span>
                 </button>
               </div>
               <div class="text-center mt-3" *ngIf="submitMessage">
@@ -143,60 +143,48 @@
 
       <!-- FAQ Section -->
       <section class="content-section">
-        <h2 class="text-center">Frequently Asked Questions</h2>
+        <h2 class="text-center">{{ 'contact.faq.title' | translate }}</h2>
         <div class="faq-grid">
           <div class="faq-item">
-            <h4>How long does delivery take?</h4>
-            <p>Most orders are delivered within 30-45 minutes, depending on your location and the restaurant's preparation time.</p>
+            <h4>{{ 'contact.faq.delivery_time.question' | translate }}</h4>
+            <p>{{ 'contact.faq.delivery_time.answer' | translate }}</p>
           </div>
           <div class="faq-item">
-            <h4>What are your delivery fees?</h4>
-            <p>Delivery fees start at $2.99 and may vary based on distance and demand. Free delivery is available for orders over $25.</p>
+            <h4>{{ 'contact.faq.delivery_fees.question' | translate }}</h4>
+            <p>{{ 'contact.faq.delivery_fees.answer' | translate }}</p>
           </div>
           <div class="faq-item">
-            <h4>Can I track my order?</h4>
-            <p>Yes! You'll receive real-time updates via SMS and email, plus you can track your order status in your account.</p>
+            <h4>{{ 'contact.faq.track_order.question' | translate }}</h4>
+            <p>{{ 'contact.faq.track_order.answer' | translate }}</p>
           </div>
           <div class="faq-item">
-            <h4>What if there's an issue with my order?</h4>
-            <p>Contact us immediately through phone, email, or live chat. We'll resolve any issues and ensure you're satisfied.</p>
+            <h4>{{ 'contact.faq.order_issue.question' | translate }}</h4>
+            <p>{{ 'contact.faq.order_issue.answer' | translate }}</p>
           </div>
           <div class="faq-item">
-            <h4>Do you offer group ordering?</h4>
-            <p>Absolutely! You can place large orders for offices, events, or groups. Contact us for special pricing and coordination.</p>
+            <h4>{{ 'contact.faq.group_ordering.question' | translate }}</h4>
+            <p>{{ 'contact.faq.group_ordering.answer' | translate }}</p>
           </div>
           <div class="faq-item">
-            <h4>How do I become a restaurant partner?</h4>
-            <p>We'd love to work with you! Fill out our partnership form or email partnerships&#64;foodieexpress.com for more information.</p>
+            <h4>{{ 'contact.faq.partner.question' | translate }}</h4>
+            <p>{{ 'contact.faq.partner.answer' | translate }}</p>
           </div>
         </div>
       </section>
 
-      <!-- Office Locations */
+      <!-- Office Location -->
       <section class="content-section bg-light">
-        <h2 class="text-center">Our Offices</h2>
-        <div class="row">
-          <div class="col-md-6">
-            <div class="office-card">
-              <h3>🏢 Headquarters</h3>
+        <h2 class="text-center">{{ 'contact.offices.title' | translate }}</h2>
+        <div class="row justify-content-center">
+          <div class="col-md-8">
+            <div class="office-card text-center">
+              <h3>🏢 {{ 'contact.offices.headquarters.title' | translate }}</h3>
               <address>
-                <strong>FoodieExpress HQ</strong><br>
-                123 Tech Street, Suite 400<br>
-                San Francisco, CA 94102<br>
-                <strong>Phone:</strong> (555) 123-FOOD<br>
-                <strong>Email:</strong> headquarters&#64;foodieexpress.com
-              </address>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="office-card">
-              <h3>🍽️ Operations Center</h3>
-              <address>
-                <strong>Operations Hub</strong><br>
-                456 Food Avenue, Floor 2<br>
-                New York, NY 10001<br>
-                <strong>Phone:</strong> (555) 456-DINE<br>
-                <strong>Email:</strong> operations@foodieexpress.com
+                <strong>{{ 'contact.offices.headquarters.name' | translate }}</strong><br>
+                {{ 'contact.offices.headquarters.address' | translate }}<br>
+                {{ 'contact.offices.headquarters.city' | translate }}<br>
+                <strong>{{ 'contact.offices.phone' | translate }}:</strong> 0898.184.176<br>
+                <!-- <strong>{{ 'contact.offices.email' | translate }}:</strong> headquarters&#64;foodieexpress.com -->
               </address>
             </div>
           </div>
@@ -206,10 +194,10 @@
       <!-- Emergency Contact -->
       <section class="content-section">
         <div class="emergency-contact">
-          <h3>🚨 Emergency or Urgent Issues?</h3>
-          <p>For time-sensitive problems with active orders, call our emergency line:</p>
+          <h3>🚨 {{ 'contact.emergency.title' | translate }}</h3>
+          <p>{{ 'contact.emergency.description' | translate }}</p>
           <p class="emergency-number"><strong>(555) 911-FOOD</strong></p>
-          <p><em>Available 24/7 for order emergencies only</em></p>
+          <p><em>{{ 'contact.emergency.availability' | translate }}</em></p>
         </div>
       </section>
     </div>

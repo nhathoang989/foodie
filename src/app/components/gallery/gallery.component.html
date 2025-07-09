@@ -30,7 +30,13 @@
       *ngIf="selectedImage()"
     />
     <button class="close-btn" (click)="closeImagePopup()">
-      <mat-icon>close</mat-icon>
+      <mat-icon class="light-icon">close</mat-icon>
+    </button>
+    <button class="nav-btn prev-btn" (click)="navigateToImage('prev')" *ngIf="images().length > 1">
+      <mat-icon class="light-icon">chevron_left</mat-icon>
+    </button>
+    <button class="nav-btn next-btn" (click)="navigateToImage('next')" *ngIf="images().length > 1">
+      <mat-icon class="light-icon">chevron_right</mat-icon>
     </button>
   </div>
 </div>

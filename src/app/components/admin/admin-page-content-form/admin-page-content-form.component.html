@@ -42,8 +42,18 @@
 
       <!-- Content Field with HTML Editor -->
       <div class="content-field full-width">
-        <label class="content-label">Content *</label>
-        <div class="quill-container">
+        <div class="content-header">
+          <label class="content-label">Content *</label>
+          <button 
+            type="button" 
+            mat-stroked-button 
+            class="view-code-button" 
+            (click)="toggleHtmlMode()">
+            {{ isHtmlMode ? 'Visual Editor' : 'View Code' }}
+          </button>
+        </div>
+        
+        <div class="quill-container" *ngIf="!isHtmlMode">
           <quill-editor
             formControlName="content"
             [styles]="{height: '250px'}"
@@ -51,6 +61,14 @@
             placeholder="Enter the full page content with HTML formatting...">
           </quill-editor>
         </div>
+        
+        <div class="html-editor-container" *ngIf="isHtmlMode">
+          <textarea 
+            class="html-textarea" 
+            formControlName="content" 
+            placeholder="Edit HTML source code..."></textarea>
+        </div>
+        
         <div class="field-error" *ngIf="contentControl?.invalid && contentControl?.touched">
           {{ getErrorMessage('content') }}
         </div>

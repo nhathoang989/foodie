@@ -13,7 +13,7 @@ import { startWith, switchMap } from 'rxjs/operators';
 import { OrderService } from '../../../services/order.service';
 import { DishService } from '../../../services/dish.service';
 import { CustomerService } from '../../../services/customer.service';
-
+import { PricePipe } from '../../../../app/pipes/price.pipe';
 interface DashboardMetrics {
   totalOrders: number;
   todayOrders: number;
@@ -53,8 +53,8 @@ interface SystemHealth {
     MatProgressBarModule,
     MatChipsModule,
     RouterModule,
-    DecimalPipe,
-    DatePipe
+    DatePipe,
+    PricePipe
   ]
 })
 export class AdminDashboardComponent implements OnInit, OnDestroy {

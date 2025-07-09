@@ -97,7 +97,7 @@ export class CheckoutComponent {
           this.loading.setLoading('placeOrder', false);
           this.notification.showSuccess('Order placed successfully!');
           this.cartService.clearCart().subscribe();
-          this.router.navigate(['/order-confirmation', order.id]);
+          this.router.navigate(['/']);
         },
         error: (err) => {
           this.isPlacingOrder = false;

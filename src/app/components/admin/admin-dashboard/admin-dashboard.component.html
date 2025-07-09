@@ -36,9 +36,9 @@
           </mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <div class="metric-value">${{ metrics.totalRevenue | number:'1.2-2' }}</div>
+          <div class="metric-value">{{ metrics.totalRevenue | price }}</div>
           <div class="metric-subtitle">Total Revenue</div>
-          <div class="metric-today">${{ metrics.todayRevenue | number:'1.2-2' }} today</div>
+          <div class="metric-today">{{ metrics.todayRevenue | price }} today</div>
         </mat-card-content>
       </mat-card>
 

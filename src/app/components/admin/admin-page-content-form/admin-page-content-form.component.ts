@@ -45,6 +45,8 @@ export class AdminPageContentFormComponent implements OnInit, OnDestroy {
   uploadingImage = false;
   error: string | null = null;
   private quillEditor: any = null;
+  isHtmlMode = false; // Track whether we're in HTML editing mode
+  rawHtmlContent = ''; // Store raw HTML when in HTML mode
 
   constructor(
     private fb: FormBuilder,
@@ -233,6 +235,54 @@ export class AdminPageContentFormComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  /**
+   * Toggle between rich text and HTML source editing modes
+   */
+  toggleHtmlMode(): void {
+    if (this.isHtmlMode) {
+      // Switch from HTML to rich text mode
+      this.switchToRichTextMode();
+    } else {
+      // Switch from rich text to HTML mode
+      this.switchToHtmlMode();
+    }
+    this.isHtmlMode = !this.isHtmlMode;
+  }
+
+  /**
+   * Switch to HTML source editing mode
+   */
+  private switchToHtmlMode(): void {
+    if (this.quillEditor && this.quillEditor.quillEditor) {
+      // Get the current HTML content from the editor
+      const quill = this.quillEditor.quillEditor;
+      this.rawHtmlContent = quill.root.innerHTML;
+      
+      // Ensure the form control is updated with the latest content
+      this.contentControl?.setValue(this.rawHtmlContent);
+    }
+  }
+
+  /**
+   * Switch back to rich text editing mode
+   */
+  private switchToRichTextMode(): void {
+    if (this.quillEditor && this.quillEditor.quillEditor) {
+      const quill = this.quillEditor.quillEditor;
+      
+      // Get the HTML content from the textarea
+      const htmlContent = this.contentControl?.value || '';
+      
+      // Update the Quill editor with the HTML content
+      quill.clipboard.dangerouslyPasteHTML(htmlContent);
+      
+      // Update the form control with the processed content
+      setTimeout(() => {
+        this.contentControl?.setValue(quill.root.innerHTML);
+      }, 10);
+    }
   }
 
   get titleControl() { return this.pageContentForm.get('title'); }

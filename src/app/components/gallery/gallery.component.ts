@@ -1,4 +1,4 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
@@ -33,12 +33,18 @@ export class GalleryComponent implements OnInit {
   private loadGalleryImages(): void {
     // List of gallery images from the assets/gallery folder
     const imageFiles = [
-      '6d8cf61c864f3011695e.jpg',
-      '8c27f48484d732896bc6.jpg',
-      '98cc77600733b16de822.jpg',
-      'c5c4dc69ac3a1a64432b.jpg',
-      'eb3efba08bf33dad64e2.jpg',
-      'f2370c847cd7ca8993c6.jpg'
+      '1.jpg',
+      '2.jpg',
+      '3.jpg',
+      '4.jpg',
+      '5.jpg',
+      '6.jpg',
+      '7.jpg',
+      '8.jpg',
+      '9.jpg',
+      '10.jpg',
+      '11.jpg',
+      '12.jpg',
     ];
 
     const galleryImages: GalleryImage[] = imageFiles.map((filename, index) => ({
@@ -60,6 +66,25 @@ export class GalleryComponent implements OnInit {
     this.selectedImage.set(null);
   }
 
+  navigateToImage(direction: 'next' | 'prev'): void {
+    const currentImages = this.images();
+    const currentImage = this.selectedImage();
+    
+    if (!currentImage || currentImages.length <= 1) return;
+    
+    const currentIndex = currentImages.findIndex(img => img.src === currentImage.src);
+    if (currentIndex === -1) return;
+    
+    let newIndex: number;
+    if (direction === 'next') {
+      newIndex = (currentIndex + 1) % currentImages.length;
+    } else {
+      newIndex = (currentIndex - 1 + currentImages.length) % currentImages.length;
+    }
+    
+    this.selectedImage.set(currentImages[newIndex]);
+  }
+
   openImageDialog(image: GalleryImage): void {
     this.dialog.open(ImagePopupComponent, {
       data: { imageUrl: image.src, altText: image.alt },
@@ -71,5 +96,23 @@ export class GalleryComponent implements OnInit {
 
   trackByImageSrc(index: number, image: GalleryImage): string {
     return image.src;
+  }
+  
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    // Only handle keyboard events when the popup is open
+    if (!this.showImagePopup()) return;
+    
+    switch(event.key) {
+      case 'ArrowLeft':
+        this.navigateToImage('prev');
+        break;
+      case 'ArrowRight':
+        this.navigateToImage('next');
+        break;
+      case 'Escape':
+        this.closeImagePopup();
+        break;
+    }
   }
 }

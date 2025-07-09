@@ -3,7 +3,10 @@
     <div class="container">
       <h1>{{ page?.title }}</h1>
       <div class="page-subtitle">
-        <app-formatted-text [content]="page?.excerpt || ''" [preserveLineBreaks]="true"></app-formatted-text>
+        <app-formatted-text
+          [content]="page?.excerpt || ''"
+          [preserveLineBreaks]="true"
+        ></app-formatted-text>
       </div>
     </div>
   </div>
@@ -11,44 +14,156 @@
     <div class="container">
       <section class="content-section">
         <div class="row">
-          <div class="col-md-8">
-            <div [innerHTML]="page?.content" class="dynamic-content ql-editor"></div>
-          </div>
-          <div class="col-md-4" *ngIf="page?.image">
-            <div class="image-placeholder">
-              <img
-                [src]="page?.image"
-                alt="{{ page?.title }} Image"
-                class="img-fluid rounded mb-2"
-              />
-              <div class="about-images gallery-grid mt-2">
-                <div class="gallery-item" (click)="openImagePopup('/assets/about/1.jpg', 'About 1')">
-                  <img src="/assets/about/1.jpg" alt="About 1" class="img-fluid rounded" />
-                </div>
-                <div class="gallery-item" (click)="openImagePopup('/assets/about/2.jpg', 'About 2')">
-                  <img src="/assets/about/2.jpg" alt="About 2" class="img-fluid rounded" />
-                </div>
-                <div class="gallery-item" (click)="openImagePopup('/assets/about/3.jpg', 'About 3')">
-                  <img src="/assets/about/3.jpg" alt="About 3" class="img-fluid rounded" />
-                </div>
-                <div class="gallery-item" (click)="openImagePopup('/assets/about/4.jpg', 'About 4')">
-                  <img src="/assets/about/4.jpg" alt="About 4" class="img-fluid rounded" />
-                </div>
+          <!-- <div [innerHTML]="page?.content" class="dynamic-content ql-editor"></div> -->
+          <div class="ql-editor dynamic-content">
+            <div class="col-md-12">
+              <p>
+                <span
+                  >Càng lớn chúng ta càng thêm khao khát hơn về sự đoàn tụ, sum
+                  vầy và nỗi nhớ nhà, nhớ quê cũng càng thêm da diết hơn bao giờ
+                  hết. Trong ánh lửa bập bùng, bên bếp củi hồng tí tách, khói
+                  lam chiều tỏa lan từ mái nhà thân thương. Tôi nhớ thương biết
+                  bao hình ảnh người bà, người mẹ cần mẫn, tảo tần thổi lửa
+                  những bữa cơm. Nào là miếng cà dầm tương, nào là canh chua cá
+                  lóc, nhớ đến xốn xang miếng cơm cùng với mắm sò. Nhớ .. và
+                  thổn thức đến khao khát cháy lòng. Dù chẳng phải là thứ ẩm
+                  thực cao sang, thượng hạng nhưng lại ôm trọn tâm hồn của mỗi
+                  người.
+                </span>
+              </p>
+              <p>
+                <span
+                  >“ Xa nhà từ những ngày bé, HUẾ trong tôi là cả một vùng ký ức
+                  tuyệt đẹp. Tôi luôn hoài niệm về những tháng ngày năm ấy,
+                  những tháng năm được bà chăm sóc và vỗ về. Là những buổi trưa
+                  đi học về thấy bà thổi cơm, là những buổi chiều muộn phụ mẹ
+                  nấu bếp, là mùi khói bếp thơm nồng khiến tôi cay xè
+                  mắt…”</span
+                >
+              </p>
+              <p>
+                <span
+                  >Thời gian qua đi cuốn những gì của hôm qua vào quên lãng. Nỗi
+                  nhớ đó, hồi ức đó và những câu chuyện đó chính là CỤI của ngày
+                  hôm nay.
+                </span>
+              </p>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <p class="ql-align-center">
+                  <img
+                    src="https://mixcore.net//mixcontent/staticfiles/mixcore_cms/uploads/jpg/mixcore/2025-07/638869263875222311/472421035_122146682120333591_8433510162250328993_n.jpg"
+                    width="100%"
+                  />
+                </p>
               </div>
+              <div class="col-md-8">
+                <p>
+                  <span
+                    >CỤI - Nơi chúng ta tìm về với những kỷ niệm xa cũ.
+                  </span>
+                </p>
+                <p>
+                  <span>CỤI - Nơi ấp ôm ta bằng những bữa cơm nhà.</span>
+                </p>
+                <p>
+                  <span
+                    >CỤI - Nơi tôn vinh và giữ gìn ẩm thực xứ Huế nói riêng và
+                    ẩm thực miền trung nói chung.</span
+                  >
+                </p>
+                <p>
+                  <span
+                    >Khi ta cô đơn, ta mệt nhoài với guồng quay của công việc,
+                    hãy tìm đến cụi CỤI. Nơi cho ta sự bình yên trong tâm hồn,
+                    nơi có một bờ vai sẵn sàng cho ta dựa dẫm, nơi ấy có trái
+                    tim đủ nóng để hâm ấm tâm hồn, đưa ta về kỉ niệm thời thơ bé
+                    về những bữa cơm nhà sum vầy đoàn tụ.</span
+                  >
+                </p>
+                <p>
+                  <span
+                    >CỤI không chỉ bán món ăn, CỤI bán niềm vui, CỤI bán câu
+                    chuyện và sự sẻ chia. Sứ mệnh của CỤI là mang đến hương vị
+                    thân thương xứ Huế thông qua những món ăn, sự đồng điệu về
+                    tâm hồn thông qua sự sẻ chia. Vì CỤI biết rõ rằng, những
+                    người con xa xứ ngoài kia dẫu có bôn ba vẫn luôn nuôi trong
+                    mình một tình yêu quê nồng nàn, vẫn luôn thao thức nhớ về
+                    những món ăn đậm chất quê hương.</span
+                  >
+                </p>
+                <p>
+                  <span
+                    >Hy vọng mỗi lần ghé CỤI thì đều chẳng nhân dịp gì cả, chỉ
+                    là vì nhớ một nơi gọi là nhà, một nơi gọi là quê hương.
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <p class="ql-align-center">
+                <strong><em>Nhắn ai dẫu có đi xa</em></strong>
+              </p>
+              <p class="ql-align-center">
+                <strong><em>Đồng quê khói bếp vườn nhà đừng quên</em></strong>
+              </p>
             </div>
           </div>
         </div>
+        <!-- <div class="about-images gallery-grid mt-2">
+          <div
+            class="gallery-item"
+            (click)="openImagePopup('/assets/about/1.jpg', 'About 1')"
+          >
+            <img
+              src="/assets/about/1.jpg"
+              alt="About 1"
+              class="img-fluid rounded"
+            />
+          </div>
+          <div
+            class="gallery-item"
+            (click)="openImagePopup('/assets/about/2.jpg', 'About 2')"
+          >
+            <img
+              src="/assets/about/2.jpg"
+              alt="About 2"
+              class="img-fluid rounded"
+            />
+          </div>
+          <div
+            class="gallery-item"
+            (click)="openImagePopup('/assets/about/3.jpg', 'About 3')"
+          >
+            <img
+              src="/assets/about/3.jpg"
+              alt="About 3"
+              class="img-fluid rounded"
+            />
+          </div>
+          <div
+            class="gallery-item"
+            (click)="openImagePopup('/assets/about/4.jpg', 'About 4')"
+          >
+            <img
+              src="/assets/about/4.jpg"
+              alt="About 4"
+              class="img-fluid rounded"
+            />
+          </div>
+        </div> -->
       </section>
-      
+
       <!-- Gallery Section -->
       <section class="gallery-section">
         <div class="gallery-header">
-          <h2>{{ 'about.gallery.title' | translate }}</h2>
-          <p>{{ 'about.gallery.description' | translate }}</p>
+          <h2>{{ "about.gallery.title" | translate }}</h2>
+          <p>{{ "about.gallery.description" | translate }}</p>
         </div>
         <app-gallery></app-gallery>
       </section>
-      
+
       <!-- Promotion Section -->
       <section class="promotion-section">
         <app-promotion></app-promotion>
@@ -58,14 +173,18 @@
 </div>
 
 <!-- Image Popup -->
-<div class="image-popup-backdrop" *ngIf="showImagePopup" (click)="closeImagePopup()">
+<div
+  class="image-popup-backdrop"
+  *ngIf="showImagePopup"
+  (click)="closeImagePopup()"
+>
   <div class="image-popup" (click)="$event.stopPropagation()">
-    <img 
-      [src]="selectedImageSrc" 
-      [alt]="selectedImageAlt" 
+    <img
+      [src]="selectedImageSrc"
+      [alt]="selectedImageAlt"
       *ngIf="selectedImageSrc"
     />
-    <button class="close-btn" (click)="closeImagePopup()">
+    <button class="close-btn text-white" (click)="closeImagePopup()">
       <mat-icon>close</mat-icon>
     </button>
   </div>

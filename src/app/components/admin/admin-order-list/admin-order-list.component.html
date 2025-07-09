@@ -1,5 +1,18 @@
 <div class="list-container admin-order-list">
-  <h2>Orders</h2>
+  <div class="header-section">
+    <h2>Orders</h2>
+    <div class="filter-section">
+      <mat-form-field appearance="outline" class="status-filter">
+        <mat-label>Filter by Status</mat-label>
+        <mat-select [value]="selectedStatusFilter" (selectionChange)="onStatusFilterChange($event.value)">
+          <mat-option value="all">All Statuses</mat-option>
+          <mat-option *ngFor="let status of orderStatuses" [value]="status" [ngClass]="statusColorMap[status]">
+            {{ status | titlecase }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
   <mat-table [dataSource]="orders" *ngIf="!loading">
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef>ID</mat-header-cell>
@@ -15,7 +28,22 @@
     </ng-container>
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
-      <mat-cell *matCellDef="let order">{{ order.status }}</mat-cell>
+      <mat-cell *matCellDef="let order">
+        <div class="status-container">
+          <mat-select 
+            [value]="order.status" 
+            (selectionChange)="updateOrderStatus(order, $event.value)" 
+            class="status-select"
+            [ngClass]="getStatusClass(order.status)"
+            [disabled]="isUpdating(order.id)">
+            <mat-option *ngFor="let status of orderStatuses" [value]="status" [ngClass]="statusColorMap[status]">
+              {{ status | titlecase }}
+              <mat-icon *ngIf="order.status === status">check</mat-icon>
+            </mat-option>
+          </mat-select>
+          <mat-spinner diameter="20" *ngIf="isUpdating(order.id)" class="status-spinner"></mat-spinner>
+        </div>
+      </mat-cell>
     </ng-container>
     <ng-container matColumnDef="actions">
       <mat-header-cell *matHeaderCellDef>Actions</mat-header-cell>

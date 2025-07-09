@@ -65,13 +65,26 @@
       width: 100%;
       padding-top: 12px; /* Increased from 8px */
 
-      .content-label {
-        display: block;
-        color: rgba(0, 0, 0, 0.6);
-        font-size: 14px;
-        font-weight: 500;
-        margin-bottom: 16px; /* Increased from 12px */
-        line-height: 1.2;
+      .content-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+
+        .content-label {
+          margin-bottom: 0;
+          color: rgba(0, 0, 0, 0.6);
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 1.2;
+        }
+
+        .view-code-button {
+          font-size: 12px;
+          padding: 0 12px;
+          height: 30px;
+          line-height: 30px;
+        }
       }
 
       .field-error {
@@ -117,6 +130,34 @@
             }
           }
         }
+      }
+    }
+
+    // HTML source editor styling
+    .html-editor-container {
+      border-radius: 4px;
+      border: 1px solid rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+      margin-bottom: 12px;
+      transition: border-color 0.3s, box-shadow 0.3s;
+      
+      &:focus-within {
+        border-color: #3f51b5;
+        box-shadow: 0 0 0 1px #3f51b5;
+      }
+      
+      .html-textarea {
+        width: 100%;
+        min-height: 250px;
+        padding: 12px;
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.5;
+        color: #333;
+        background-color: #f8f8f8;
+        border: none;
+        resize: vertical;
+        outline: none;
       }
     }
 
@@ -262,6 +303,14 @@
           }
         }
       }
+
+      .html-editor-container {
+        .html-textarea {
+          min-height: 120px;
+          padding: 8px;
+          font-size: 13px;
+        }
+      }
     }
 
     .dialog-actions {
@@ -354,6 +403,20 @@
               color: #90caf9;
             }
           }
+        }
+      }
+      
+      .html-editor-container {
+        border-color: rgba(255, 255, 255, 0.2);
+        
+        &:focus-within {
+          border-color: #7986cb;
+          box-shadow: 0 0 0 1px #7986cb;
+        }
+        
+        .html-textarea {
+          background-color: #303030;
+          color: #e0e0e0;
         }
       }
     }

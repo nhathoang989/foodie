@@ -18,8 +18,13 @@
   .about-images.gallery-grid {
     grid-template-columns: 1fr;
   }
+  .content-section .dynamic-content img{
+  max-width: 90%;
 }
-
+}
+.content-section .dynamic-content img{
+  max-width: 50%;
+}
 .about-images .gallery-item {
   position: relative;
   border-radius: 12px;

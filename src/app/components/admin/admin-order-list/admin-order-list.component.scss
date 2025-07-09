@@ -8,10 +8,142 @@
   box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 
+.header-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  
+  h2 {
+    margin: 0;
+  }
+}
+
+.filter-section {
+  display: flex;
+  align-items: center;
+  
+  .status-filter {
+    width: 180px;
+    margin-left: 10px;
+    
+    ::ng-deep {
+      .mat-mdc-form-field-subscript-wrapper {
+        display: none;
+      }
+      
+      .mat-mdc-form-field-infix {
+        padding-top: 8px;
+        padding-bottom: 8px;
+        min-height: auto;
+      }
+    }
+  }
+}
+
 .admin-order-list { padding: 1rem; }
 mat-table { width: 100%; margin-top: 1rem; overflow-x: auto; display: block; }
 mat-header-cell, mat-cell { padding: 0.5rem; }
 button { margin-right: 0.5rem; }
+
+// Status dropdown styling
+.status-container {
+  display: flex;
+  align-items: center;
+}
+
+.status-select {
+  min-width: 120px;
+  font-weight: 500;
+  
+  ::ng-deep .mat-mdc-select-trigger {
+    padding: 6px 12px;
+    border-radius: 4px;
+  }
+}
+
+.status-spinner {
+  display: inline-block;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+// Status colors
+.status-pending {
+  color: #ff9800 !important;
+  
+  ::ng-deep .mat-mdc-select-trigger {
+    background-color: rgba(255, 152, 0, 0.1);
+  }
+}
+
+.status-confirmed {
+  color: #2196f3 !important;
+  
+  ::ng-deep .mat-mdc-select-trigger {
+    background-color: rgba(33, 150, 243, 0.1);
+  }
+}
+
+.status-delivered {
+  color: #4caf50 !important;
+  
+  ::ng-deep .mat-mdc-select-trigger {
+    background-color: rgba(76, 175, 80, 0.1);
+  }
+}
+
+.status-cancelled {
+  color: #f44336 !important;
+  
+  ::ng-deep .mat-mdc-select-trigger {
+    background-color: rgba(244, 67, 54, 0.1);
+  }
+}
+
+// Status dropdown options
+::ng-deep {
+  .mat-option.status-pending {
+    color: #ff9800 !important;
+    &.mat-selected {
+      background-color: rgba(255, 152, 0, 0.1);
+    }
+  }
+  
+  .mat-option.status-confirmed {
+    color: #2196f3 !important;
+    &.mat-selected {
+      background-color: rgba(33, 150, 243, 0.1);
+    }
+  }
+  
+  .mat-option.status-delivered {
+    color: #4caf50 !important;
+    &.mat-selected {
+      background-color: rgba(76, 175, 80, 0.1);
+    }
+  }
+  
+  .mat-option.status-cancelled {
+    color: #f44336 !important;
+    &.mat-selected {
+      background-color: rgba(244, 67, 54, 0.1);
+    }
+  }
+  
+  .mat-mdc-select-panel {
+    max-width: none !important;
+    
+    .mat-icon {
+      margin-left: 5px;
+      font-size: 16px;
+      height: 16px;
+      width: 16px;
+      vertical-align: middle;
+    }
+  }
+}
 
 @media (max-width: 768px) {
   .list-container {
@@ -28,5 +160,35 @@ button { margin-right: 0.5rem; }
   }
   mat-table {
     font-size: 13px;
+  }
+  
+  .status-select {
+    min-width: 100px;
+    
+    ::ng-deep .mat-mdc-select-trigger {
+      padding: 4px 8px;
+    }
+  }
+  
+  .status-spinner {
+    margin-left: 5px;
+  }
+  
+  .header-section {
+    flex-direction: column;
+    align-items: flex-start;
+    
+    h2 {
+      margin-bottom: 15px;
+    }
+  }
+  
+  .filter-section {
+    width: 100%;
+    
+    .status-filter {
+      width: 100%;
+      margin-left: 0;
+    }
   }
 }

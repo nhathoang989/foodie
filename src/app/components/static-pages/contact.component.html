@@ -1,48 +1,13 @@
 <div class="static-page contact-page">
-  <div class="page-header">
-    <div class="container">
-      <h1>{{ 'contact.title' | translate }}</h1>
-      <p class="page-subtitle">{{ 'contact.subtitle' | translate }}</p>
-    </div>
-  </div>
-
+ 
   <div class="page-content">
     <div class="container">
-      <!-- Contact Info Section -->
+      
+      <!-- Contact Form Section -->
       <section class="content-section">
         <div class="row">
-          <div class="col-md-4">
-            <div class="contact-card">
-              <div class="contact-icon">📞</div>
-              <h3>{{ 'contact.phone_support' | translate }}</h3>
-              <p><strong>(555) 123-FOOD</strong></p>
-              <p>{{ 'contact.phone_hours' | translate }}<br>{{ 'contact.phone_schedule' | translate }}</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="contact-card">
-              <div class="contact-icon">✉️</div>
-              <h3>{{ 'contact.email_us' | translate }}</h3>
-              <p><strong>support&#64;foodieexpress.com</strong></p>
-              <p>{{ 'contact.email_response' | translate }}<br>{{ 'contact.email_time' | translate }}</p>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <div class="contact-card">
-              <div class="contact-icon">💬</div>
-              <h3>{{ 'contact.live_chat' | translate }}</h3>
-              <p><strong>{{ 'contact.available_24_7' | translate }}</strong></p>
-              <p>{{ 'contact.instant_support' | translate }}<br>{{ 'contact.click_chat' | translate }}</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Contact Form Section -->
-      <section class="content-section bg-light">
-        <div class="row">
           <div class="col-md-8 mx-auto">
-            <h2 class="text-center">{{ 'contact.send_message' | translate }}</h2>
+            <h1 class="text-center">{{ 'contact.send_message' | translate }}</h1>
             <form class="contact-form" [formGroup]="contactForm" (ngSubmit)="onSubmit()">
               <div class="row">
                 <div class="col-md-6">
@@ -141,44 +106,12 @@
         </div>
       </section>
 
-      <!-- FAQ Section -->
-      <section class="content-section">
-        <h2 class="text-center">{{ 'contact.faq.title' | translate }}</h2>
-        <div class="faq-grid">
-          <div class="faq-item">
-            <h4>{{ 'contact.faq.delivery_time.question' | translate }}</h4>
-            <p>{{ 'contact.faq.delivery_time.answer' | translate }}</p>
-          </div>
-          <div class="faq-item">
-            <h4>{{ 'contact.faq.delivery_fees.question' | translate }}</h4>
-            <p>{{ 'contact.faq.delivery_fees.answer' | translate }}</p>
-          </div>
-          <div class="faq-item">
-            <h4>{{ 'contact.faq.track_order.question' | translate }}</h4>
-            <p>{{ 'contact.faq.track_order.answer' | translate }}</p>
-          </div>
-          <div class="faq-item">
-            <h4>{{ 'contact.faq.order_issue.question' | translate }}</h4>
-            <p>{{ 'contact.faq.order_issue.answer' | translate }}</p>
-          </div>
-          <div class="faq-item">
-            <h4>{{ 'contact.faq.group_ordering.question' | translate }}</h4>
-            <p>{{ 'contact.faq.group_ordering.answer' | translate }}</p>
-          </div>
-          <div class="faq-item">
-            <h4>{{ 'contact.faq.partner.question' | translate }}</h4>
-            <p>{{ 'contact.faq.partner.answer' | translate }}</p>
-          </div>
-        </div>
-      </section>
-
       <!-- Office Location -->
-      <section class="content-section bg-light">
-        <h2 class="text-center">{{ 'contact.offices.title' | translate }}</h2>
+      <section class="content-section">
         <div class="row justify-content-center">
           <div class="col-md-8">
             <div class="office-card text-center">
-              <h3>🏢 {{ 'contact.offices.headquarters.title' | translate }}</h3>
+              <h2 class="text-center">{{ 'contact.offices.title' | translate }}</h2>
               <address>
                 <strong>{{ 'contact.offices.headquarters.name' | translate }}</strong><br>
                 {{ 'contact.offices.headquarters.address' | translate }}<br>
@@ -188,16 +121,6 @@
               </address>
             </div>
           </div>
-        </div>
-      </section>
-
-      <!-- Emergency Contact -->
-      <section class="content-section">
-        <div class="emergency-contact">
-          <h3>🚨 {{ 'contact.emergency.title' | translate }}</h3>
-          <p>{{ 'contact.emergency.description' | translate }}</p>
-          <p class="emergency-number"><strong>(555) 911-FOOD</strong></p>
-          <p><em>{{ 'contact.emergency.availability' | translate }}</em></p>
         </div>
       </section>
     </div>

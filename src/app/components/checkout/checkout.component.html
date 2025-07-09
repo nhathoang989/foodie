@@ -27,10 +27,10 @@
           <label>{{ 'checkout.city' | translate }}</label>
           <input formControlName="city" type="text" required />
         </div>
-        <div class="form-row">
+        <!-- <div class="form-row">
           <label>{{ 'checkout.zip' | translate }}</label>
           <input formControlName="zip" type="text" required />
-        </div>
+        </div> -->
       </div>
       <h2>{{ 'checkout.payment_method' | translate }}</h2>
       <div formGroupName="payment">
@@ -46,7 +46,7 @@
       <div class="form-row">
         <label>{{ 'cart.shipping' | translate }}</label>
         <select [ngModel]="selectedShipping" (ngModelChange)="selectedShipping = $event" name="shippingOption">
-          <option *ngFor="let s of shippingOptions" [ngValue]="s">{{ s.name }} ({{ s.fee === 0 ? ('cart.free' | translate) : formatPrice(s.fee || 0) }})</option>
+          <option *ngFor="let s of shippingOptions" [ngValue]="s">{{ s.name }} ({{ s.fee === 0 ? ('cart.free' | translate) : (s.fee | price) }})</option>
         </select>
       </div>
       <h2>{{ 'checkout.order_review' | translate }}</h2>

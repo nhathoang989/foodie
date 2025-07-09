@@ -7,13 +7,14 @@ import { Dish, Category } from '../../models';
 import { CommonModule } from '@angular/common';
 import { marked } from 'marked';
 import { PriceUtil } from '../../utils/price.util';
+import { PricePipe } from '../../pipes/price.pipe';
 
 @Component({
   selector: 'app-dish-details',
   templateUrl: './dish-details.component.html',
   styleUrls: ['./dish-details.component.scss'],
   standalone: true,
-  imports: [CommonModule]
+  imports: [CommonModule, PricePipe]
 })
 export class DishDetailsComponent implements OnInit {
   dish = signal<Dish | null>(null);

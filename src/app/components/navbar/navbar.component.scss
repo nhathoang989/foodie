@@ -10,6 +10,8 @@
   top: 0;
   z-index: 1000;
   transition: all 0.3s ease;
+  padding: 5px 0;
+  padding: 5px 0;
 
   &.scrolled {
     
@@ -48,6 +50,9 @@
       display: inline-block;
       transform-origin: left center;
       transition: all 0.3s ease;
+      white-space: nowrap;
+      overflow: visible;
+      text-overflow: unset;
     }
 
     &.scrolled {
@@ -366,7 +371,11 @@
           .result-price {
             color: $primary-color;
             font-weight: $font-weight-bold;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            padding: 2px 6px;
+            background-color: rgba($primary-color, 0.1);
+            border-radius: 4px;
+            display: inline-block;
           }
         }
       }
@@ -746,9 +755,17 @@
     align-items: center;
     font-size: 1.2rem;
     padding: 0.25rem 0;
+    min-width: 0;
+    
     .brand-icon {
       height: 1.3rem;
       width: auto;
+    }
+    
+    .brand-text {
+      overflow: visible;
+      text-overflow: unset;
+      white-space: nowrap;
     }
   }
   .mobile-menu-toggle {
@@ -866,13 +883,12 @@
 
 // Ensure proper spacing for navbar brand
 .navbar-brand {
-  max-width: 300px;
   flex-shrink: 0;
   
   .brand-text {
     display: block;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: visible;
+    text-overflow: unset;
     white-space: nowrap;
   }
 }

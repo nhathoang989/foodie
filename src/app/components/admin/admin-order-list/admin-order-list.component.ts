@@ -5,11 +5,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { CommonModule, NgIf, CurrencyPipe } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { OrderService } from '../../../services/order.service';
 import { Order, PaginationModel } from '../../../models';
 import { AdminOrderDetailComponent } from '../admin-order-detail/admin-order-detail.component';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { PriceUtil } from '../../../utils/price.util';
+import { PricePipe } from '../../../pipes/price.pipe';
 
 @Component({
   selector: 'app-admin-order-list',
@@ -23,10 +25,10 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
     MatIconModule,
     MatProgressBarModule,
     MatFormFieldModule,
-    CurrencyPipe,
     NgIf,
-    MatPaginatorModule
-  ]
+    MatPaginatorModule,
+    PricePipe,
+  ],
 })
 export class AdminOrderListComponent implements OnInit {
   orders: Order[] = [];
@@ -34,10 +36,7 @@ export class AdminOrderListComponent implements OnInit {
   error: string | null = null;
   pagingData = { total: 0, pageSize: 15, pageIndex: 0 };
 
-  constructor(
-    private orderService: OrderService,
-    private dialog: MatDialog
-  ) {}
+  constructor(private orderService: OrderService, private dialog: MatDialog) {}
 
   ngOnInit() {
     this.loadOrders();
@@ -53,7 +52,7 @@ export class AdminOrderListComponent implements OnInit {
       pagingData: this.pagingData,
       orderBy: 'id',
       direction: 'desc',
-      loadNestedData: false
+      loadNestedData: false,
     };
     this.orderService.getAll(query as any).subscribe({
       next: (result: any) => {
@@ -64,14 +63,18 @@ export class AdminOrderListComponent implements OnInit {
       error: (err: any) => {
         this.error = err?.message || 'Failed to load orders';
         this.loading = false;
-      }
+      },
     });
   }
 
   openDetail(order: Order) {
     this.dialog.open(AdminOrderDetailComponent, {
       width: '600px',
-      data: { order }
+      data: { order },
     });
+  }
+
+  formatPrice(price: number): string {
+    return PriceUtil.formatPrice(price);
   }
 }

@@ -34,7 +34,7 @@
               </h3>
               <p class="slide-description" [innerHTML]="getBannerHtml(dish)"></p>
               <div class="slide-details">
-                <span class="slide-price">{{ formatPrice(dish.price) }}</span>
+                <span class="slide-price">{{ dish.price | price }}</span>
                 <span class="slide-time" *ngIf="dish.preparation_time"
                   >{{ dish.preparation_time }} min</span
                 >
@@ -246,7 +246,7 @@
       >{{ (cartState$ | async)?.itemCount || 0 }} items</span
     >
     <span class="cart-total"
-      >${{ ((cartState$ | async)?.total || 0).toFixed(2) }}</span
+      >{{ (cartState$ | async)?.total | price }}</span
     >
     <button class="view-cart-btn" (click)="goToCart()">View Cart</button>
   </div>

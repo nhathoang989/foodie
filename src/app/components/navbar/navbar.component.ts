@@ -12,6 +12,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { environment } from '../../../environments/environment';
 import { LanguageSwitcherComponent } from '../shared/language-switcher/language-switcher.component';
 import { TranslatePipe } from '../../i18n/translate.pipe';
+import { PriceUtil } from '../../utils/price.util';
 
 interface Breadcrumb {
   label: string;
@@ -266,5 +267,14 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if (window.innerWidth > 768) {
       this.closeAllMenus();
     }
+  }
+
+  /**
+   * Format price using the PriceUtil
+   * @param price The price to format
+   * @returns Formatted price string
+   */
+  formatPrice(price: number): string {
+    return PriceUtil.formatPrice(price);
   }
 }

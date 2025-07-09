@@ -11,13 +11,13 @@ import { LoadingService } from '../../services/loading.service';
 import { ShippingService } from '../../services/shipping.service';
 import { FormsModule } from '@angular/forms';
 import { CartItem, ShippingOption, Order, OrderItem } from '../../models';
-import { PriceUtil } from '../../utils/price.util';
 import { TranslatePipe } from '../../i18n/translate.pipe';
+import { PricePipe } from '../../pipes/price.pipe';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, CartDetailsComponent, TranslatePipe],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, CartDetailsComponent, TranslatePipe, PricePipe],
   templateUrl: './checkout.component.html',
   styleUrls: ['./checkout.component.scss']
 })
@@ -106,10 +106,5 @@ export class CheckoutComponent {
         }
       });
     });
-  }
-
-  // Price formatting utility
-  formatPrice(price: number): string {
-    return PriceUtil.formatPrice(price);
   }
 }

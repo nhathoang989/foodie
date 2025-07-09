@@ -12,7 +12,7 @@ export class PriceUtil {
   static formatPrice(price: number): string {
     // Use environment variable for currency symbol
     // Format: 10,000 ₫ (no decimals)
-    return `${Math.round(price).toLocaleString()} ${environment.currencySymbol}`;
+    return `${Math.round(price).toLocaleString()}${environment.currencySymbol}`;
   }
 
   /**

@@ -656,6 +656,11 @@ $gray-700: #495057;
     .cart-total {
       font-weight: 700;
       color: $primary-color;
+      padding: 4px 8px;
+      background-color: rgba($primary-color, 0.1);
+      border-radius: 8px;
+      min-width: 80px;
+      text-align: center;
     }
     
     .view-cart-btn {

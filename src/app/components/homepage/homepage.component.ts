@@ -14,11 +14,12 @@ import { Dish, Category, DishFilter, CartState } from '../../models';
 import { environment } from '../../../environments/environment';
 import { IPaginationResultModel } from '@mixcore/sdk-client';
 import { PriceUtil } from '../../utils/price.util';
+import { PricePipe } from '../../pipes/price.pipe';
 
 @Component({
   selector: 'app-homepage',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PricePipe],
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

@@ -5,17 +5,18 @@ import { Router } from '@angular/router';
 import { CartService } from '../../services/cart.service';
 import { ShippingService } from '../../services/shipping.service';
 import { CartItem, ShippingOption, CartState } from '../../models';
-import { PriceUtil } from '../../utils/price.util';
 import { TranslatePipe } from '../../i18n/translate.pipe';
+import { PricePipe } from '../../pipes/price.pipe';
 
 @Component({
   selector: 'app-cart-details',
   templateUrl: './cart-details.component.html',
   styleUrls: ['./cart-details.component.scss'],
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslatePipe]
+  imports: [CommonModule, FormsModule, TranslatePipe, PricePipe]
 })
-export class CartDetailsComponent implements OnInit {  @Input() showSummaryOnly = false;
+export class CartDetailsComponent implements OnInit {  
+  @Input() showSummaryOnly = false;
   cartState = signal<CartState>({ items: [], total: 0, itemCount: 0, isLoading: false });
   shippingOptions = signal<ShippingOption[]>([]);
   selectedShipping = signal<ShippingOption | null>(null);
@@ -63,9 +64,4 @@ export class CartDetailsComponent implements OnInit {  @Input() showSummaryOnly 
   tax = computed(() => this.subtotal() * this.taxRate);
   shipping = computed(() => this.selectedShipping() ? this.selectedShipping()!.fee || 0 : 0);
   total = computed(() => this.subtotal() + this.tax() + this.shipping());
-
-  // Price formatting utility
-  formatPrice(price: number): string {
-    return PriceUtil.formatPrice(price);
-  }
 }

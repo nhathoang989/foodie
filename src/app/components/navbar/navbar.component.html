@@ -70,7 +70,7 @@
                 <img [src]="dish.image_url" [alt]="dish.name" class="result-image">
                 <div class="result-content">
                   <span class="result-name">{{dish.name}}</span>
-                  <span class="result-price"> ${{dish.price}}</span>
+                  <span class="result-price">{{formatPrice(dish.price)}}</span>
                 </div>
               </div>
               <div class="search-actions" *ngIf="searchResults.length >= 5">
@@ -195,7 +195,7 @@
             <img [src]="dish.image_url" [alt]="dish.name" class="result-image">
             <div class="result-content">
               <span class="result-name">{{dish.name}}</span>
-              <span class="result-price">${{dish.price}}</span>
+              <span class="result-price">{{formatPrice(dish.price)}}</span>
             </div>
           </div>
           <div class="search-actions" *ngIf="searchResults.length >= 5">

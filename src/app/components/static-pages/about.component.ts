@@ -6,12 +6,11 @@ import { PageContent } from '../../models';
 import { FormattedTextComponent } from '../shared/formatted-text/formatted-text.component';
 import { GalleryComponent } from '../gallery/gallery.component';
 import { PromotionComponent } from '../promotion/promotion.component';
-import { TranslatePipe } from '../../i18n/translate.pipe';
 
 @Component({
   selector: 'app-about',
   standalone: true,
-  imports: [CommonModule, MatIconModule, FormattedTextComponent, GalleryComponent, PromotionComponent, TranslatePipe],
+  imports: [CommonModule, MatIconModule, FormattedTextComponent, GalleryComponent, PromotionComponent],
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss'],
   encapsulation: ViewEncapsulation.None

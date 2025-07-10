@@ -21,6 +21,8 @@ interface GalleryImage {
 })
 export class GalleryComponent implements OnInit {
   images = signal<GalleryImage[]>([]);
+  popupImages = signal<GalleryImage[]>([]);
+  dishes = signal<GalleryImage[]>([]);
   selectedImage = signal<GalleryImage | null>(null);
   showImagePopup = signal(false);
 
@@ -38,7 +40,10 @@ export class GalleryComponent implements OnInit {
       '3.jpg',
       '4.jpg',
       '5.jpg',
-      '6.jpg',
+      '6.jpg',      
+    ];
+    
+    const dishFiles = [
       '7.jpg',
       '8.jpg',
       '9.jpg',
@@ -54,9 +59,18 @@ export class GalleryComponent implements OnInit {
     }));
 
     this.images.set(galleryImages);
+    
+    const dishImages: GalleryImage[] = dishFiles.map((filename, index) => ({
+      src: `/assets/gallery/${filename}`,
+      alt: `Gallery Image ${index + 1}`,
+      title: `Gallery Image ${index + 1}`
+    }));
+
+    this.dishes.set(dishImages);
   }
 
-  openImagePopup(image: GalleryImage): void {
+  openImagePopup(image: GalleryImage, popupImages: GalleryImage[]): void {
+    this.popupImages.set(popupImages);
     this.selectedImage.set(image);
     this.showImagePopup.set(true);
   }
@@ -67,7 +81,7 @@ export class GalleryComponent implements OnInit {
   }
 
   navigateToImage(direction: 'next' | 'prev'): void {
-    const currentImages = this.images();
+    const currentImages = this.popupImages();
     const currentImage = this.selectedImage();
     
     if (!currentImage || currentImages.length <= 1) return;

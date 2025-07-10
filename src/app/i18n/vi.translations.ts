@@ -47,13 +47,12 @@ export const VI_TRANSLATIONS = {
   'cart.apply': 'Áp dụng',
   'cart.proceed_to_checkout': 'Tiến hành thanh toán',
   'cart.clear_cart': 'Xóa giỏ hàng',
-  // About Page
-  'about.gallery.title': 'Khám phá về Cụi',
-  'about.gallery.description': '“Khám phá Cụi – Từng góc nhỏ, trọn hồn xưa”',
   
   // Gallery Component
-  'gallery.title': 'Bộ sưu tập ảnh',
-  'gallery.description': 'Khám phá không gian và món ăn đặc sắc tại nhà hàng',
+  'gallery.title': 'Khám phá về Cụi',
+  'gallery.description': '“Khám phá Cụi – Từng góc nhỏ, trọn hồn xưa”',  
+  'gallery.title1': 'Dịch vụ cơm văn phòng',
+  'gallery.description1': 'Khám phá không gian và món ăn đặc sắc tại nhà hàng',
   'gallery.view_detail': 'Xem chi tiết',
   
   // Promotion Component  

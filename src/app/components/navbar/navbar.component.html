@@ -106,7 +106,7 @@
   </div>
 
   <!-- Mobile Sidebar Navigation -->
-  <aside class="mobile-sidebar" *ngIf="!isDesktop && isMobileMenuOpen" id="mobile-sidebar" tabindex="0">
+  <aside class="mobile-sidebar" *ngIf="!isDesktop && isMobileMenuOpen" [class.show]="isMobileMenuOpen" id="mobile-sidebar" tabindex="0">
     <div class="sidebar-header">
       <a routerLink="/" class="sidebar-brand">
         <img src="assets/logo.png" alt="{{ siteName }} Logo" class="brand-icon">
@@ -167,7 +167,7 @@
     </div>
   </aside>
   <!-- Mobile Overlay -->
-  <div class="mobile-overlay" *ngIf="isMobileMenuOpen && !isDesktop" (click)="closeMobileMenu()" tabindex="0" aria-label="Close menu"></div>
+  <div class="mobile-overlay" *ngIf="isMobileMenuOpen && !isDesktop" [class.show]="isMobileMenuOpen" (click)="closeMobileMenu()" tabindex="0" aria-label="Close menu"></div>
 
   <!-- Search Bar: only show on mobile when isSearchOpen -->
   <div class="navbar-search-row" *ngIf="isSearchOpen && !isDesktop">

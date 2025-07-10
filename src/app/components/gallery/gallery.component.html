@@ -1,20 +1,50 @@
 <div class="gallery-container">
+  <div class="gallery-header">
+    <h2>{{ "gallery.title" | translate }}</h2>
+    <p>{{ "gallery.description" | translate }}</p>
+  </div>
   <div class="gallery-grid">
-    <div 
-      class="gallery-item" 
+    <div
+      class="gallery-item"
       *ngFor="let image of images(); trackBy: trackByImageSrc"
-      (click)="openImagePopup(image)"
+      (click)="openImagePopup(image, images())"
     >
-      <img 
-        [src]="image.src" 
-        [alt]="image.alt" 
+      <img
+        [src]="image.src"
+        [alt]="image.alt"
         [title]="image.title"
         loading="lazy"
       />
       <div class="gallery-overlay">
         <div class="gallery-overlay-content">
           <mat-icon>zoom_in</mat-icon>
-          <span>{{ 'gallery.view_detail' | translate }}</span>
+          <span>{{ "gallery.view_detail" | translate }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="gallery-container">
+  <div class="gallery-header">
+    <h2>{{ "gallery.title1" | translate }}</h2>
+    <p>{{ "gallery.description1" | translate }}</p>
+  </div>
+  <div class="gallery-grid">
+    <div
+      class="gallery-item"
+      *ngFor="let image of dishes(); trackBy: trackByImageSrc"
+      (click)="openImagePopup(image, dishes())"
+    >
+      <img
+        [src]="image.src"
+        [alt]="image.alt"
+        [title]="image.title"
+        loading="lazy"
+      />
+      <div class="gallery-overlay">
+        <div class="gallery-overlay-content">
+          <mat-icon>zoom_in</mat-icon>
+          <span>{{ "gallery.view_detail" | translate }}</span>
         </div>
       </div>
     </div>
@@ -22,20 +52,32 @@
 </div>
 
 <!-- Image Popup -->
-<div class="image-popup-backdrop" *ngIf="showImagePopup()" (click)="closeImagePopup()">
+<div
+  class="image-popup-backdrop"
+  *ngIf="showImagePopup()"
+  (click)="closeImagePopup()"
+>
   <div class="image-popup" (click)="$event.stopPropagation()">
-    <img 
-      [src]="selectedImage()?.src" 
-      [alt]="selectedImage()?.alt" 
+    <img
+      [src]="selectedImage()?.src"
+      [alt]="selectedImage()?.alt"
       *ngIf="selectedImage()"
     />
     <button class="close-btn" (click)="closeImagePopup()">
       <mat-icon class="light-icon">close</mat-icon>
     </button>
-    <button class="nav-btn prev-btn" (click)="navigateToImage('prev')" *ngIf="images().length > 1">
+    <button
+      class="nav-btn prev-btn"
+      (click)="navigateToImage('prev')"
+      *ngIf="images().length > 1"
+    >
       <mat-icon class="light-icon">chevron_left</mat-icon>
     </button>
-    <button class="nav-btn next-btn" (click)="navigateToImage('next')" *ngIf="images().length > 1">
+    <button
+      class="nav-btn next-btn"
+      (click)="navigateToImage('next')"
+      *ngIf="images().length > 1"
+    >
       <mat-icon class="light-icon">chevron_right</mat-icon>
     </button>
   </div>

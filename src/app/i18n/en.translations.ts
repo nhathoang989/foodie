@@ -48,12 +48,12 @@ export const EN_TRANSLATIONS = {
   'cart.proceed_to_checkout': 'Proceed to Checkout',
   'cart.clear_cart': 'Clear Cart',
   // About Page
-  'about.gallery.title': 'Discover Cui',
-  'about.gallery.description': 'Explore our beautiful collection of food images',
+  'gallery.title': 'Discover Cui',
+  'gallery.description': 'Explore our beautiful collection of food images',
   
   // Gallery Component
-  'gallery.title': 'Photo Gallery',
-  'gallery.description': 'Discover the unique space and dishes at our restaurant',
+  'gallery.title1': 'Photo Gallery',
+  'gallery.description1': 'Discover the unique space and dishes at our restaurant',
   'gallery.view_detail': 'View Details',
   
   // Promotion Component  

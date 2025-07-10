@@ -1,5 +1,12 @@
 @use '../../../styles.scss' as *;
 
+// Z-index variables for proper layering
+$z-navbar: 1000;
+$z-mobile-overlay: 1100;
+$z-mobile-menu-toggle: 1150;
+$z-mobile-sidebar: 1200;
+$z-dropdown: 1001;
+
 // Navbar specific styles
 .navbar {
   background-color: $background-light;
@@ -8,7 +15,7 @@
   box-shadow: 0 2px 20px rgba($deep-brown, 0.08);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: $z-navbar;
   transition: all 0.3s ease;
   padding: 5px 0;
   padding: 5px 0;
@@ -43,7 +50,7 @@
 
     .brand-text {
       font-family: 'LHanoienne', serif !important;
-      font-size: 1.4rem;
+      font-size: 1.1rem;
       letter-spacing: 0.5px;
       text-shadow: 1px 1px 1px rgba($deep-brown, 0.1);
       line-height: 1.2;
@@ -254,11 +261,63 @@
     min-width: 0;
   }
 
+  // Mobile search row
   .navbar-search-row {
     width: 100%;
     margin-top: 0.5rem;
-    display: flex;
-    justify-content: flex-end;
+    padding: 0.5rem;
+    background: $white;
+    border-top: 1px solid $border-color;
+    box-shadow: 0 2px 10px rgba($deep-brown, 0.1);
+    
+    .navbar-search {
+      width: 100%;
+      max-width: none;
+      
+      .search-container {
+        position: relative;
+        
+        .search-input {
+          width: 100%;
+          padding: 0.75rem 1rem 0.75rem 3rem;
+          border: 2px solid $border-color;
+          border-radius: 25px;
+          font-size: 1rem;
+          background: $white;
+          
+          &:focus {
+            outline: none;
+            border-color: $primary-color;
+            box-shadow: 0 0 0 3px rgba($primary-color, 0.1);
+          }
+        }
+        
+        .search-icon {
+          position: absolute;
+          left: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          color: $medium-gray;
+          font-size: 1.2rem;
+        }
+        
+        .search-clear {
+          position: absolute;
+          right: 1rem;
+          top: 50%;
+          transform: translateY(-50%);
+          background: none;
+          border: none;
+          color: $medium-gray;
+          cursor: pointer;
+          font-size: 1.4rem;
+          
+          &:hover {
+            color: $danger-color;
+          }
+        }
+      }
+    }
   }
 
   // Search functionality
@@ -330,7 +389,7 @@
       max-height: 400px;
       overflow-y: auto;
       overflow-x: hidden;
-      z-index: 1001;
+      z-index: $z-dropdown;
       margin-top: 0.5rem;
       animation: slideDown 0.3s ease;
 
@@ -500,7 +559,7 @@
       border-radius: 0.5rem;
       box-shadow: 0 10px 30px $shadow-medium;
       min-width: 200px;
-      z-index: 1001;
+      z-index: $z-dropdown;
       margin-top: 0.5rem;
       animation: slideDown 0.3s ease;
 
@@ -550,17 +609,44 @@
     padding: 0.5rem;
     border-radius: 0.5rem;
     transition: all 0.3s ease;
-    z-index: 1100;
+    z-index: $z-mobile-menu-toggle;
     margin-right: 0.5rem;
+    width: 44px;
+    height: 44px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+
+    &:hover {
+      background: rgba($primary-color, 0.1);
+      color: $primary-color;
+    }
 
     span {
       display: block;
       width: 24px;
       height: 3px;
-      background: $secondary-color;
-      margin: 4px 0;
+      background: currentColor;
       border-radius: 2px;
-      transition: all 0.3s;
+      transition: all 0.3s ease;
+      transform-origin: center;
+    }
+
+    // Animated hamburger to X
+    &[aria-expanded="true"] {
+      span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+      }
+      
+      span:nth-child(2) {
+        opacity: 0;
+        transform: scale(0);
+      }
+      
+      span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+      }
     }
   }
 
@@ -625,7 +711,8 @@
 @media (max-width: $breakpoint-md) {
   .navbar {
     .container-fluid {
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
+      padding: 0.5rem 1rem;
     }
 
     .navbar-nav {
@@ -672,7 +759,7 @@
 
     .mobile-menu-toggle,
     .mobile-search-toggle {
-      display: block;
+      display: flex;
     }
 
     .user-menu {
@@ -697,11 +784,15 @@
 @media (max-width: $breakpoint-sm) {
   .navbar {
     .navbar-brand {
-      font-size: 1.5rem;
+      font-size: 1rem;
 
       .brand-icon {
         height: 1.5rem; /* Reduced from 1.7rem */
         width: auto;
+      }
+      
+      .brand-text {
+        font-size: 1rem;
       }
     }
 
@@ -712,7 +803,7 @@
     .cart-button,
     .mobile-menu-toggle,
     .mobile-search-toggle {
-      font-size: 1.3rem;
+      font-size: 1rem;
     }
   }
 }
@@ -729,7 +820,7 @@
       }
       
       .brand-text {
-        font-size: 1rem;
+        font-size: 0.9rem;
       }
     }
   }
@@ -740,8 +831,9 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
-    gap: 0.5rem;
-    padding: 0.25rem 0.5rem;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+    flex-wrap: nowrap;
   }
   
   .desktop-content {
@@ -758,7 +850,7 @@
     min-width: 0;
     
     .brand-icon {
-      height: 1.3rem;
+      height: 1.5rem;
       width: auto;
     }
     
@@ -766,137 +858,331 @@
       overflow: visible;
       text-overflow: unset;
       white-space: nowrap;
+      margin-left: 0.5rem;
+      font-size: 1rem;
     }
   }
+  
   .mobile-menu-toggle {
-    display: block !important;
+    display: flex !important;
     position: static;
     margin-left: auto;
-    z-index: 1100;
+    z-index: $z-mobile-menu-toggle;
+    order: 2;
   }
+  
   .navbar-actions {
     display: none !important;
   }
+  
   .mobile-sidebar {
-    .sidebar-header {
+    display: block !important;
+    
+    &.show {
+      transform: translateX(0);
+      animation: sidebarSlideIn 0.3s ease;
+    }
+  }
+  
+  .mobile-overlay {
+    &.show {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+
+// Mobile sidebar styles
+.mobile-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 90vw;
+  max-width: 380px;
+  height: 100vh;
+  background: $white;
+  box-shadow: 4px 0 20px rgba($deep-brown, 0.15);
+  z-index: $z-mobile-sidebar;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 1.5rem;
+  transform: translateX(-100%);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &.show {
+    transform: translateX(0);
+  }
+  
+  .sidebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    padding-right: 3rem;
+    border-bottom: 1px solid $light-gray;
+    position: relative;
+    
+    .sidebar-brand {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      margin-bottom: 2rem;
-      .sidebar-brand {
+      gap: 0.5rem;
+      font-size: 1.1rem;
+      color: $deep-brown;
+      text-decoration: none;
+      font-weight: $font-weight-bold;
+      
+      .brand-icon {
+        height: 1.5rem;
+        width: auto;
+      }
+      
+      .brand-text {
+        font-size: 1rem;
+      }
+    }
+    
+    .close-sidebar {
+      position: absolute;
+      top: -0.5rem;
+      right: 0;
+      background: none;
+      border: none;
+      font-size: 2rem;
+      color: $dark-gray;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 50%;
+      transition: all 0.3s ease;
+      z-index: 10;
+      width: 2.5rem;
+      height: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      &:hover {
+        background: rgba($danger-color, 0.1);
+        color: $danger-color;
+        transform: scale(1.1);
+      }
+    }
+  }
+  
+  .sidebar-nav {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem 0;
+    
+    li {
+      margin-bottom: 0.5rem;
+      
+      a {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        font-size: 1.3rem;
-        color: $deep-brown;
-        text-decoration: none;
-        font-weight: $font-weight-bold;
-      }
-      .close-sidebar {
-        background: none;
-        border: none;
-        font-size: 2rem;
-        color: $dark-gray;
-        cursor: pointer;
-        padding: 0.25rem 0.75rem;
-        border-radius: 50%;
-        transition: background 0.2s;
-        &:hover {
-          background: $light-gray;
-        }
-      }
-    }
-    .sidebar-actions {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
-      button {
-        background: none;
-        border: none;
+        gap: 0.75rem;
+        padding: 1rem 1.5rem;
         color: $secondary-color;
-        font-size: 1.5rem;
-        cursor: pointer;
-        padding: 0.5rem;
+        text-decoration: none;
+        font-weight: $font-weight-medium;
         border-radius: 0.5rem;
         transition: all 0.3s ease;
-        &:hover {
-          color: $deep-brown;
-          background: rgba($deep-brown, 0.1);
+        font-size: 1rem;
+        
+        &:hover,
+        &.active {
+          background: rgba($primary-color, 0.1);
+          color: $primary-color;
+          transform: translateX(5px);
+        }
+        
+        &.admin-toggle {
+          background: rgba($primary-color, 0.05);
+          border: 1px solid rgba($primary-color, 0.1);
+          
+          &:hover {
+            background: rgba($primary-color, 0.1);
+          }
+        }
+        
+        mat-icon {
+          font-size: 1.2rem;
+          width: 1.2rem;
+          height: 1.2rem;
+          margin-right: 0.5rem;
+          flex-shrink: 0;
         }
       }
-      .cart-badge {
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        background: $danger-color;
+    }
+  }
+  
+  .mobile-language-switcher {
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba($light-gray, 0.3);
+    border-radius: 0.5rem;
+  }
+  
+  .sidebar-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba($light-gray, 0.3);
+    border-radius: 0.5rem;
+    
+    button {
+      background: none;
+      border: none;
+      color: $secondary-color;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+      position: relative;
+      
+      &:hover {
+        color: $primary-color;
+        background: rgba($primary-color, 0.1);
+        transform: scale(1.1);
+      }
+    }
+    
+    .cart-badge {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      background: $danger-color;
+      color: $white;
+      font-size: 0.75rem;
+      font-weight: $font-weight-bold;
+      padding: 0.25rem 0.5rem;
+      border-radius: 50px;
+      min-width: 1.5rem;
+      text-align: center;
+      animation: bounce 0.6s ease;
+    }
+  }
+  
+  .sidebar-user-menu {
+    padding: 1rem;
+    background: rgba($light-gray, 0.3);
+    border-radius: 0.5rem;
+    
+    .sidebar-user-info {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      
+      .user-avatar {
+        width: 40px;
+        height: 40px;
+        background: $primary-color;
         color: $white;
-        font-size: 0.75rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         font-weight: $font-weight-bold;
-        padding: 0.25rem 0.5rem;
-        border-radius: 50px;
-        min-width: 1.5rem;
-        text-align: center;
-        animation: bounce 0.6s ease;
+        font-size: 1.2rem;
+      }
+      
+      .user-name {
+        font-weight: $font-weight-semibold;
+        color: $secondary-color;
+      }
+    }
+    
+    a {
+      display: block;
+      padding: 0.75rem 1rem;
+      color: $secondary-color;
+      text-decoration: none;
+      font-weight: $font-weight-medium;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+      margin-bottom: 0.5rem;
+      
+      &:hover {
+        background: rgba($primary-color, 0.1);
+        color: $primary-color;
+        transform: translateX(5px);
+      }
+    }
+    
+    button.logout {
+      background: none;
+      border: none;
+      color: $danger-color;
+      font-weight: $font-weight-medium;
+      cursor: pointer;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      transition: all 0.3s ease;
+      width: 100%;
+      text-align: left;
+      
+      &:hover {
+        background: rgba($danger-color, 0.1);
+        color: $danger-color;
       }
     }
   }
 }
 
-// Additional responsive styles for better layout
-@media (min-width: 1200px) {
-  .desktop-content {
-    gap: 2rem;
-  }
+// Mobile overlay
+.mobile-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba($black, 0.5);
+  z-index: $z-mobile-overlay;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(2px);
   
-  .navbar-nav {
-    gap: 1.5rem;
+  &.show {
+    opacity: 1;
+    visibility: visible;
   }
-  
-  .navbar-actions {
-    gap: 1rem;
+}
+
+// Mobile sidebar responsive adjustments
+@media (max-width: 480px) {
+  .mobile-sidebar {
+    width: 95vw;
+    max-width: 350px;
     
-    .navbar-search {
-      max-width: 350px;
+    .sidebar-nav {
+      li a {
+        padding: 0.75rem 1rem;
+        font-size: 0.95rem;
+      }
+    }
+    
+    .sidebar-header {
+      .sidebar-brand {
+        font-size: 1rem;
+        
+        .brand-text {
+          font-size: 0.9rem;
+        }
+      }
     }
   }
 }
 
-@media (min-width: 768px) and (max-width: 1199px) {
-  .navbar-nav {
-    gap: 0.75rem;
-    
-    .nav-link {
-      padding: 0.5rem 0.5rem;
-      font-size: 0.9rem;
-    }
-  }
-  
-  .navbar-actions {
-    gap: 0.5rem;
-    
-    .navbar-search {
-      max-width: 250px;
-    }
-  }
-}
-
-// Ensure proper spacing for navbar brand
-.navbar-brand {
-  flex-shrink: 0;
-  
-  .brand-text {
-    display: block;
-    overflow: visible;
-    text-overflow: unset;
-    white-space: nowrap;
-  }
-}
-
-// Ensure navbar doesn't break on smaller desktop screens
-@media (min-width: 768px) {
-  .navbar-flex {
-    flex-wrap: nowrap;
+// Ensure mobile sidebar is hidden on desktop
+@media (min-width: 769px) {
+  .mobile-sidebar,
+  .mobile-overlay {
+    display: none !important;
   }
 }
 
@@ -998,7 +1284,8 @@
   .desktop-user-menu {
     display: none !important;
   }
+  
   .mobile-sidebar {
-    display: flex !important;
+    display: block !important;
   }
 }

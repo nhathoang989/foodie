@@ -83,6 +83,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+    this.unlockBodyScroll();
     window.removeEventListener('resize', this.updateIsDesktop.bind(this));
     window.removeEventListener('scroll', this.onScroll.bind(this));
   }
@@ -210,11 +211,36 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if (this.isMobileMenuOpen) {
       this.isSearchOpen = false;
       this.isUserMenuOpen = false;
+      this.lockBodyScroll();
+    } else {
+      this.unlockBodyScroll();
     }
   }
 
   closeMobileMenu() {
     this.isMobileMenuOpen = false;
+    this.unlockBodyScroll();
+  }
+
+  private lockBodyScroll() {
+    const scrollY = window.scrollY;
+    document.body.style.overflow = 'hidden';
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.width = '100%';
+    document.body.setAttribute('data-scroll-lock', scrollY.toString());
+  }
+
+  private unlockBodyScroll() {
+    const scrollY = document.body.getAttribute('data-scroll-lock');
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.width = '';
+    document.body.removeAttribute('data-scroll-lock');
+    if (scrollY) {
+      window.scrollTo(0, parseInt(scrollY) || 0);
+    }
   }
 
   toggleMobileSearch() {
@@ -222,6 +248,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     if (this.isSearchOpen) {
       this.isMobileMenuOpen = false;
       this.isUserMenuOpen = false;
+      this.unlockBodyScroll();
       setTimeout(() => {
         this.searchInput?.nativeElement.focus();
       }, 100);
@@ -249,6 +276,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.isMobileMenuOpen = false;
     this.isSearchOpen = false;
     this.isUserMenuOpen = false;
+    this.unlockBodyScroll();
   }
 
   @HostListener('document:click', ['$event'])
@@ -262,8 +290,16 @@ export class NavbarComponent implements OnInit, OnDestroy {
     }
   }
 
+  @HostListener('document:keydown', ['$event'])
+  onDocumentKeydown(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.closeAllMenus();
+    }
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize() {
+    this.updateIsDesktop();
     if (window.innerWidth > 768) {
       this.closeAllMenus();
     }
